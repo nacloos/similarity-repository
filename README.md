@@ -1,8 +1,6 @@
 # Similarity Measures Hub
 
-Not a reimplementation of similarity measures.
-
-
+Aggregate existing implementations of similarity measures into a single python package.
 
 ## Installation
 
@@ -12,6 +10,15 @@ Not a reimplementation of similarity measures.
  pip install -e .
  ```
 
+## Usage
+
+```python
+import similarity
+
+metric = similarity.make("cca")
+```
+
 
 ## Contributing
-Adding a metric
+### How to add a similarity measure?
+
