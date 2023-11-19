@@ -55,12 +55,12 @@ package similarity
                 if self.#call_key == null {
                     #path: metric.#path
                     // don't need to pass "self" because metric is already a function
-                    #in_keys: {"X": "X", "Y": "Y"}
+                    #in_keys: ["X", "Y"]
                 }
                 if self.#call_key != null {
                     #path: "\(metric.#path).\(self.#call_key)"
                     // need to pass "self" because target is a class method
-                    #in_keys: {"self": "metric", "X": "X", "Y": "Y"}
+                    #in_keys: [["metric", "self"], "X", "Y"]
                 }
                 // use partial because target is a function here
                 #partial: true
@@ -76,7 +76,10 @@ package similarity
                     #out_keys: p.#out_keys
                 }
             }
-        ]}
+        ]
+        #in_keys: ["metric", "X", "Y"]
+        #out_keys: [["score", null]]  // return the score value as a number (not a dict)
+        }
     }
 }
 

@@ -3,7 +3,8 @@ import config_utils
 
 from similarity.metric import Metric
 
-CONFIG_DIR = os.path.join(os.path.dirname(__file__), './configs')
+CONFIG_DIR = os.path.join(os.path.dirname(__file__), '../configs')
+
 
 def make(id, **kwargs) -> Metric:
     """
@@ -13,4 +14,3 @@ def make(id, **kwargs) -> Metric:
         kwargs: keyword arguments passed to the object constructor
     """
     return config_utils.make(id, config_dir=CONFIG_DIR, **kwargs)
-

@@ -1,7 +1,9 @@
 package similarity
 
 
-#ModKeys: [...string] | {[string]: string}
+// #ModKeys: [...string] | {[string]: string | null}
+#ModKeys: [...(string | [string, string | null])]
+
 #target: {
     #path: string
     #partial: bool | *false

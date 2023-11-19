@@ -4,7 +4,12 @@ from setuptools import setup, find_packages
 setup(
     name='similarity',
     version="0.0.1",
-    packages=[package for package in find_packages() if package.startswith('similarity')],
+    packages=[package for package in find_packages()
+              if package.startswith('similarity')],
+    package_data={
+        "similarity": ["configs/**/*.cue"]
+    },
+    include_package_data=True,
     install_requires=[
         'scikit-learn',
         'matplotlib',

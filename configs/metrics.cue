@@ -33,3 +33,10 @@ cka: #Metric & {
     #postprocessing: [#arccos, #angular_dist_to_score]
 }
 
+// TODO
+// dsa: #Metric & {
+//     #path: "netrep.metrics.LinearMetric"
+//     #preprocessing: [#reshape2d]
+//     #postprocessing: [#angular_dist_to_score]
+//     alpha: 0
+// }

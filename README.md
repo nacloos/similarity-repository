@@ -1,4 +1,4 @@
-# Similarity Measures Hub
+# Similarity Measures Repository
 
 Aggregate existing implementations of similarity measures into a single python package.
 
@@ -18,6 +18,7 @@ import similarity
 metric = similarity.make("cca")
 ```
 
+## Organization of the repository
 
 ## Contributing
 ### How to add a similarity measure?
