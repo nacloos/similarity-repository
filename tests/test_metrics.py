@@ -1,12 +1,12 @@
 import numpy as np
-from similarity_measures import make
+import similarity
 
 
 names = ["procrustes", "cca", "svcca", "cka"]
 
 def test_metrics():
     for name in names:
-        metric = make(f"{name}")
+        metric = similarity.make(f"{name}")
         print("Metric:", name)
 
         X = np.random.randn(100, 10)

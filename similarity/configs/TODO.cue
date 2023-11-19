@@ -1,6 +1,6 @@
-package similarity
 
-// TODO: delete?
+
+// TODO: metric card?
 #Permutation: {}
 #Orthogonal: {}
 #IsotropicScaling: {}
@@ -32,6 +32,3 @@ preprocessing: {
 #SimilarityMeasure: {
     invariance: [...#GroupTransformation]
 }
-
-
-

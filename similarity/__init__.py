@@ -1,9 +1,11 @@
 import os
 import config_utils
 
-CONFIG_DIR = os.path.join(os.path.dirname(__file__), '../configs')
+from similarity.metric import Metric
 
-def make(id, **kwargs):
+CONFIG_DIR = os.path.join(os.path.dirname(__file__), './configs')
+
+def make(id, **kwargs) -> Metric:
     """
     Instantiate a python object from a config file.
     Args:

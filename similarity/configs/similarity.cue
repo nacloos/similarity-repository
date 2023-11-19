@@ -1,28 +1,5 @@
 package similarity
 
-#reshape2d: {
-    #path: "similarity_measures.processing.flatten_3d_to_2d"
-    #partial: true
-}
-#pca: {
-    #path: "similarity_measures.processing.pca_preprocessing"
-    #partial: true
-    n_components: number
-}
-#arccos: {
-    #path: "similarity_measures.processing.angular_dist"
-    #partial: true
-    #in_keys: ["score"]
-    #out_keys: ["score"]
-}
-#angular_dist_to_score: {
-    // normalize distance [0, pi/2] to score [1, 0]
-    #path: "similarity_measures.processing.angular_dist_to_score"
-    #partial: true
-    #in_keys: ["score"]
-    #out_keys: ["score"]
-}
-
 #Metric: self={
     // path to metric class
     #path: string
@@ -51,7 +28,7 @@ package similarity
 
     // pipeline to create the metric object
     "_out_": #target & {
-        #path: "similarity_measures.metric.Metric"
+        #path: "similarity.metric.Metric"
         
         metric: #target & {
             // set path and kwargs for metric
@@ -103,35 +80,5 @@ package similarity
     }
 }
 
-procrustes: #Metric & {
-    #path: "netrep.metrics.LinearMetric"
-    #preprocessing: [#reshape2d]
-    #postprocessing: [#angular_dist_to_score]
-    alpha: 1
-}
 
-cca: #Metric & {
-    #path: "netrep.metrics.LinearMetric"
-    #preprocessing: [#reshape2d]
-    #postprocessing: [#angular_dist_to_score]
-    alpha: 0
-}
-
-svcca: #Metric & {
-    #path: "netrep.metrics.LinearMetric"
-    #preprocessing: [#reshape2d, #pca & {n_components: 0.95}]
-    #postprocessing: [#angular_dist_to_score]
-    alpha: 0
-}
-
-
-cka: #Metric & {
-    // TODO: directly refer to github file instead of having to copy it here
-    #path: "similarity_measures.cka.linear_CKA"
-    // don't use call_key because linear_CKA is already a function (not a class with a fit_score method)
-    #call_key: null
-    #partial: true
-    #preprocessing: [#reshape2d]
-    #postprocessing: [#arccos, #angular_dist_to_score]
-}
 
