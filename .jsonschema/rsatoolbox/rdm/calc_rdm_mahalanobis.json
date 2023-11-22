@@ -1,0 +1,35 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "dataset": {
+            "title": "Dataset"
+        },
+        "descriptor": {
+            "default": null,
+            "title": "Descriptor"
+        },
+        "noise": {
+            "default": null,
+            "title": "Noise"
+        },
+        "_target_": {
+            "type": "string",
+            "title": "Path to locate the object (the package has to be installed)",
+            "default": "rsatoolbox.rdm.calc_rdm_mahalanobis"
+        },
+        "_wrap_": {
+            "type": "object",
+            "title": ""
+        },
+        "_out_": {
+            "type": "object",
+            "title": ""
+        }
+    },
+    "required": [
+        "dataset",
+        "_target_"
+    ],
+    "type": "object",
+    "$schema": "http://json-schema.org/draft/2019-09/schema#"
+}

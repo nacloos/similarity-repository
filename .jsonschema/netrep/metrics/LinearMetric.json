@@ -1,0 +1,47 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "alpha": {
+            "default": 1.0,
+            "title": "Alpha",
+            "type": "number"
+        },
+        "center_columns": {
+            "default": true,
+            "title": "Center Columns",
+            "type": "boolean"
+        },
+        "zero_pad": {
+            "default": true,
+            "title": "Zero Pad",
+            "type": "boolean"
+        },
+        "score_method": {
+            "default": "angular",
+            "enum": [
+                "angular",
+                "euclidean"
+            ],
+            "title": "Score Method",
+            "type": "string"
+        },
+        "_target_": {
+            "type": "string",
+            "title": "Path to locate the object (the package has to be installed)",
+            "default": "netrep.metrics.LinearMetric"
+        },
+        "_wrap_": {
+            "type": "object",
+            "title": ""
+        },
+        "_out_": {
+            "type": "object",
+            "title": ""
+        }
+    },
+    "required": [
+        "_target_"
+    ],
+    "type": "object",
+    "$schema": "http://json-schema.org/draft/2019-09/schema#"
+}

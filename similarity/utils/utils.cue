@@ -1,4 +1,4 @@
-package similarity
+package utils
 
 
 // #ModKeys: [...string] | {[string]: string | null}

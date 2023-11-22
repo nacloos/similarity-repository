@@ -1,0 +1,31 @@
+{
+    "additionalProperties": false,
+    "properties": {
+        "category_vector": {
+            "title": "Category Vector"
+        },
+        "category_name": {
+            "default": "category",
+            "title": "Category Name"
+        },
+        "_target_": {
+            "type": "string",
+            "title": "Path to locate the object (the package has to be installed)",
+            "default": "rsatoolbox.rdm.get_categorical_rdm"
+        },
+        "_wrap_": {
+            "type": "object",
+            "title": ""
+        },
+        "_out_": {
+            "type": "object",
+            "title": ""
+        }
+    },
+    "required": [
+        "category_vector",
+        "_target_"
+    ],
+    "type": "object",
+    "$schema": "http://json-schema.org/draft/2019-09/schema#"
+}
