@@ -1,0 +1,6 @@
+# https://github.com/brain-score/brain-score#local-installation
+brain-score @ git+https://github.com/brain-score/brain-score.git
+# TODO: can't pip complains about conflicting dependencies
+# https://github.com/brain-score/brain-score/issues/327
+scikit-learn==1.3.*
+

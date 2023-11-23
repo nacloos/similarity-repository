@@ -2,6 +2,9 @@
 
 Aggregate existing implementations of similarity measures into a single python package.
 
+No measure is re-implemented here! Leverage only existing implementations.
+
+
 ## Installation
 
  ```
@@ -9,6 +12,11 @@ Aggregate existing implementations of similarity measures into a single python p
  cd similarity-measures
  pip install -e .
  ```
+
+TODO: does it work?
+```
+pip install git+https://github.com/nacloos/similarity-measures.git
+```
 
 ## Usage
 
@@ -23,7 +31,11 @@ metric = similarity.make("cca")
 ## Why use CUE instead of plain python?
 Can easily generate a json config describing the config
 
-## Contributing
+## Adding a backend
+* create a folder in `similarity/backend`
+* create a `requirements.txt` file with the dependencies of the backend. Optionally add a comment with the link to the installation instructions (e.g. in the README of the backend).
+
+
 ### Adding a new metric
 (Or "Registering a new implementation")
 
@@ -33,6 +45,13 @@ Have to only modify the backend folder to add a new backend.
 Create a folder for your backend. Create a cue file with the backend package.
 Add an import for your backend and add the id/name of the backend in `backends.cue`
 
+
+Import backend in `similarity/backend/backends.cue`
+Add a new line in the import statement:
+```
+{backend_id} "github.com/similarity/backend/{backend_folder}:backend"
+```
+Add an entry to `#backends`
 
 ### Adding a new benchmark
 Either copy paste code

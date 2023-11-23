@@ -1,4 +1,5 @@
 import numpy as np
+from time import perf_counter
 import similarity
 
 # TODO: select backend
@@ -15,12 +16,15 @@ import similarity
 # test = similarity.make("metric/glob")
 # print(test)
 
+
 def try_metrics():
-    names = ["procrustes", "cca", "svcca", "cka", "rsa"]
+    names = ["procrustes", "cca", "svcca", "cka", "rsa", "pls"]
 
     for name in names:
         print("Metric:", name)
-        metric = similarity.make(f"metric/{name}")
+        tic = perf_counter()
+        metric = similarity.make(package="metric", key=name)
+        print("Time:", perf_counter() - tic)
         print(metric)
 
         X = np.random.randn(100, 10)
