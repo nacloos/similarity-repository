@@ -5,14 +5,15 @@ from scipy.stats import ortho_group
 import similarity
 
 
-names = [
-    "procrustes", 
-    "cca", 
-    "svcca", 
-    "cka", 
-    "rsa", 
-    # "pls"
-]
+# names = [
+#     "procrustes", 
+#     "cca", 
+#     "svcca", 
+#     "cka", 
+#     "rsa", 
+#     # "pls"
+# ]
+names = similarity.make(package="backend:backends", key="metric_names")
 
 metrics = [similarity.make(f"metric/{name}") for name in names]
 seeds = np.arange(10)
@@ -38,6 +39,8 @@ def test_metrics():
         Y = np.random.randn(100, 5, 10)
         score = metric.fit_score(X=X, Y=Y)
         assert isinstance(score, float)
+
+
 
 
 # TODO

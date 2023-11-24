@@ -30,7 +30,10 @@ def numpy_to_brainio(X, Y):
 
 
 def aggregate_score(score):
-    return score.sel(aggregation='center').values
+    if "aggregation" in score.coords:
+        return score.sel(aggregation='center').values.item()
+    else:
+        return score.values.item()
 
 
 if __name__ == "__main__":

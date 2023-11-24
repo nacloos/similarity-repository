@@ -16,6 +16,9 @@ metric: {
             #reshape2d,
             #numpy_to_brainio
         ]
+        #postprocessing: [
+            #aggregate_score
+        ]
         #call_key: "__call__"
     }
     // correlation: {...}
@@ -27,15 +30,12 @@ metric: {
             #path: "brainscore.metrics.regression.pearsonr_correlation"
         }
         #fit_score_inputs: ["source", "target"]
-        #postprocessing: [
-            #aggregate_score
-        ]
     }
     cka: #Metric & {
         #path: "brainscore.metrics.cka.CKAMetric"
         #fit_score_inputs: ["assembly1", "assembly2"]
     }
-    rsa: {...}
+    // rsa: {...}
 }
 
 

@@ -31,6 +31,8 @@ metric = similarity.make("cca")
 ## Why use CUE instead of plain python?
 Can easily generate a json config describing the config
 
+Why cue language? Can use schema to validate config. Show example of adding a metric that doesn't have a card
+
 ## Adding a backend
 * create a folder in `similarity/backend`
 * create a `requirements.txt` file with the dependencies of the backend. Optionally add a comment with the link to the installation instructions (e.g. in the README of the backend).

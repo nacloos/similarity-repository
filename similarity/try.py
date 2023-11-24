@@ -17,10 +17,17 @@ import similarity
 # print(test)
 
 
-def try_metrics():
-    names = ["procrustes", "cca", "svcca", "cka", "rsa", "pls"]
+metric_names = similarity.make(package="backend:backends", key="metric_names")
 
-    for name in names:
+
+def generate_data():
+    X = np.random.randn(100, 30)
+    Y = np.random.randn(100, 30)
+    return X, Y
+
+
+def try_metrics():
+    for name in metric_names:
         print("Metric:", name)
         tic = perf_counter()
         metric = similarity.make(package="metric", key=name)
@@ -50,6 +57,60 @@ def try_metrics():
     # )
 
 
+import numpy as np
+
+def backend_consistency_matrix(backend_by_metric, X, Y):
+    for metric_name, backends in backend_by_metric.items():
+        num_backends = len(backends)
+        consistency_matrix = np.zeros((num_backends, num_backends))
+
+        # Store backend results in a dictionary
+        backend_results = {}
+        for i, backend_name in enumerate(backends):
+            metric = similarity.make(
+                package="backend:backends",
+                key=f"backends.{backend_name}.metric.{metric_name}"
+            )
+            result = metric.fit_score(X, Y)
+            backend_results[backend_name] = result
+
+        # Calculate differences and fill the matrix
+        for i, backend1 in enumerate(backends):
+            for j, backend2 in enumerate(backends):
+                if i < j:
+                    diff = np.linalg.norm(backend_results[backend1] - backend_results[backend2])
+                    consistency_matrix[i, j] = diff
+                    consistency_matrix[j, i] = diff  # Symmetric matrix
+
+        print(f"Consistency Matrix for {metric_name}:")
+        print(consistency_matrix)
+        print("---------------")
+
+
+def try_backend_consistency():
+    backend_by_metric = similarity.make(package="backend:backends", key="backend_by_metric")
+
+    backend_consistency_matrix(backend_by_metric, *generate_data())
+
+    # TODO: X.shape[1] > 25 for brainscore pls (number of components)
+    X, Y = generate_data()
+    for metric_name, backends in backend_by_metric.items():
+        metric_results = {}
+        for backend_name in backends:
+            metric = similarity.make(
+                # TODO: simplify?
+                package="backend:backends",
+                key=f"backends.{backend_name}.metric.{metric_name}"
+            )
+            assert isinstance(metric, similarity.Metric), f"Expected type Metric, got '{metric}'"
+            print(metric)
+            res = metric.fit_score(X, Y)
+            metric_results[backend_name] = res
+        print("Metric:", metric_name)
+        print(metric_results)
+        print("---------------")
+
+
 def try_benchmark():
     # TODO: why don't work with config? (argument _out_, problem in instantiate?)
     benchmark = similarity.make("klabunde23_dimensionality")
@@ -64,5 +125,6 @@ def try_benchmark():
 
 
 if __name__ == "__main__":
-    try_metrics()
+    # try_metrics()
+    try_backend_consistency()
     # try_benchmark()

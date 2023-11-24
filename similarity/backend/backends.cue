@@ -1,6 +1,7 @@
 // can't use the backend package because would cause circular import
 package backends
 import(
+    "list"
     // "github.com/similarity"
     "github.com/similarity/backend"
     netrep "github.com/similarity/backend/alignment/netrep:backend"
@@ -17,6 +18,7 @@ import(
     "yuanli2333": yuanli2333
     "rsatoolbox": rsatoolbox
 }
+
 // default backend choice for each metric
 #default_backend: {
     procrustes: "netrep"
@@ -40,6 +42,30 @@ import(
 
 cards: {
     for id, backend in #backends {
-        (id): backend.card 
+        (id): {
+            backend.card
+            metrics: [for k, v in backend.metric { k }]
+        }
     }
 }
+metric_names: #metric_names
+
+metric_by_backend: #BackendName: [...#MetricName]
+metric_by_backend: {
+    for id, backend in #backends {
+        (id): [for k, v in backend.metric { k }]
+    }
+}
+
+backend_by_metric: #MetricName: [...#BackendName]
+backend_by_metric: {
+    for metric_name in #metric_names {
+        (metric_name): [
+            for backend_name, metrics in metric_by_backend if list.Contains(metrics, metric_name) {
+                backend_name
+            }
+        ]
+    }
+}
+
+backends: #backends

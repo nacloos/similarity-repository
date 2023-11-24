@@ -27,7 +27,11 @@ metric: {
             #pca & {n_components: 0.95}
         ]
     }
-    cka: metrics.#LinearCKA
+    // bug in netrep LinearCKA: "NameError: name 'angular_distance' is not defined"
+    // cka: metrics.#LinearCKA & {
+    //     // netrep LinearCKA doesn't have a fit_score method
+    //     #call_key: "score"
+    // }
 }
 
 

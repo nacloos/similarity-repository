@@ -12,5 +12,6 @@ metric: {
         // #call_key: null
         // #partial: true
         #preprocessing: [#reshape2d]
-        #postprocessing: [#arccos, #angular_dist_to_score]    }
+        // #postprocessing: [#arccos, #angular_dist_to_score] 
+    }
 }

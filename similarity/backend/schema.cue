@@ -13,14 +13,14 @@ import(
 #metric_names: ["procrustes", "cca", "svcca", "cka", "rsa", "pls"]
 #MetricName: or(#metric_names)
 
-
-card: close({
+#Card: {
     id?: string,  // TODO: automatically extract id?
     name?: string
     github?: string
     website?: string
     citation?: string | [...string]
-})
+}
+card: #Card
 
 
 // close restrict the keys of metric to be in #MetricName
