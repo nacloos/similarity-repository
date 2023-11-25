@@ -30,13 +30,13 @@ def test_metrics():
         # metric = similarity.make(f"metric/{name}")
         metric = similarity.make(package="metric", key=name)
 
-        X = np.random.randn(100, 10)
-        Y = np.random.randn(100, 10)
+        X = np.random.randn(100, 30)
+        Y = np.random.randn(100, 30)
         score = metric.fit_score(X=X, Y=Y)
         assert isinstance(score, float)
 
-        X = np.random.randn(100, 5, 10)
-        Y = np.random.randn(100, 5, 10)
+        X = np.random.randn(100, 5, 30)
+        Y = np.random.randn(100, 5, 30)
         score = metric.fit_score(X=X, Y=Y)
         assert isinstance(score, float)
 
