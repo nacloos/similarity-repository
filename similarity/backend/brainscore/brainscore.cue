@@ -22,7 +22,8 @@ metric: {
         #call_key: "__call__"
     }
     // correlation: {...}
-    pls: #Metric & {
+    // TODO: pls?
+    linear_regression: #Metric & {
         // #path: "similarity.backend.brainscore.utils.pls_metric"
         #path: "brainscore.metrics.regression.CrossRegressedCorrelation"
         regression: null
@@ -37,5 +38,7 @@ metric: {
     }
     // rsa: {...}
 }
+
+
 
 

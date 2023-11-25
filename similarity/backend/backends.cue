@@ -8,31 +8,34 @@ import(
     brainscore "github.com/similarity/backend/brainscore:backend"
     yuanli2333 "github.com/similarity/backend/similarity_matrix/yuanli2333:backend"
     rsatoolbox "github.com/similarity/backend/similarity_matrix/rsatoolbox:backend"
+    scipy "github.com/similarity/backend/scipy:backend"
 )
 // TODO: everytime you want to make one metric it will validate all the backends
 // not very efficient...
+#backends: [string]: _  // schema
 #backends: {
     // will validate the backends
     "netrep": netrep
     "brainscore": brainscore
     "yuanli2333": yuanli2333
     "rsatoolbox": rsatoolbox
+    "scipy": scipy
 }
 
 // default backend choice for each metric
+// id instead of name? e.g. _default_backend: [#MetricId]: #BackendId  // TODO?
+#default_backend: [#MetricName]: #BackendName  // schema
 #default_backend: {
     procrustes: "netrep"
     cca: "netrep"
     svcca: "netrep"
     cka: "yuanli2333"
     rsa: "rsatoolbox"
-    pls: "brainscore"
+    linear_regression: "brainscore"
 }
 // TODO: extract names from type #MetricName?
 // used in metric.cue to create the metric fields
 
-// id instead of name? e.g. _default_backend: [#MetricId]: #BackendId  // TODO?
-#default_backend: [#MetricName]: #BackendName
 
 #metric_names: backend.#metric_names
 #MetricName: backend.#MetricName
@@ -69,3 +72,5 @@ backend_by_metric: {
 }
 
 backends: #backends
+default_backend: #default_backend
+

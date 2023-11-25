@@ -1,5 +1,8 @@
 # Similarity Measures Repository
 
+<!-- ![Backend metrics](figures/backend_metrics.png) -->
+![Backend metrics](https://github.com/nacloos/similarity-measures/tree/main/figures/backend_metrics.png)
+
 Aggregate existing implementations of similarity measures into a single python package.
 
 No measure is re-implemented here! Leverage only existing implementations.
@@ -33,7 +36,7 @@ Can easily generate a json config describing the config
 
 Why cue language? Can use schema to validate config. Show example of adding a metric that doesn't have a card
 
-## Adding a backend
+## Adding an implementation of an existing metric
 * create a folder in `similarity/backend`
 * create a `requirements.txt` file with the dependencies of the backend. Optionally add a comment with the link to the installation instructions (e.g. in the README of the backend).
 

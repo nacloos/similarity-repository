@@ -86,6 +86,14 @@ import(
 
 
     // TODO: backend
+    // TODO: interface (need special_kwargs: ["interface", "postprocessing", "preprocessing"])
+    // interface: {
+    //     fit_score: ["__call__", "fit_score"]
+    //     // fit_score: ["score", "__call__"]
+    // }
+    // #convert_to_distance: { ... } | *null
+    // distance: bool | *false
+    // if distance { #convert_to_distance != null}
 
     // constructor kwargs
     ...

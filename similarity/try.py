@@ -1,4 +1,5 @@
 import numpy as np
+from omegaconf import ListConfig, OmegaConf, DictConfig
 from time import perf_counter
 import similarity
 
@@ -17,7 +18,22 @@ import similarity
 # print(test)
 
 
+print("Metric names:")
 metric_names = similarity.make(package="backend:backends", key="metric_names")
+print(metric_names)
+
+
+def papers_with_code():
+    papers = similarity.make(package="metric", key="papers")
+
+    total = 0
+    with_code = 0
+    for name, card in papers.items():
+        if "github" in card:
+            with_code += 1
+        total += 1
+
+    print(f"Papers with code: {with_code}/{total} ({with_code/total*100:.0f}%)")
 
 
 def generate_data():
@@ -34,12 +50,11 @@ def try_metrics():
         print("Time:", perf_counter() - tic)
         print(metric)
 
-        X = np.random.randn(100, 10)
-        Y = np.random.randn(100, 10)
+        X, Y = generate_data()
         print(metric.fit_score(X=X, Y=Y))
 
-        X = np.random.randn(100, 5, 10)
-        Y = np.random.randn(100, 5, 10)
+        X = np.random.randn(100, 5, 30)
+        Y = np.random.randn(100, 5, 30)
         print(metric.fit_score(X=X, Y=Y))
         print()
 
@@ -125,6 +140,7 @@ def try_benchmark():
 
 
 if __name__ == "__main__":
-    # try_metrics()
-    try_backend_consistency()
+    papers_with_code()
+    try_metrics()
+    # try_backend_consistency()
     # try_benchmark()

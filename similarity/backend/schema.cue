@@ -5,12 +5,16 @@ import(
     "github.com/similarity"
     "github.com/similarity/utils"
     "github.com/similarity/processing"
+    // TODO: if user different card package in metric, then cannot just do similarity.make(package="metric", ...)
+    // metric_cards "github.com/similarity/metric:card"
 )
 #target: utils.#target
 #Metric: similarity.#Metric
 // #MetricName: similarity.#MetricName
 
-#metric_names: ["procrustes", "cca", "svcca", "cka", "rsa", "pls"]
+// TODO: get metric names from cards (but can't import metric here because of cyclic import)
+#metric_names: ["procrustes", "cca", "svcca", "cka", "rsa", "linear_regression"]
+// #metric_names: [for k, _ in metric_cards.cards { k }]
 #MetricName: or(#metric_names)
 
 #Card: {
