@@ -1,5 +1,8 @@
 package backend
 
+// _brainscore_path: "brainscore"  // TODO: problem installing brainscore as a package
+_brainscore_path: "similarity.backend.brainscore.brain-score.brainscore"
+
 #numpy_to_brainio: #target & {
     #path: "similarity.backend.brainscore.utils.numpy_to_brainio"
     #partial: true
@@ -25,15 +28,15 @@ metric: {
     // TODO: pls?
     linear_regression: #Metric & {
         // #path: "similarity.backend.brainscore.utils.pls_metric"
-        #path: "brainscore.metrics.regression.CrossRegressedCorrelation"
+        #path: "\(_brainscore_path).metrics.regression.CrossRegressedCorrelation"
         regression: null
         correlation: #target & {
-            #path: "brainscore.metrics.regression.pearsonr_correlation"
+            #path: "\(_brainscore_path).metrics.regression.pearsonr_correlation"
         }
         #fit_score_inputs: [["X", "source"], ["Y", "target"]]
     }
     cka: #Metric & {
-        #path: "brainscore.metrics.cka.CKAMetric"
+        #path: "\(_brainscore_path).metrics.cka.CKAMetric"
         #fit_score_inputs: [["X", "assembly1"], ["Y", "assembly2"]]
     }
     // rsa: {...}
