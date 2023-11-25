@@ -7,7 +7,7 @@ package backend
 // TODO: all the variations of rsa?
 metric: {
     #base_rsa: #Metric & {
-        #path: "similarity.backend.similarity_matrix.rsatoolbox.rsa.compute_rsa"
+        #path: "similarity.backend.rsatoolbox.rsa.compute_rsa"
         #call_key: null
         #partial: true
         #preprocessing: [#reshape2d]

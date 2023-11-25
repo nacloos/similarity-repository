@@ -30,11 +30,11 @@ metric: {
         correlation: #target & {
             #path: "brainscore.metrics.regression.pearsonr_correlation"
         }
-        #fit_score_inputs: ["source", "target"]
+        #fit_score_inputs: [["X", "source"], ["Y", "target"]]
     }
     cka: #Metric & {
         #path: "brainscore.metrics.cka.CKAMetric"
-        #fit_score_inputs: ["assembly1", "assembly2"]
+        #fit_score_inputs: [["X", "assembly1"], ["Y", "assembly2"]]
     }
     // rsa: {...}
 }

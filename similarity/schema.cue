@@ -51,36 +51,43 @@ import(
     #preprocessing: [...{
         #path: string
         #partial: bool | *true
-        #in_keys: ["X", "Y"]
-        #out_keys: ["X", "Y"]
+        #in_keys: #ModKeys | *["X", "Y"]
+        #out_keys: #ModKeys | *["X", "Y"]
         ...
     }]
     // postprocessing steps to apply on the metric score (e.g. normalize to [0, 1])
     #postprocessing: [...{
         #path: string
         #partial: bool | *true
-        #in_keys: ["score"]
-        #out_keys: ["score"]
+        #in_keys: #ModKeys | *["score"]
+        #out_keys: #ModKeys | *["score"]
         ...
     }]
 
     // fit_score interface
-    #fit_score_inputs: [string, string] | *["X", "Y"]
-
+    // #fit_score_inputs: [string, string] | *["X", "Y"]
+    #fit_score_inputs: #ModKeys | *["X", "Y"]
+    
     // TODO: allow it to be overwritten?
     if self.#call_key == null {
         // don't need to pass "self" because metric is already a function
-        #fit_score_in_keys: [
-            ["X", self.#fit_score_inputs[0]],
-            ["Y", self.#fit_score_inputs[1]]
-        ]
+        // #fit_score_in_keys: [
+        //     ["X", self.#fit_score_inputs[0]],
+        //     ["Y", self.#fit_score_inputs[1]]
+        // ]
+        #fit_score_in_keys: self.#fit_score_inputs
     }
     if self.#call_key != null {
         // need to pass "self" because target is a class method
+        // #fit_score_in_keys: [
+        //     ["metric", "self"], 
+        //     ["X", self.#fit_score_inputs[0]], 
+        //     ["Y", self.#fit_score_inputs[1]]
+        // ]
         #fit_score_in_keys: [
             ["metric", "self"], 
-            ["X", self.#fit_score_inputs[0]], 
-            ["Y", self.#fit_score_inputs[1]]
+            self.#fit_score_inputs[0], 
+            self.#fit_score_inputs[1]
         ]
     }
 

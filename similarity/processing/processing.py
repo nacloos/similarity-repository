@@ -2,6 +2,12 @@ import numpy as np
 from sklearn.decomposition import PCA
 
 
+def transpose(X, Y):
+    assert len(X.shape) == 2, "Expected 2 dimensions, found {}".format(len(X.shape))
+    assert len(Y.shape) == 2, "Expected 2 dimensions, found {}".format(len(Y.shape))
+    return X.T, Y.T
+
+
 def flatten_3d_to_2d(X, Y):
     """
     reshape X with 3 dimensions (n_timesteps x n_trials x n_neurons) to 2 dimensions

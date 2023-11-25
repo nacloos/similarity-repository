@@ -13,7 +13,16 @@ import(
 // #MetricName: similarity.#MetricName
 
 // TODO: get metric names from cards (but can't import metric here because of cyclic import)
-#metric_names: ["procrustes", "cca", "svcca", "cka", "rsa", "linear_regression"]
+#metric_names: [
+    "procrustes", 
+    "cca", 
+    "cca_mean_sq_corr",
+    "pwcca",
+    "svcca", 
+    "cka", 
+    "rsa", 
+    "linear_regression"
+]
 // #metric_names: [for k, _ in metric_cards.cards { k }]
 #MetricName: or(#metric_names)
 

@@ -18,6 +18,11 @@ import similarity
 # print(test)
 
 
+print("api")
+metric = similarity.make(package="api", key="backend.netrep.metric.procrustes")
+print(metric)
+print(similarity.make(package="api", key="metric.procrustes"))
+
 print("Metric names:")
 metric_names = similarity.make(package="backend:backends", key="metric_names")
 print(metric_names)
@@ -118,7 +123,6 @@ def try_backend_consistency():
                 key=f"backends.{backend_name}.metric.{metric_name}"
             )
             assert isinstance(metric, similarity.Metric), f"Expected type Metric, got '{metric}'"
-            print(metric)
             res = metric.fit_score(X, Y)
             metric_results[backend_name] = res
         print("Metric:", metric_name)
@@ -140,7 +144,7 @@ def try_benchmark():
 
 
 if __name__ == "__main__":
-    papers_with_code()
-    try_metrics()
-    # try_backend_consistency()
+    # papers_with_code()
+    # try_metrics()
+    try_backend_consistency()
     # try_benchmark()
