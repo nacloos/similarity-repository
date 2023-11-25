@@ -2,6 +2,30 @@ from setuptools import setup, find_packages
 
 # TODO: install all the backend requirements.txt
 
+brainscore_requires = [
+    # copied from github brain-score/setup.py
+    "numpy>=1.17",
+    "brainio @ git+https://github.com/brain-score/brainio",
+    "importlib-metadata<5",  # workaround to https://github.com/brain-score/brainio/issues/28
+    # TODO
+    "scikit-learn",
+    # "scikit-learn<0.24",  # 0.24 breaks pls regression
+    "scipy",
+    "h5py",
+    "tqdm",
+    "gitpython",
+    "fire",
+    "networkx",
+    "matplotlib",
+    "tensorflow",
+    "result_caching @ git+https://github.com/brain-score/result_caching",
+    "fire",
+    "jupyter",
+    "pybtex",
+    "peewee",
+    "pillow<9.0.0",
+    "psycopg2-binary"
+]
 
 # https://github.com/KhrulkovV/geometry-score
 gs_requires = [
@@ -32,8 +56,11 @@ rtd_requires = [
 setup(
     name='similarity',
     version="0.0.1",
-    packages=[package for package in find_packages()
-              if package.startswith('similarity')],
+    packages=[
+        package for package in find_packages()
+        # TODO: temp install brainscore here
+        if package.startswith('similarity') or package.startswith('brainscore')
+    ],
     package_data={
         "similarity": ["similarity/**/*.cue"]
     },
@@ -46,6 +73,7 @@ setup(
         'netrep @ git+https://github.com/ahwillia/netrep',
         # TODO: pypi doesn't allow direct dependencies on github repos
         'config-utils @ git+https://github.com/nacloos/config-utils.git',
+        *brainscore_requires
     ],
     # extras_require={
     #     'rtd': rtd_requires

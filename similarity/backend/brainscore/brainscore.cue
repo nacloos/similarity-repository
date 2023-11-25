@@ -1,8 +1,9 @@
 package backend
 
-// _brainscore_path: "brainscore"  // TODO: problem installing brainscore as a package
-_brainscore_path: "similarity.backend.brainscore.brain-score.brainscore"
+_brainscore_path: "brainscore"  // TODO: problem installing brainscore as a package
+// _brainscore_path: "similarity.backend.brainscore.brainscore"
 
+    
 #numpy_to_brainio: #target & {
     #path: "similarity.backend.brainscore.utils.numpy_to_brainio"
     #partial: true

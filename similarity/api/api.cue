@@ -5,6 +5,11 @@ import(
 )
 
 // TODO: openapi schema?
-"metric": metric
+"metric": {
+    // TODO: temp
+    for k, v in metric if (k != "papers" && k != "cards") {
+        (k): v
+    }
+}
 "backend": backends.#backends
 "paper": metric.papers
