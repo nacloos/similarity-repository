@@ -43,6 +43,7 @@ setup(
         'scikit-learn',
         'matplotlib',
         'rsatoolbox',
+        'netrep @ git+https://github.com/ahwillia/netrep',
         # TODO: pypi doesn't allow direct dependencies on github repos
         'config-utils @ git+https://github.com/nacloos/config-utils.git',
     ],
