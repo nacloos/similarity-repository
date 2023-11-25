@@ -46,9 +46,9 @@ setup(
         # TODO: pypi doesn't allow direct dependencies on github repos
         'config-utils @ git+https://github.com/nacloos/config-utils.git',
     ],
-    extras_require={
-        'rtd': rtd_requires
-    },
+    # extras_require={
+    #     'rtd': rtd_requires
+    # },
     description='A hub for similarity measures.',
     author='Nathan Cloos'
 )
