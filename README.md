@@ -2,7 +2,7 @@
 
 <!-- ![Backend metrics](figures/backend_metrics.png) -->
 ![Backend metrics](https://github.com/nacloos/similarity-measures/blob/main/figures/backend_metrics.png)
-
+    
 Aggregate existing implementations of similarity measures into a single python package.
 
 No measure is re-implemented here! Leverage only existing implementations.
