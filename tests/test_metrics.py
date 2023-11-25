@@ -5,14 +5,6 @@ from scipy.stats import ortho_group
 import similarity
 
 
-# names = [
-#     "procrustes", 
-#     "cca", 
-#     "svcca", 
-#     "cka", 
-#     "rsa", 
-#     # "pls"
-# ]
 names = similarity.make(package="backend:backends", key="metric_names")
 
 metrics = [similarity.make(f"metric/{name}") for name in names]
@@ -25,13 +17,18 @@ test_input_vars = ["metric", "seed"]
 
 # TODO: test distance measures separately then score measures
 
+def generate_data():
+    X = np.random.randn(100, 30)
+    Y = np.random.randn(100, 30)
+    return X, Y
+
+
 def test_metrics():
     for name in names:
         # metric = similarity.make(f"metric/{name}")
         metric = similarity.make(package="metric", key=name)
 
-        X = np.random.randn(100, 30)
-        Y = np.random.randn(100, 30)
+        X, Y = generate_data()
         score = metric.fit_score(X=X, Y=Y)
         assert isinstance(score, float)
 
@@ -41,7 +38,19 @@ def test_metrics():
         assert isinstance(score, float)
 
 
+def test_backends():
+    backend_by_metric = similarity.make(package="backend:backends", key="backend_by_metric")
 
+    X, Y = generate_data()
+    for metric_name, backends in backend_by_metric.items():
+        for backend_name in backends:
+            metric = similarity.make(
+                package="backend:backends",
+                key=f"backends.{backend_name}.metric.{metric_name}"
+            )
+            assert isinstance(metric, similarity.Metric), f"Expected type Metric, got '{metric}'"
+            score = metric.fit_score(X, Y)
+            assert isinstance(score, float)
 
 # TODO
 # def test_distance():
