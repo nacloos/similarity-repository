@@ -3,7 +3,8 @@ import(
     // "github.com/similarity/processing"
 )
 
-_metric_path: "similarity.backend.sim_metric.sim_metric.dists.scoring"
+// _metric_path: "similarity.backend.sim_metric.sim_metric.dists.scoring"
+_metric_path: "similarity.backend.sim_metric.dists.scoring"
 _utils_path: "similarity.backend.sim_metric.utils"
 
 #transpose: #target & {
