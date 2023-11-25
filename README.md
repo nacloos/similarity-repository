@@ -1,7 +1,7 @@
 # Similarity Measures Repository
 
 <!-- ![Backend metrics](figures/backend_metrics.png) -->
-![Backend metrics](https://github.com/nacloos/similarity-measures/tree/main/figures/backend_metrics.png)
+![Backend metrics](https://github.com/nacloos/similarity-measures/blob/main/figures/backend_metrics.png)
 
 Aggregate existing implementations of similarity measures into a single python package.
 
