@@ -42,7 +42,6 @@ def make(key, package: PackageId = "api", use_cache=True, **kwargs) -> Metric:
             cached_config = cached_configs[package]
         elif package == "api" and os.path.exists(BUILD_DIR + "/api.json"):
             # load api.json
-            print("Loading cached api.json")
             with open(BUILD_DIR + "/api.json", "r") as f:
                 cached_config = json.load(f)
         else:
