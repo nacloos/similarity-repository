@@ -67,7 +67,7 @@ setup(
         if package.startswith('similarity') or package.startswith('brainscore')
     ],
     package_data={
-        "similarity": ["**/*.cue", "**/*.py"]
+        "similarity": ["**/*.cue", "**/*.py", "api/api.json"]
     },
     include_package_data=True,
     install_requires=[

@@ -1,0 +1,3288 @@
+{
+    "metric": {
+        "procrustes": {
+            "alpha": 1,
+            "_target_": "netrep.metrics.LinearMetric",
+            "_out_": {
+                "_target_": "similarity.metric.Metric",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "metric": {
+                    "alpha": 1,
+                    "_target_": "netrep.metrics.LinearMetric",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": []
+                },
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "similarity.processing.flatten_3d_to_2d",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "_target_": "netrep.metrics.LinearMetric.fit_score",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "metric",
+                                            "self"
+                                        ],
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "_wrap_": {
+                        "dict_mod": {
+                            "_target_": "config_utils.dict_module.DictModule",
+                            "in_keys": [
+                                "metric",
+                                "X",
+                                "Y"
+                            ],
+                            "out_keys": [
+                                [
+                                    "score",
+                                    null
+                                ]
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "cca": {
+            "alpha": 0,
+            "_target_": "netrep.metrics.LinearMetric",
+            "_out_": {
+                "_target_": "similarity.metric.Metric",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "metric": {
+                    "alpha": 0,
+                    "_target_": "netrep.metrics.LinearMetric",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": []
+                },
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "similarity.processing.flatten_3d_to_2d",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "_target_": "netrep.metrics.LinearMetric.fit_score",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "metric",
+                                            "self"
+                                        ],
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "_wrap_": {
+                        "dict_mod": {
+                            "_target_": "config_utils.dict_module.DictModule",
+                            "in_keys": [
+                                "metric",
+                                "X",
+                                "Y"
+                            ],
+                            "out_keys": [
+                                [
+                                    "score",
+                                    null
+                                ]
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "cca_mean_sq_corr": {
+            "_out_": {
+                "_target_": "similarity.metric.Metric",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "metric": {
+                    "_target_": "similarity.backend.sim_metric.utils.mean_sq_cca_corr",
+                    "_partial_": true,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": []
+                },
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "similarity.processing.flatten_3d_to_2d",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "_target_": "similarity.processing.transpose",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "_target_": "similarity.backend.sim_metric.utils.mean_sq_cca_corr",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "X",
+                                            "rep1"
+                                        ],
+                                        [
+                                            "Y",
+                                            "rep2"
+                                        ]
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "_wrap_": {
+                        "dict_mod": {
+                            "_target_": "config_utils.dict_module.DictModule",
+                            "in_keys": [
+                                "metric",
+                                "X",
+                                "Y"
+                            ],
+                            "out_keys": [
+                                [
+                                    "score",
+                                    null
+                                ]
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "pwcca": {
+            "_out_": {
+                "_target_": "similarity.metric.Metric",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "metric": {
+                    "_target_": "similarity.backend.sim_metric.utils.pwcca_dist",
+                    "_partial_": true,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": []
+                },
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "similarity.processing.flatten_3d_to_2d",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "_target_": "similarity.processing.transpose",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "_target_": "similarity.backend.sim_metric.utils.pwcca_dist",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "X",
+                                            "rep1"
+                                        ],
+                                        [
+                                            "Y",
+                                            "rep2"
+                                        ]
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "_wrap_": {
+                        "dict_mod": {
+                            "_target_": "config_utils.dict_module.DictModule",
+                            "in_keys": [
+                                "metric",
+                                "X",
+                                "Y"
+                            ],
+                            "out_keys": [
+                                [
+                                    "score",
+                                    null
+                                ]
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "svcca": {
+            "alpha": 0,
+            "_target_": "netrep.metrics.LinearMetric",
+            "_out_": {
+                "_target_": "similarity.metric.Metric",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "metric": {
+                    "alpha": 0,
+                    "_target_": "netrep.metrics.LinearMetric",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": []
+                },
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "similarity.processing.flatten_3d_to_2d",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "_target_": "similarity.processing.pca_preprocessing",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "_target_": "netrep.metrics.LinearMetric.fit_score",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "metric",
+                                            "self"
+                                        ],
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "_wrap_": {
+                        "dict_mod": {
+                            "_target_": "config_utils.dict_module.DictModule",
+                            "in_keys": [
+                                "metric",
+                                "X",
+                                "Y"
+                            ],
+                            "out_keys": [
+                                [
+                                    "score",
+                                    null
+                                ]
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "cka": {
+            "_out_": {
+                "_target_": "similarity.metric.Metric",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "metric": {
+                    "_target_": "similarity.backend.yuanli2333.cka.linear_CKA",
+                    "_partial_": true,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": []
+                },
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "similarity.processing.flatten_3d_to_2d",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "_target_": "similarity.backend.yuanli2333.cka.linear_CKA",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "_wrap_": {
+                        "dict_mod": {
+                            "_target_": "config_utils.dict_module.DictModule",
+                            "in_keys": [
+                                "metric",
+                                "X",
+                                "Y"
+                            ],
+                            "out_keys": [
+                                [
+                                    "score",
+                                    null
+                                ]
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "rsa": {
+            "rdm_method": "euclidean",
+            "_out_": {
+                "_target_": "similarity.metric.Metric",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "metric": {
+                    "rdm_method": "euclidean",
+                    "_target_": "similarity.backend.rsatoolbox.rsa.compute_rsa",
+                    "_partial_": true,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [],
+                    "compare_method": "cosine"
+                },
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "similarity.processing.flatten_3d_to_2d",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "rdm_method": "euclidean",
+                            "_target_": "similarity.backend.rsatoolbox.rsa.compute_rsa",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            },
+                            "compare_method": "cosine"
+                        },
+                        {
+                            "_target_": "similarity.processing.angular_dist",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "score"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "_target_": "similarity.processing.angular_dist_to_score",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "score"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "_wrap_": {
+                        "dict_mod": {
+                            "_target_": "config_utils.dict_module.DictModule",
+                            "in_keys": [
+                                "metric",
+                                "X",
+                                "Y"
+                            ],
+                            "out_keys": [
+                                [
+                                    "score",
+                                    null
+                                ]
+                            ]
+                        }
+                    }
+                }
+            },
+            "compare_method": "cosine"
+        },
+        "linear_regression": {
+            "regression": null,
+            "correlation": {
+                "_target_": "brainscore.metrics.regression.pearsonr_correlation",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": []
+            },
+            "_out_": {
+                "_target_": "similarity.metric.Metric",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "metric": {
+                    "regression": null,
+                    "_target_": "brainscore.metrics.regression.CrossRegressedCorrelation",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [],
+                    "correlation": {
+                        "_target_": "brainscore.metrics.regression.pearsonr_correlation",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": []
+                    }
+                },
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "similarity.processing.flatten_3d_to_2d",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "_target_": "similarity.backend.brainscore.utils.numpy_to_brainio",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "_target_": "brainscore.metrics.regression.CrossRegressedCorrelation.__call__",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "metric",
+                                            "self"
+                                        ],
+                                        [
+                                            "X",
+                                            "source"
+                                        ],
+                                        [
+                                            "Y",
+                                            "target"
+                                        ]
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "_target_": "similarity.backend.brainscore.utils.aggregate_score",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "score"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "_wrap_": {
+                        "dict_mod": {
+                            "_target_": "config_utils.dict_module.DictModule",
+                            "in_keys": [
+                                "metric",
+                                "X",
+                                "Y"
+                            ],
+                            "out_keys": [
+                                [
+                                    "score",
+                                    null
+                                ]
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "pls": {
+            "_out_": {
+                "_target_": "similarity.metric.Metric",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "metric": {
+                    "_target_": "similarity.backend.svcca.numpy_pls.get_pls_similarity",
+                    "_partial_": true,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": []
+                },
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "similarity.processing.flatten_3d_to_2d",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "_target_": "similarity.processing.transpose",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "_target_": "similarity.backend.svcca.numpy_pls.get_pls_similarity",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "X",
+                                            "acts1"
+                                        ],
+                                        [
+                                            "Y",
+                                            "acts2"
+                                        ]
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "mean",
+                                            "score"
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "_wrap_": {
+                        "dict_mod": {
+                            "_target_": "config_utils.dict_module.DictModule",
+                            "in_keys": [
+                                "metric",
+                                "X",
+                                "Y"
+                            ],
+                            "out_keys": [
+                                [
+                                    "score",
+                                    null
+                                ]
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "permutation": {
+            "_target_": "netrep.metrics.PermutationMetric",
+            "_out_": {
+                "_target_": "similarity.metric.Metric",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "metric": {
+                    "_target_": "netrep.metrics.PermutationMetric",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": []
+                },
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "similarity.processing.flatten_3d_to_2d",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "_target_": "netrep.metrics.PermutationMetric.fit_score",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "metric",
+                                            "self"
+                                        ],
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "_wrap_": {
+                        "dict_mod": {
+                            "_target_": "config_utils.dict_module.DictModule",
+                            "in_keys": [
+                                "metric",
+                                "X",
+                                "Y"
+                            ],
+                            "out_keys": [
+                                [
+                                    "score",
+                                    null
+                                ]
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "imd": {
+            "_out_": {
+                "_target_": "similarity.metric.Metric",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "metric": {
+                    "_target_": "msid.msid_score",
+                    "_partial_": true,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": []
+                },
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "similarity.processing.flatten_3d_to_2d",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "_target_": "msid.msid_score",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "X",
+                                            "x"
+                                        ],
+                                        [
+                                            "Y",
+                                            "y"
+                                        ]
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "_wrap_": {
+                        "dict_mod": {
+                            "_target_": "config_utils.dict_module.DictModule",
+                            "in_keys": [
+                                "metric",
+                                "X",
+                                "Y"
+                            ],
+                            "out_keys": [
+                                [
+                                    "score",
+                                    null
+                                ]
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "max_match": {
+            "_out_": {
+                "_target_": "similarity.metric.Metric",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "metric": {
+                    "epsilon": 0.25,
+                    "_target_": "similarity.backend.subspacematch.score.maximum_match_score",
+                    "_partial_": true,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": []
+                },
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "similarity.processing.flatten_3d_to_2d",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "epsilon": 0.25,
+                            "_target_": "similarity.backend.subspacematch.score.maximum_match_score",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "_wrap_": {
+                        "dict_mod": {
+                            "_target_": "config_utils.dict_module.DictModule",
+                            "in_keys": [
+                                "metric",
+                                "X",
+                                "Y"
+                            ],
+                            "out_keys": [
+                                [
+                                    "score",
+                                    null
+                                ]
+                            ]
+                        }
+                    }
+                }
+            },
+            "epsilon": 0.25
+        }
+    },
+    "backend": {
+        "netrep": {
+            "card": {
+                "name": "Generalized Shape Metrics on Neural Representations",
+                "github": "https://github.com/ahwillia/netrep",
+                "citation": [
+                    "@inproceedings{neural_shape_metrics,\n    author = {Alex H. Williams and Erin Kunz and Simon Kornblith and Scott W. Linderman},\n    title = {Generalized Shape Metrics on Neural Representations},\n    year = {2021},\n    booktitle = {Advances in Neural Information Processing Systems},\n    volume = {34},\n}",
+                    "@inproceedings{stochastic_neural_shape_metrics,\n    author = {Lyndon R. Duong and Jingyang Zhou and Josue Nassar and Jules Berman and Jeroen Olieslagers and Alex H. Williams},\n    title = {Representational dissimilarity metric spaces for stochastic neural networks},\n    year = {2023},\n    booktitle = {International Conference on Learning Representations},\n}"
+                ]
+            },
+            "metric": {
+                "procrustes": {
+                    "alpha": 1,
+                    "_target_": "netrep.metrics.LinearMetric",
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "alpha": 1,
+                            "_target_": "netrep.metrics.LinearMetric",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "netrep.metrics.LinearMetric.fit_score",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "metric",
+                                                    "self"
+                                                ],
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "cca": {
+                    "alpha": 0,
+                    "_target_": "netrep.metrics.LinearMetric",
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "alpha": 0,
+                            "_target_": "netrep.metrics.LinearMetric",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "netrep.metrics.LinearMetric.fit_score",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "metric",
+                                                    "self"
+                                                ],
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "svcca": {
+                    "alpha": 0,
+                    "_target_": "netrep.metrics.LinearMetric",
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "alpha": 0,
+                            "_target_": "netrep.metrics.LinearMetric",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.processing.pca_preprocessing",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "netrep.metrics.LinearMetric.fit_score",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "metric",
+                                                    "self"
+                                                ],
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "permutation": {
+                    "_target_": "netrep.metrics.PermutationMetric",
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "_target_": "netrep.metrics.PermutationMetric",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "netrep.metrics.PermutationMetric.fit_score",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "metric",
+                                                    "self"
+                                                ],
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "brainscore": {
+            "card": {
+                "id": "brainscore",
+                "name": "Brain-Score",
+                "github": "https://github.com/brain-score/brain-score",
+                "website": "www.brain-score.org",
+                "citation": [
+                    "@article{SchrimpfKubilius2018BrainScore,\n    title={Brain-Score: Which Artificial Neural Network for Object Recognition is most Brain-Like?},\n    author={Martin Schrimpf and Jonas Kubilius and Ha Hong and Najib J. Majaj and Rishi Rajalingham and Elias B. Issa and Kohitij Kar and Pouya Bashivan and Jonathan Prescott-Roy and Franziska Geiger and Kailyn Schmidt and Daniel L. K. Yamins and James J. DiCarlo},\n    journal={bioRxiv preprint},\n    year={2018},\n    url={https://www.biorxiv.org/content/10.1101/407007v2}\n}",
+                    "@article{Schrimpf2020integrative,\n    title={Integrative Benchmarking to Advance Neurally Mechanistic Models of Human Intelligence},\n    author={Schrimpf, Martin and Kubilius, Jonas and Lee, Michael J and Murty, N Apurva Ratan and Ajemian, Robert and DiCarlo, James J},\n    journal={Neuron},\n    year={2020},\n    url={https://www.cell.com/neuron/fulltext/S0896-6273(20)30605-X}\n}"
+                ]
+            },
+            "metric": {
+                "linear_regression": {
+                    "regression": null,
+                    "correlation": {
+                        "_target_": "brainscore.metrics.regression.pearsonr_correlation",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": []
+                    },
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "regression": null,
+                            "_target_": "brainscore.metrics.regression.CrossRegressedCorrelation",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "correlation": {
+                                "_target_": "brainscore.metrics.regression.pearsonr_correlation",
+                                "_partial_": false,
+                                "_recursive_": true,
+                                "_convert_": "all",
+                                "_args_": []
+                            }
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.backend.brainscore.utils.numpy_to_brainio",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "brainscore.metrics.regression.CrossRegressedCorrelation.__call__",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "metric",
+                                                    "self"
+                                                ],
+                                                [
+                                                    "X",
+                                                    "source"
+                                                ],
+                                                [
+                                                    "Y",
+                                                    "target"
+                                                ]
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.backend.brainscore.utils.aggregate_score",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "score"
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "cka": {
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "_target_": "brainscore.metrics.cka.CKAMetric",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.backend.brainscore.utils.numpy_to_brainio",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "brainscore.metrics.cka.CKAMetric.__call__",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "metric",
+                                                    "self"
+                                                ],
+                                                [
+                                                    "X",
+                                                    "assembly1"
+                                                ],
+                                                [
+                                                    "Y",
+                                                    "assembly2"
+                                                ]
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.backend.brainscore.utils.aggregate_score",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "score"
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "yuanli2333": {
+            "card": {},
+            "metric": {
+                "cka": {
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "_target_": "similarity.backend.yuanli2333.cka.linear_CKA",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.backend.yuanli2333.cka.linear_CKA",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "rsatoolbox": {
+            "card": {},
+            "metric": {
+                "rsa": {
+                    "rdm_method": "euclidean",
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "rdm_method": "euclidean",
+                            "_target_": "similarity.backend.rsatoolbox.rsa.compute_rsa",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "compare_method": "cosine"
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "rdm_method": "euclidean",
+                                    "_target_": "similarity.backend.rsatoolbox.rsa.compute_rsa",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    },
+                                    "compare_method": "cosine"
+                                },
+                                {
+                                    "_target_": "similarity.processing.angular_dist",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "score"
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.processing.angular_dist_to_score",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "score"
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "compare_method": "cosine"
+                }
+            }
+        },
+        "scipy": {
+            "card": {},
+            "metric": {
+                "procrustes": {
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "_target_": "similarity.backend.scipy.metrics.procrustes",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.backend.scipy.metrics.procrustes",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "sim_metric": {
+            "card": {
+                "github": "https://github.com/js-d/sim_metric"
+            },
+            "metric": {
+                "cca": {
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "_target_": "similarity.backend.sim_metric.utils.mean_cca_corr",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.processing.transpose",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.backend.sim_metric.utils.mean_cca_corr",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "X",
+                                                    "rep1"
+                                                ],
+                                                [
+                                                    "Y",
+                                                    "rep2"
+                                                ]
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "cca_mean_sq_corr": {
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "_target_": "similarity.backend.sim_metric.utils.mean_sq_cca_corr",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.processing.transpose",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.backend.sim_metric.utils.mean_sq_cca_corr",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "X",
+                                                    "rep1"
+                                                ],
+                                                [
+                                                    "Y",
+                                                    "rep2"
+                                                ]
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "pwcca": {
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "_target_": "similarity.backend.sim_metric.utils.pwcca_dist",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.processing.transpose",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.backend.sim_metric.utils.pwcca_dist",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "X",
+                                                    "rep1"
+                                                ],
+                                                [
+                                                    "Y",
+                                                    "rep2"
+                                                ]
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "cka": {
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "_target_": "similarity.backend.sim_metric.dists.scoring.lin_cka_dist",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.processing.transpose",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.backend.sim_metric.dists.scoring.lin_cka_dist",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "X",
+                                                    "A"
+                                                ],
+                                                [
+                                                    "Y",
+                                                    "B"
+                                                ]
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "procrustes": {
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "_target_": "similarity.backend.sim_metric.dists.scoring.procrustes",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.processing.transpose",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.backend.sim_metric.dists.scoring.procrustes",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "X",
+                                                    "A"
+                                                ],
+                                                [
+                                                    "Y",
+                                                    "B"
+                                                ]
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "svcca": {
+            "card": {
+                "github": "https://github.com/google/svcca/",
+                "citation": [
+                    "@incollection{NIPS2017_7188,\n    title = {SVCCA: Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics and Interpretability},\n    author = {Raghu, Maithra and Gilmer, Justin and Yosinski, Jason and Sohl-Dickstein, Jascha},\n    booktitle = {Advances in Neural Information Processing Systems 30},\n    editor = {I. Guyon and U. V. Luxburg and S. Bengio and H. Wallach and R. Fergus and S. Vishwanathan and R. Garnett},\n    pages = {6076--6085},\n    year = {2017},\n    publisher = {Curran Associates, Inc.},\n    url = {http://papers.nips.cc/paper/7188-svcca-singular-vector-canonical-correlation-analysis-for-deep-learning-dynamics-and-interpretability.pdf}\n}",
+                    "@incollection{NIPS2018_7815,\n    title = {Insights on representational similarity in neural networks with canonical correlation},\n    author = {Morcos, Ari and Raghu, Maithra and Bengio, Samy},\n    booktitle = {Advances in Neural Information Processing Systems 31},\n    editor = {S. Bengio and H. Wallach and H. Larochelle and K. Grauman and N. Cesa-Bianchi and R. Garnett},\n    pages = {5732--5741},\n    year = {2018},\n    publisher = {Curran Associates, Inc.},\n    url = {http://papers.nips.cc/paper/7815-insights-on-representational-similarity-in-neural-networks-with-canonical-correlation.pdf}\n}"
+                ]
+            },
+            "metric": {
+                "cca": {
+                    "verbose": false,
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "verbose": false,
+                            "_target_": "similarity.backend.svcca.cca_core.get_cca_similarity",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.processing.transpose",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "verbose": false,
+                                    "_target_": "similarity.backend.svcca.cca_core.get_cca_similarity",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "X",
+                                                    "acts1"
+                                                ],
+                                                [
+                                                    "Y",
+                                                    "acts2"
+                                                ]
+                                            ],
+                                            "out_keys": [
+                                                [
+                                                    [
+                                                        "mean",
+                                                        0
+                                                    ],
+                                                    "score"
+                                                ]
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "pwcca": {
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "_target_": "similarity.backend.svcca.pwcca.compute_pwcca",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.processing.transpose",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.backend.svcca.pwcca.compute_pwcca",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "X",
+                                                    "acts1"
+                                                ],
+                                                [
+                                                    "Y",
+                                                    "acts2"
+                                                ]
+                                            ],
+                                            "out_keys": [
+                                                "score",
+                                                "_",
+                                                "_"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "pls": {
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "_target_": "similarity.backend.svcca.numpy_pls.get_pls_similarity",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.processing.transpose",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "similarity.backend.svcca.numpy_pls.get_pls_similarity",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "X",
+                                                    "acts1"
+                                                ],
+                                                [
+                                                    "Y",
+                                                    "acts2"
+                                                ]
+                                            ],
+                                            "out_keys": [
+                                                [
+                                                    "mean",
+                                                    "score"
+                                                ]
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "imd": {
+            "card": {
+                "github": "https://github.com/xgfs/imd"
+            },
+            "metric": {
+                "imd": {
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "_target_": "msid.msid_score",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "_target_": "msid.msid_score",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "X",
+                                                    "x"
+                                                ],
+                                                [
+                                                    "Y",
+                                                    "y"
+                                                ]
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "subspacematch": {
+            "card": {
+                "github": "https://github.com/MeckyWu/subspace-match"
+            },
+            "metric": {
+                "max_match": {
+                    "_out_": {
+                        "_target_": "similarity.metric.Metric",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "metric": {
+                            "epsilon": 0.25,
+                            "_target_": "similarity.backend.subspacematch.score.maximum_match_score",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.processing.flatten_3d_to_2d",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "X",
+                                                "Y"
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "epsilon": 0.25,
+                                    "_target_": "similarity.backend.subspacematch.score.maximum_match_score",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                "X",
+                                                "Y"
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "metric",
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        [
+                                            "score",
+                                            null
+                                        ]
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "epsilon": 0.25
+                }
+            }
+        }
+    },
+    "paper": {
+        "barannikov2022": {
+            "citation": "Serguei Barannikov, Ilya Trofimov, Nikita Balabin, and Evgeny Burnaev. 2022. Representation Topology Divergence: A Method for Comparing Neural Network Representations. In ICML.",
+            "github": "https://github.com/IlyaTrofimov/RTD"
+        },
+        "boixadsera2022": {
+            "citation": "Enric Boix-Adsera, Hannah Lawrence, George Stepaniants, and Philippe Rigollet. 2022. GULP: a prediction-based metric between representations. In NeurIPS.",
+            "github": "https://github.com/sgstepaniants/GULP"
+        },
+        "gwilliam2022": {
+            "citation": "Matthew Gwilliam and Abhinav Shrivastava. 2022. Beyond Supervised vs. Unsupervised: Representative Benchmarking and Analysis of Image Representation Learning. In CVPR.",
+            "github": "https://github.com/mgwillia/unsupervised-analysis"
+        },
+        "lange2022": {
+            "citation": "Richard D. Lange, David S. Rolnick, and Konrad P. Kording. 2022. Clustering units in neural networks: upstream vs downstream information. TMLR (2022).",
+            "github": "https://github.com/wrongu/modularity"
+        },
+        "lu2022": {
+            "citation": "Yao Lu, Wen Yang, Yunzhe Zhang, Zuohui Chen, Jinyin Chen, Qi Xuan, Zhen Wang, and Xiaoniu Yang. 2022.",
+            "github": "https://github.com/yaolu-zjut/Dynamic-Graphs-Construction"
+        },
+        "wang2022": {
+            "citation": "Guangcong Wang, Guangrun Wang, Wenqi Liang, and Jianhuang Lai. 2022. Understanding Weight Similarity of Neural Networks via Chain Normalization Rule and Hypothesis-Training-Testing. ArXiv preprint (2022)."
+        },
+        "ding2021": {
+            "citation": "Frances Ding, Jean-Stanislas Denain, and Jacob Steinhardt. 2021. Grounding Representation Similarity Through Statistical Testing. In NeurIPS.",
+            "github": "https://github.com/js-d/sim_metric"
+        },
+        "shahbazi2021": {
+            "citation": "Mahdiyar Shahbazi, Ali Shirali, Hamid Aghajan, and Hamed Nili. 2021. Using distance on the Riemannian manifold to compare representations in brain and in models. NeuroImage 239 (2021).",
+            "github": "https://github.com/mshahbazi1997/riemRSA"
+        },
+        "schumacher2021": {
+            "citation": "Tobias Schumacher, Hinrikus Wolf, Martin Ritzert, Florian Lemmerich, Martin Grohe, and Markus Strohmaier. 2021. The Effects of Randomness on the Stability of Node Embeddings. In Machine Learning and Principles and Practice of Knowledge Discovery in Databases.",
+            "github": "https://github.com/SGDE2020/embedding_stability"
+        },
+        "williams2021": {
+            "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+            "github": "https://github.com/ahwillia/netrep"
+        },
+        "wang2021": {
+            "citation": "Feng Wang and Huaping Liu. 2021. Understanding the Behaviour of Contrastive Loss. In CVPR."
+        },
+        "hryniowski2020": {
+            "citation": "Andrew Hryniowski and Alexander Wong. 2020. Inter-layer Information Similarity Assessment of Deep Neural Networks Via Topological Similarity and Persistence Analysis of Data Neighbour Dynamics. ArXiv preprint (2020)."
+        },
+        "tang2020": {
+            "citation": "Shuai Tang, Wesley J. Maddox, Charlie Dickens, Tom Diethe, and Andreas Damianou. 2020. Similarity of Neural Networks with Gradients. ArXiv preprint (2020).",
+            "github": "https://github.com/amzn/xfer/tree/master/nn_similarity_index"
+        },
+        "tsitsulin2020": {
+            "citation": "Anton Tsitsulin, Marina Munkhoeva, Davide Mottin, Panagiotis Karras, Alex Bronstein, Ivan Oseledets, and Emmanuel Mueller. 2020. The Shape of Data: Intrinsic Distance for Data Distributions. In ICLR.",
+            "github": "https://github.com/xgfs/imd"
+        },
+        "wang2020": {
+            "citation": "Chenxu Wang, Wei Rao, Wenna Guo, Pinghui Wang, Jun Liu, and Xiaohong Guan. 2020. Towards Understanding the Instability of Network Embedding. IEEE TKDE 34, 2 (2020)."
+        },
+        "kornblith2019": {
+            "citation": "Simon Kornblith, Mohammad Norouzi, Honglak Lee, and Geoffrey E. Hinton. 2019. Similarity of Neural Network Representations Revisited. In ICML."
+        },
+        "may2019": {
+            "citation": "Avner May, Jian Zhang, Tri Dao, and Christopher R\u00e9. 2019. On the Downstream Performance of Compressed Word Embeddings. In NeurIPS."
+        },
+        "morcos2018": {
+            "citation": "Ari S. Morcos, Maithra Raghu, and Samy Bengio. 2018. Insights on representational similarity in neural networks with canonical correlation. In NeurIPS.",
+            "github": "https://github.com/google/svcca"
+        },
+        "khrulkov2018": {
+            "citation": "Valentin Khrulkov and Ivan Oseledets. 2018. Geometry Score: A Method For Comparing Generative Adversarial Networks. In ICML.",
+            "github": "https://github.com/KhrulkovV/geometry-score"
+        },
+        "wang2018": {
+            "citation": "Liwei Wang, Lunjia Hu, Jiayuan Gu, Zhiqiang Hu, Yue Wu, Kun He, and John E. Hopcroft. 2018. Towards Understanding Learning Representations: To What Extent Do Different Neural Networks Learn the Same Representation. In NeurIPS.",
+            "github": "https://github.com/MeckyWu/subspace-match"
+        },
+        "yin2018": {
+            "citation": "Zi Yin and Yuanyuan Shen. 2018. On the Dimensionality of Word Embedding. In NeurIPS.",
+            "github": "https://github.com/ziyin-dl/word-embedding-dimensionality-selection"
+        },
+        "raghu2017": {
+            "citation": "Maithra Raghu, Justin Gilmer, Jason Yosinski, and Jascha Sohl-Dickstein. 2017. SVCCA: Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics and Interpretability. In NeurIPS."
+        },
+        "camastra2016": {
+            "citation": "Francesco Camastra and Antonino Staiano. 2016. Intrinsic dimension estimation: Advances and open problems. Information Sciences 328 (2016)."
+        },
+        "hamilton2016b": {
+            "citation": "William L. Hamilton, Jure Leskovec, and Dan Jurafsky. 2016. Cultural Shift or Linguistic Drift? Comparing Two Computational Measures of Semantic Change. In EMNLP."
+        },
+        "hamilton2016a": {
+            "citation": "William L. Hamilton, Jure Leskovec, and Dan Jurafsky. 2016. Diachronic Word Embeddings Reveal Statistical Laws of Semantic Change. In ACL.",
+            "github": "https://github.com/williamleif/histwords"
+        },
+        "li2016": {
+            "citation": "Yixuan Li, Jason Yosinski, Jeff Clune, Hod Lipson, and John E. Hopcroft. 2016. Convergent Learning: Do different neural networks learn the same representations?. In ICLR.",
+            "github": "https://github.com/yixuanli/convergent_learning"
+        },
+        "kriegeskorte2008": {
+            "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+            "github": "https://github.com/rsagroup/rsatoolbox"
+        },
+        "szekely2007": {
+            "citation": "G\u00e1bor J. Sz\u00e9kely, Maria L. Rizzo, and Nail K. Bakirov. 2007. Measuring and testing dependence by correlation of distances. The Annals of Statistics 35, 6 (2007)."
+        },
+        "yanai1974": {
+            "citation": "Haruo Yanai. 1974. Unification of Various Techniques of Multivariate Analysis by Means of Generalized Coefficient of Determination. Kodo Keiryogaku (The Japanese Journal of Behaviormetrics) 1 (1974)."
+        }
+    }
+}
