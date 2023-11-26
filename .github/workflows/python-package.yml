@@ -11,7 +11,6 @@ on:
 
 jobs:
   build_api:
-    
     runs-on: ubuntu-latest
 
     steps:
@@ -29,7 +28,7 @@ jobs:
         python build.py
 
   build:
-
+    needs: build_api
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
