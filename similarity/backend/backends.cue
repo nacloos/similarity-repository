@@ -11,33 +11,40 @@ import(
     scipy       "github.com/similarity/backend/scipy:backend"
     sim_metric  "github.com/similarity/backend/sim_metric:backend"
     svcca       "github.com/similarity/backend/svcca:backend"
+    imd         "github.com/similarity/backend/imd:backend"
+    subspacematch "github.com/similarity/backend/subspacematch:backend"
 )
 
 #backends: [string]: _  // schema
 #backends: {
     // will validate the backends
-    "netrep": netrep
-    "brainscore": brainscore
-    "yuanli2333": yuanli2333
-    "rsatoolbox": rsatoolbox
-    "scipy": scipy
-    "sim_metric": sim_metric
-    "svcca": svcca
+    "netrep":           netrep
+    "brainscore":       brainscore
+    "yuanli2333":       yuanli2333
+    "rsatoolbox":       rsatoolbox
+    "scipy":            scipy
+    "sim_metric":       sim_metric
+    "svcca":            svcca
+    "imd":              imd
+    "subspacematch":    subspacematch
 }
 
 // default backend choice for each metric
 // id instead of name? e.g. _default_backend: [#MetricId]: #BackendId  // TODO?
 #default_backend: [#MetricName]: #BackendName  // schema
 #default_backend: {
-    procrustes: "netrep"
-    cca: "netrep"
-    svcca: "netrep"
-    pwcca: "sim_metric"
-    cca_mean_sq_corr: "sim_metric"
-    cka: "yuanli2333"
-    rsa: "rsatoolbox"
-    linear_regression: "brainscore"
-    pls: "svcca"
+    procrustes:         "netrep"
+    cca:                "netrep"
+    svcca:              "netrep"
+    permutation:         "netrep"
+    pwcca:              "sim_metric"
+    cca_mean_sq_corr:   "sim_metric"
+    cka:                "yuanli2333"
+    rsa:                "rsatoolbox"
+    linear_regression:  "brainscore"
+    pls:                "svcca"
+    imd:                "imd"
+    max_match:          "subspacematch"
 }
 // TODO: extract names from type #MetricName?
 // used in metric.cue to create the metric fields

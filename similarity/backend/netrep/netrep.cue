@@ -12,7 +12,7 @@ metric: {
         // ]
     }
 
-    [("procrustes" | "cca" | "cka")]: {
+    [("procrustes" | "cca" | "cka" | "permutation")]: {
         #preprocessing: [
             #reshape2d
         ]
@@ -27,6 +27,7 @@ metric: {
             #pca & {n_components: 0.95}
         ]
     }
+    permutation: metrics.#PermutationMetric
     // bug in netrep LinearCKA: "NameError: name 'angular_distance' is not defined"
     // cka: metrics.#LinearCKA & {
     //     // netrep LinearCKA doesn't have a fit_score method

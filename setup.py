@@ -28,6 +28,10 @@ brainscore_requires = [
     "psycopg2-binary"
 ]
 
+imd_requires = [
+    "msid @ git+https://github.com/xgfs/imd.git"
+]
+
 # https://github.com/KhrulkovV/geometry-score
 gs_requires = [
     "gs @ git+https://github.com/KhrulkovV/geometry-score.git",

@@ -22,7 +22,10 @@ import(
     "cka", 
     "rsa", 
     "linear_regression",
-    "pls"
+    "pls",
+    "permutation",
+    "imd",
+    "max_match"
 ]
 // #metric_names: [for k, _ in metric_cards.cards { k }]
 #MetricName: or(#metric_names)
