@@ -21,7 +21,8 @@ import(
     "svcca", 
     "cka", 
     "rsa", 
-    "linear_regression"
+    "linear_regression",
+    "pls"
 ]
 // #metric_names: [for k, _ in metric_cards.cards { k }]
 #MetricName: or(#metric_names)

@@ -67,6 +67,9 @@ import(
     // fit_score interface
     // #fit_score_inputs: [string, string] | *["X", "Y"]
     #fit_score_inputs: #ModKeys | *["X", "Y"]
+    // TODO: problem with output keys [["mean", 0], "score"] if use #ModKeys
+    // #fit_score_outputs: #ModKeys | *["score"]
+    #fit_score_outputs: [...] | *["score"]
     
     // TODO: allow it to be overwritten?
     if self.#call_key == null {
@@ -146,8 +149,7 @@ import(
                 }
                 // use partial because target is a function here
                 #partial: true
-                // TODO: okay to use generic term "score" even though the output might be a distance?
-                #out_keys: ["score"]
+                #out_keys: self.#fit_score_outputs
             },
             // postprocessing steps
             for p in #postprocessing {

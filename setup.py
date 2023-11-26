@@ -23,7 +23,8 @@ brainscore_requires = [
     "jupyter",
     "pybtex",
     "peewee",
-    "pillow<9.0.0",
+    # "pillow<9.0.0",  # TODO: "AttributeError: module 'PIL' has no attribute 'Image'" when calling plt.savefig with old version of PIL
+    "pillow",
     "psycopg2-binary"
 ]
 

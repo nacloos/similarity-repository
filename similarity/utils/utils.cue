@@ -2,13 +2,18 @@ package utils
 
 
 // #ModKeys: [...string] | {[string]: string | null}
-#ModKeys: [...(string | [string, string | null])]
+// e.g. key=["mean", 0] <=> data["mean"][0]
+// #Key: string | [...(string | int)]  // TODO: not working for [["mean", 0], "score"]
+// #ModKeys: [...(#Key | [#Key, #Key | null])]
+// #ModKeys: [...(string | [string, string | null])]
+#ModKeys: [...]  // TODO: temp
 
 #target: {
     #path: string
     #partial: bool | *false
     #recursive: bool | *true
-    #convert: *null | "object" | "all" | "partial"
+    // #convert: *null | "object" | "all" | "partial"
+    #convert: *"all" | "object"  | "partial" | null
 
     // list of keys or dict of key mappings (e.g. {"a": "b"} corresponds to 'target(a=data["b"])')
     // if in_keys and out_keys are given, use DictModule

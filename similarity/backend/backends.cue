@@ -10,6 +10,7 @@ import(
     rsatoolbox  "github.com/similarity/backend/rsatoolbox:backend"
     scipy       "github.com/similarity/backend/scipy:backend"
     sim_metric  "github.com/similarity/backend/sim_metric:backend"
+    svcca       "github.com/similarity/backend/svcca:backend"
 )
 
 #backends: [string]: _  // schema
@@ -21,6 +22,7 @@ import(
     "rsatoolbox": rsatoolbox
     "scipy": scipy
     "sim_metric": sim_metric
+    "svcca": svcca
 }
 
 // default backend choice for each metric
@@ -35,6 +37,7 @@ import(
     cka: "yuanli2333"
     rsa: "rsatoolbox"
     linear_regression: "brainscore"
+    pls: "svcca"
 }
 // TODO: extract names from type #MetricName?
 // used in metric.cue to create the metric fields

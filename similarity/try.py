@@ -147,6 +147,6 @@ def try_benchmark():
 
 if __name__ == "__main__":
     # papers_with_code()
-    try_metrics()
+    # try_metrics()
     try_backend_consistency()
     # try_benchmark()
