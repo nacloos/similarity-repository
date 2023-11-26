@@ -7,7 +7,7 @@ import similarity
 
 names = similarity.make(package="backend:backends", key="metric_names")
 
-metrics = [similarity.make(f"metric/{name}") for name in names]
+metrics = [similarity.make(f"metric.{name}") for name in names]
 seeds = np.arange(10)
 test_inputs = [
     (metric, seed) for metric in metrics for seed in seeds
@@ -23,19 +23,36 @@ def generate_data():
     return X, Y
 
 
-def test_metrics():
-    for name in names:
-        # metric = similarity.make(f"metric/{name}")
-        metric = similarity.make(package="metric", key=name)
+def generate_3d_data():
+    X = np.random.randn(100, 5, 30)
+    Y = np.random.randn(100, 5, 30)
+    return X, Y
 
-        X, Y = generate_data()
-        score = metric.fit_score(X=X, Y=Y)
-        assert isinstance(score, float)
+@pytest.mark.parametrize(["metric"], [(metric,) for metric in metrics])
+def test_metrics(metric):
+    X, Y = generate_data()
+    score = metric.fit_score(X=X, Y=Y)
+    assert isinstance(score, float)
 
-        X = np.random.randn(100, 5, 30)
-        Y = np.random.randn(100, 5, 30)
-        score = metric.fit_score(X=X, Y=Y)
-        assert isinstance(score, float)
+    # for name in names:
+    #     # metric = similarity.make(f"metric/{name}")
+    #     metric = similarity.make(package="metric", key=name)
+
+    #     X, Y = generate_data()
+    #     score = metric.fit_score(X=X, Y=Y)
+    #     assert isinstance(score, float)
+
+    #     X = np.random.randn(100, 5, 30)
+    #     Y = np.random.randn(100, 5, 30)
+    #     score = metric.fit_score(X=X, Y=Y)
+    #     assert isinstance(score, float)
+
+
+@pytest.mark.parametrize(["metric"], [(metric,) for metric in metrics])
+def test_metrics_3d_data(metric):
+    X, Y = generate_3d_data()
+    score = metric.fit_score(X=X, Y=Y)
+    assert isinstance(score, float)
 
 
 def test_backends():
@@ -44,10 +61,7 @@ def test_backends():
     X, Y = generate_data()
     for metric_name, backends in backend_by_metric.items():
         for backend_name in backends:
-            metric = similarity.make(
-                package="backend:backends",
-                key=f"backends.{backend_name}.metric.{metric_name}"
-            )
+            metric = similarity.make(f"backend.{backend_name}.metric.{metric_name}")
             assert isinstance(metric, similarity.Metric), f"Expected type Metric, got '{metric}'"
             score = metric.fit_score(X, Y)
             assert isinstance(score, float)

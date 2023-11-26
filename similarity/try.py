@@ -51,7 +51,7 @@ def try_metrics():
     for name in metric_names:
         print("Metric:", name)
         tic = perf_counter()
-        metric = similarity.make(package="metric", key=name)
+        metric = similarity.make(f"metric.{name}")
         print("Time:", perf_counter() - tic)
         print(metric)
 
@@ -87,10 +87,11 @@ def backend_consistency_matrix(backend_by_metric, X, Y):
         # Store backend results in a dictionary
         backend_results = {}
         for i, backend_name in enumerate(backends):
-            metric = similarity.make(
-                package="backend:backends",
-                key=f"backends.{backend_name}.metric.{metric_name}"
-            )
+            # metric = similarity.make(
+            #     package="backend:backends",
+            #     key=f"backends.{backend_name}.metric.{metric_name}"
+            # )
+            metric = similarity.make(f"backend.{backend_name}.metric.{metric_name}")
             result = metric.fit_score(X, Y)
             backend_results[backend_name] = result
 
@@ -117,11 +118,12 @@ def try_backend_consistency():
     for metric_name, backends in backend_by_metric.items():
         metric_results = {}
         for backend_name in backends:
-            metric = similarity.make(
-                # TODO: simplify?
-                package="backend:backends",
-                key=f"backends.{backend_name}.metric.{metric_name}"
-            )
+            # metric = similarity.make(
+            #     # TODO: simplify?
+            #     package="backend:backends",
+            #     key=f"backends.{backend_name}.metric.{metric_name}"
+            # )
+            metric = similarity.make(f"backend.{backend_name}.metric.{metric_name}")
             assert isinstance(metric, similarity.Metric), f"Expected type Metric, got '{metric}'"
             res = metric.fit_score(X, Y)
             metric_results[backend_name] = res
@@ -145,6 +147,6 @@ def try_benchmark():
 
 if __name__ == "__main__":
     # papers_with_code()
-    # try_metrics()
+    try_metrics()
     try_backend_consistency()
     # try_benchmark()

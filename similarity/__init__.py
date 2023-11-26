@@ -26,7 +26,7 @@ cached_configs = {}
 # but if use a single id arg, then can have autocomplete 
 # e.g. automatically generate a Literal type for all the possible ids 
 # or use a separate make function for each package (e.g. make_metric)
-def make(id=None, package: PackageId = None, key=None, use_cache=True, **kwargs) -> Metric:
+def make(key, package: PackageId = "api", use_cache=True, **kwargs) -> Metric:
     """
     Instantiate a python object from a config file.
     Args:
@@ -50,7 +50,7 @@ def make(id=None, package: PackageId = None, key=None, use_cache=True, **kwargs)
 
     # use cached config
     return config_utils.make(
-        id=id,
+        id=None,
         package=package,
         key=key,
         config_dir=CONFIG_DIR,

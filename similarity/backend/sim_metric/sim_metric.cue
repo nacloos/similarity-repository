@@ -15,6 +15,7 @@ _utils_path: "similarity.backend.sim_metric.utils"
 metric: {
     [string]: #Metric & {
         #preprocessing: [
+            #reshape2d,
             // sim_metric scoring functions expect representations to be in shape (neuron, sample)
             // but similarity.Metric expects (sample, neuron)
             // processing.#transpose

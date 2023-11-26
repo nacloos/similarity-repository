@@ -18,10 +18,9 @@ def flatten_3d_to_2d(X, Y):
             X = X.reshape(X.shape[0] * X.shape[1], X.shape[2])
             return X
         elif len(X.shape) == 2:
-            return X.transpose((1, 0))  # convert to trials * steps
+            return X
         else:
             raise ValueError("shape of X should be 2 or 3, but found {}".format(len(X.shape)))
-
     return _flatten(X), _flatten(Y)
 
 
