@@ -12,16 +12,13 @@ import similarity
 # metric.fit_distance()
 # netrep: call method score even though it outputs a distance...
 
-
-# TODO: how to get all the backends in one config?
-# test = similarity.make("metric/glob")
-# print(test)
-
-
-print("api")
-metric = similarity.make(package="api", key="backend.netrep.metric.procrustes")
+print(similarity.make("metric"))
+input()
+metric = similarity.make("backend.netrep.metric.procrustes")
 print(metric)
-print(similarity.make(package="api", key="metric.procrustes"))
+# TODO: print(metric.fit_score)
+print(metric._fit_score)
+# print(similarity.make(package="api", key="metric.procrustes"))
 
 print("Metric names:")
 metric_names = similarity.make(package="backend:backends", key="metric_names")

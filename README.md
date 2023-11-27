@@ -29,6 +29,54 @@ import similarity
 metric = similarity.make("cca")
 ```
 
+## Standardized metric interface
+### How do I create a metric?
+```python
+import similarity
+metric = similarity.make(metric_id)
+```
+But what is that metric id thing?
+
+### What can I do with a metric?
+Just `print(metric)` and you will get a description of what you can do.
+
+```python
+print(metric)
+# TODO: add example output
+
+metric.fit(X, Y)
+metric.score(X, Y) -> float
+     # rationale: it can be useful to fit and evaluate on different data for example, when using cross-validation
+metric.fit_score(X: np.ndarray[sample, neuron], Y: np.ndarray[sample, neuron]) -> float
+    # rationale: a quick way to fit and evaluate the metric on the same data
+```
+
+If you want a more in-depth description, you can print each method individually:
+```python
+print(metric.fit_score)
+
+```
+
+
+
+### Why this particular interface?
+sklearn
+
+### How can I change the interface?
+If you want to change it for your own usage, just specify the interface you want when creating the metric. 
+```python
+metric = similarity.make(
+    metric_id, 
+    interface={
+        "fit_score": "__call__"  # metric can now be used as a function
+    }
+)
+...
+score = metric(X, Y)
+```
+
+If you want to suggest modifications to the standard interface, please open an issue.
+
 ## Organization of the repository
 
 ## Why use CUE instead of plain python?
@@ -57,6 +105,18 @@ Add a new line in the import statement:
 {backend_id} "github.com/similarity/backend/{backend_folder}:backend"
 ```
 Add an entry to `#backends`
+
+Checklist:
+* is your metric importable from a python package?
+  * yes: add the package is a requirement
+  * no: add the code to the backend folder
+* is the metric implemented as a class or a function?
+* what are the expected arguments? Data type and shape?
+  * what transformation is need to go from the standard input to the backend input? See the [Metric interface](#standardized-metric-interface).
+  * if just need to rename the inputs, use #fit_score_inputs
+  * if need to transform the inputs, use #preprocessing
+
+
 
 ### Adding a new benchmark
 Either copy paste code
