@@ -5,7 +5,7 @@ from scipy.stats import ortho_group
 import similarity
 
 
-names = similarity.make(package="backend:backends", key="metric_names")
+names = similarity.make("metric").keys()
 
 metrics = [similarity.make(f"metric.{name}") for name in names]
 seeds = np.arange(10)
