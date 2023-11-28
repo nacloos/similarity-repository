@@ -6,28 +6,29 @@ import(
     "github.com/similarity/utils"
     "github.com/similarity/processing"
     // TODO: if user different card package in metric, then cannot just do similarity.make(package="metric", ...)
-    // metric_cards "github.com/similarity/metric:card"
+    metric_cards "github.com/similarity/metric:card"
 )
 #target: utils.#target
 #Metric: similarity.#Metric
 // #MetricName: similarity.#MetricName
 
 // TODO: get metric names from cards (but can't import metric here because of cyclic import)
-#metric_names: [
-    "procrustes", 
-    "cca", 
-    "cca_mean_sq_corr",
-    "pwcca",
-    "svcca", 
-    "cka", 
-    "rsa", 
-    "linear_regression",
-    "pls",
-    "permutation",
-    "imd",
-    "max_match"
-]
-// #metric_names: [for k, _ in metric_cards.cards { k }]
+// #metric_names: [
+//     "procrustes", 
+//     "cca", 
+//     "cca_mean_sq_corr",
+//     "pwcca",
+//     "svcca", 
+//     "cka", 
+//     "rsa", 
+//     "linear_regression",
+//     "pls",
+//     "permutation",
+//     "imd",
+//     "max_match"
+// ]
+#metric_names: [for k, _ in metric_cards.cards { k }]
+
 #MetricName: or(#metric_names)
 
 #Card: {
@@ -58,31 +59,26 @@ metric: close({
 #angular_dist_to_score: processing.#angular_dist_to_score
 #pca: processing.#pca
 
-// #MetricBackend: {
-//     [similarity.#MetricName]: { ... }
+
+// #TensorTensor: {}
+
+// #Float: #target & {
+//     #path: "jaxtyping.Float"
 // }
+// #Array: #target & {
+//     #path: "jaxtyping.Array"
+//     // jaxtyping
+//     dtype: _ | *#Float
+//     shape: [...string]
 
-// metric: #MetricBackend
-
-// TODO: enforce metric names
-// metric: [similarity.#MetricName]: { ... }
-
-// metric: [metric_name=string]: {
-//     #assert: metric_name & similarity.#MetricName
-//     ...
+//     "_out_": {
+//         // TODO: construct jaxtyping type
+//         type: "\(dtype)[Array, \(shape)]"
+//     }
 // }
-
-// metric: {
-//     hello: {...}
+// #TorchTensor: #target & {
+//     #path: "torch.Tensor"
 // }
-
-
-// x: close({a: 10})
-// x: b: 1
-
-
-// TODO: not raise any error...
-// metric: close({
-//     [name=("cca" | "cka")]: { ... }
-// })
-
+// #NumpyArray: #target & {
+//     #path: "numpy.ndarray"
+// }

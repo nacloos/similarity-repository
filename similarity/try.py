@@ -12,17 +12,6 @@ import similarity
 # metric.fit_distance()
 # netrep: call method score even though it outputs a distance...
 
-print(similarity.make("metric"))
-input()
-metric = similarity.make("backend.netrep.metric.procrustes")
-print(metric)
-# TODO: print(metric.fit_score)
-print(metric._fit_score)
-# print(similarity.make(package="api", key="metric.procrustes"))
-
-print("Metric names:")
-metric_names = similarity.make(package="backend:backends", key="metric_names")
-print(metric_names)
 
 
 def papers_with_code():
@@ -106,7 +95,10 @@ def backend_consistency_matrix(backend_by_metric, X, Y):
 
 
 def try_backend_consistency():
-    backend_by_metric = similarity.make(package="backend:backends", key="backend_by_metric")
+    backend_by_metric = {
+        k: v["backends"]
+        for k, v in similarity.make("metric", return_config=True).items()
+    }
 
     backend_consistency_matrix(backend_by_metric, *generate_data())
 

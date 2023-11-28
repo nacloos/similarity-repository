@@ -2,7 +2,18 @@ package backend
 
 
 #rdm_method: string
-#compare_method: string
+#compare_method: 
+    "cosine" |
+    "spearman" |
+    "corr" |
+    "kendall" |
+    "tau-b" |
+    "tau-a" |
+    "rho-a" |
+    "corr_cov" |
+    "cosine_cov" |
+    "neg_riem_dist"
+
 
 // TODO: all the variations of rsa?
 metric: {

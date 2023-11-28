@@ -36,7 +36,7 @@ import(
     procrustes:         "netrep"
     cca:                "netrep"
     svcca:              "netrep"
-    permutation:         "netrep"
+    permutation:        "netrep"
     pwcca:              "sim_metric"
     cca_mean_sq_corr:   "sim_metric"
     cka:                "yuanli2333"
@@ -46,17 +46,15 @@ import(
     imd:                "imd"
     max_match:          "subspacematch"
 }
-// TODO: extract names from type #MetricName?
-// used in metric.cue to create the metric fields
 
-
+// all the metrics that have a card
 #metric_names: backend.#metric_names
+
 #MetricName: backend.#MetricName
-// #MetricName: similarity.#MetricName
-// #BackendName: similarity.#BackendName
 #BackendName: or([for id, _ in #backends { id }])
 
 cards: {
+    // backend cards
     for id, backend in #backends {
         (id): {
             backend.card

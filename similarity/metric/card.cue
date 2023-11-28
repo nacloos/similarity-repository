@@ -1,4 +1,4 @@
-package metric
+package card
 
 #MetricCard: {
     name: string
@@ -14,13 +14,21 @@ package metric
 // TODO?: categories: ["cca", "alignment", "rsm", "neighbors, ...]
 // useful for filering (e.g. backend table only for alignement and cca mertrics)
 
+// describe metrics independently of any implementation
 cards: [string]: #MetricCard
 cards: {
+    permutation: {
+        name: "Permutation"
+    }
+
     // canonical correlation analysis
     cca: {  // TODO: call it cca or mean_cca?
         // TODO: the survey has two rows for mean cc, ok to merge them here?
         name: "Mean Canonical Correlation"
         paper: [papers.yanai1974, papers.raghu2017, papers.kornblith2019]
+    }
+    cca_mean_sq_corr: {
+        name: "Mean Squared Canonical Correlation"
     }
     svcca: {
         name: "Singular Vector Canonical Correlation Analysis"

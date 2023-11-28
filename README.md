@@ -75,6 +75,17 @@ metric = similarity.make(
 score = metric(X, Y)
 ```
 
+If you want to have your own custom metric creator, you can leverage python functools' `partial` function:
+```python
+from functools import partial
+
+make_metric = partial(similarity.make, interface={"fit_score": "__call__"})
+metric = make_metric(metric_id)
+...
+score = metric(X, Y)
+```
+
+
 If you want to suggest modifications to the standard interface, please open an issue.
 
 ## Organization of the repository
