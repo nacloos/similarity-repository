@@ -10,7 +10,7 @@ metric: {
             #target & {
                 #path: "similarity.processing.transpose"
                 #partial: true
-            }  
+            }
         ]
     }
     cca: {

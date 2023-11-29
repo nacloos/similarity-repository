@@ -32,15 +32,32 @@ import(
 // default backend choice for each metric
 // id instead of name? e.g. _default_backend: [#MetricId]: #BackendId  // TODO?
 #default_backend: [#MetricName]: #BackendName  // schema
+// TODO: if a backend is the only one that supports a metric, then it should be the default backend for that metric
 #default_backend: {
     procrustes:         "netrep"
     cca:                "netrep"
     svcca:              "netrep"
+    "svcca-var95":      "netrep"
+    "svcca-var99":      "netrep"
     permutation:        "netrep"
+
+    for id, _ in netrep.metric {
+        (id): "netrep"
+    }
+
     pwcca:              "sim_metric"
     cca_mean_sq_corr:   "sim_metric"
     cka:                "yuanli2333"
-    rsa:                "rsatoolbox"
+
+    // TODO
+    // rsa:                "rsatoolbox"
+    // [string & =~ "^rsa.*"]: "rsatoolbox"
+    
+    // all the metrics in rsatoolbox that starts with rsa
+    for id, _ in rsatoolbox.metric if id =~ "^rsa.*"{
+        (id): "rsatoolbox"
+    }
+
     linear_regression:  "brainscore"
     pls:                "svcca"
     imd:                "imd"

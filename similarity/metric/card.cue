@@ -1,9 +1,18 @@
 package card
+import(
+    "strings"
+    "github.com/similarity/utils"
+)
+
 
 #MetricCard: {
     name: string
     paper?: #Paper | [...#Paper]
     invariance?: [...#GroupTransformation]
+    // only string because used to generate metric id (TODO: allow number and convert to string?)
+    parameters?: [string]: [...string]
+    defaults?: _
+    naming?: string
 }
 
 #Paper: {
@@ -14,13 +23,41 @@ package card
 // TODO?: categories: ["cca", "alignment", "rsm", "neighbors, ...]
 // useful for filering (e.g. backend table only for alignement and cca mertrics)
 
+
+cards: {
+    for key, card in _cards {
+        if card.parameters == _|_ { (key): card }
+        if card.parameters != _|_ {
+            for p in (utils.#Cartesian & {inp: card.parameters}).out {
+                let metric_name = key + "-" + strings.Join(p, "-")
+                (metric_name): card
+            }
+            // TODO: default params
+            (key): card
+        }
+    }
+}
+
 // describe metrics independently of any implementation
 cards: [string]: #MetricCard
-cards: {
+_cards: {
+    ...
+    // TODO: scoring_method?
     permutation: {
         name: "Permutation"
+        // TODO: order of the parameters? => user naming
+        parameters: {
+            score_method: ["euclidean", "angular"]
+        }
+        // TODO: cue to generate names?
+        naming: "score_method"
     }
-
+    // for score_method in ["euclidean", "angular"] {
+    //     ("permutation-" + score_method): {
+    //         name: "Permutation distance-\(score_method)"
+    //     }
+    // }
+ 
     // canonical correlation analysis
     cca: {  // TODO: call it cca or mean_cca?
         // TODO: the survey has two rows for mean cc, ok to merge them here?
@@ -30,9 +67,14 @@ cards: {
     cca_mean_sq_corr: {
         name: "Mean Squared Canonical Correlation"
     }
+
+    // TODO
     svcca: {
         name: "Singular Vector Canonical Correlation Analysis"
         paper: papers.raghu2017
+        parameters: {
+            variance_fraction: ["var95", "var99"]
+        }
     }
     pwcca: {
         name: "Projection-Weighted Canonical Correlation Analysis"
@@ -47,6 +89,10 @@ cards: {
     angular_shape_metric: {
         name: "Angular Shape Metric"
         paper: papers.williams2021
+        // TODO: alpha=0 equivalant to cca, alpha=1 to procrustes
+        parameters: {
+            alpha: ["alpha0", "alpha0.5", "alpha1"]
+        }
     }
     partial_whitening_shape_metric: {
         name: "Partial-Whitening Shape Metric"
@@ -79,10 +125,40 @@ cards: {
         name: "Representational Similarity Matrix Norms"
         paper: [papers.shahbazi2021, papers.yin2018]
     }
+
     rsa: {
         name: "Representational Similarity Analysis"
         paper: papers.kriegeskorte2008
-    }
+        parameters: {
+            rdm_method: [
+                "euclidean",
+                "correlation",
+                "mahalanobis",
+                "crossnobis",
+                "poisson",
+                "poisson_cv"
+            ]
+            compare_method: [
+                "cosine",
+                "spearman",
+                "corr",
+                "kendall",
+                "tau_b",
+                "tau_a",
+                "rho_a",
+                "corr_cov",
+                "cosine_cov",
+                "neg_riem_dist"
+            ]
+        }
+        // TODO: provide defaults for "rsa"
+        defaults: {
+            rdm_method: "euclidean"
+            compare_method: "cosine"
+        }
+        // naming: "rsa-{rdm_method}-{compare_method}"
+    }    
+
     cka: {
         name: "Centered Kernel Alignment"
         paper: papers.kornblith2019

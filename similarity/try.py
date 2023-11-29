@@ -100,13 +100,15 @@ def try_backend_consistency():
         for k, v in similarity.make("metric", return_config=True).items()
     }
 
-    backend_consistency_matrix(backend_by_metric, *generate_data())
+    # backend_consistency_matrix(backend_by_metric, *generate_data())
 
     # TODO: X.shape[1] > 25 for brainscore pls (number of components)
     X, Y = generate_data()
     for metric_name, backends in backend_by_metric.items():
         metric_results = {}
+        print("Metric:", metric_name)
         for backend_name in backends:
+            print("Backend:", backend_name)
             # metric = similarity.make(
             #     # TODO: simplify?
             #     package="backend:backends",
@@ -116,7 +118,6 @@ def try_backend_consistency():
             assert isinstance(metric, similarity.Metric), f"Expected type Metric, got '{metric}'"
             res = metric.fit_score(X, Y)
             metric_results[backend_name] = res
-        print("Metric:", metric_name)
         print(metric_results)
         print("---------------")
 

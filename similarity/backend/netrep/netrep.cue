@@ -1,5 +1,6 @@
 package backend
 import(
+    // TODO: might be confusing to use that now
     "github.com/netrep/metrics"
 )
 
@@ -27,7 +28,21 @@ metric: {
             #pca & {n_components: 0.95}
         ]
     }
+    "svcca-var95": svcca
+    "svcca-var99": metrics.#LinearMetric & {
+        alpha: 0
+        #preprocessing: [
+            #reshape2d, 
+            #pca & {n_components: 0.99}
+        ]
+    }
+    
     permutation: metrics.#PermutationMetric
+    for score_method in ["euclidean", "angular"] {
+        ("permutation-" + score_method): metrics.#PermutationMetric & {
+            "score_method": score_method
+        }
+    }
     // bug in netrep LinearCKA: "NameError: name 'angular_distance' is not defined"
     // cka: metrics.#LinearCKA & {
     //     // netrep LinearCKA doesn't have a fit_score method

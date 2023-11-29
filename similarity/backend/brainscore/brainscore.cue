@@ -40,7 +40,8 @@ metric: {
         #path: "\(_brainscore_path).metrics.cka.CKAMetric"
         #fit_score_inputs: [["X", "assembly1"], ["Y", "assembly2"]]
     }
-    // rsa: {...}
+    // inferred from the code
+    // "rsa-correlation-spearman": {...}
 }
 
 
