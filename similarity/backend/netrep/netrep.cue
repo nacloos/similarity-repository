@@ -36,10 +36,10 @@ metric: {
             #pca & {n_components: 0.99}
         ]
     }
-    
+
     permutation: metrics.#PermutationMetric
     for score_method in ["euclidean", "angular"] {
-        ("permutation-" + score_method): metrics.#PermutationMetric & {
+        ("permutation-" + score_method): permutation & {
             "score_method": score_method
         }
     }
