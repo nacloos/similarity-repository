@@ -42,18 +42,18 @@ requirements = {
         "msid @ git+https://github.com/xgfs/imd.git"
     ],
     # https://github.com/KhrulkovV/geometry-score
-    "gs": [
-        "gs @ git+https://github.com/KhrulkovV/geometry-score.git",
-        "gudhi"
-    ],
+    # "gs": [
+    #     "gs @ git+https://github.com/KhrulkovV/geometry-score.git",
+    #     "gudhi"
+    # ],
     # https://github.com/IlyaTrofimov/RTD/blob/38b9239c7e228c9ff70e0f8b3719efce0823cd05/README.md#installation
-    "rtd": [
-        'rtd @ git+https://github.com/IlyaTrofimov/RTD',
-        # TODO: requires cmake (doesn't work with latest cmake), CUDA, gcc (make the installation optional?)
-        # TODO: didn't manage to install it on windows (use dockerfile?)
-        'risperplusplus @ git+https://github.com/simonzhang00/ripser-plusplus',
-        'torch',
-    ]
+    # "rtd": [
+    #     'rtd @ git+https://github.com/IlyaTrofimov/RTD',
+    #     # TODO: requires cmake (doesn't work with latest cmake), CUDA, gcc (make the installation optional?)
+    #     # TODO: didn't manage to install it on windows (use dockerfile?)
+    #     'risperplusplus @ git+https://github.com/simonzhang00/ripser-plusplus',
+    #     'torch',
+    # ]
 }
 
 
