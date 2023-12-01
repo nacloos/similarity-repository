@@ -11,42 +11,73 @@ The goal of this repository is to gather **existing**  implementations of simila
 
 
 ## Installation
-
- ```
- pip clone https://github.com/nacloos/similarity-measures.git
- cd similarity-measures
- pip install -e .
- ```
-
-TODO: does it work?
+The python package can be installed with the following command:
 ```
 pip install git+https://github.com/nacloos/similarity-measures.git
 ```
+Or alternatively, you can clone the repository and run `pip install -e .` inside it.
 
 ## Usage
 
+### Getting Started
+Each measure is identified by a unique id (listed [here](similarity/api/__init__.py)).
+Follow a naming convention
+
 
 ```python
+import similarity
+
+# generate some random data
 X, Y = np.random.randn(100, 30), np.random.randn(100, 30)
 
 # make a particular measure
 measure = similarity.make("measure.procrustes")
 score = measure.fit_score(X, Y)
-
-# make all the available measures
-measures = similarity.make("measure")
-for measure in measures:
-    score = measure.fit_score(X, Y)
 ```
+
+You can also easily loop through all the available measures.
+```python	
+# returns a dictionary with all the measures
+measures = similarity.make("measure")
+for name, measure in measures.items():
+    score = measure.fit_score(X, Y)
+    print(f"{name}: {score}")
+```
+
+
+### Backend Specific Measure
+TODO: explain default backend and default parameters
+
+
+Accessing a measure for a specific backend:
+```python
+# replace {backend_name} and {metric_name} by the backend and metric names
+similarity.make("backend.{backend_name}.metric.{metric_name}")
+```
+
+
+### Common Default Interface
+All the measures have a common default interface
+Follow the sklean convention.
+
+Two input arraws X, Y of shape sample x neuron.
+
+```python
+Measure:
+    fit(X, Y)
+    score(X, Y) -> float
+    fit_score(X: np.ndarray[sample, neuron], Y: np.ndarray[sample, neuron]) -> float
+
+```
+Separating `fit` and `score` allows to fit and evaluate the measure on different datasets (e.g. to do cross-validation). `fit_score` provides a quick way to do both on the same data.
+
+
+### Customized Interface
+
 
 
 ## Standardized metric interface
-### How do I create a metric?
-```python
-import similarity
-metric = similarity.make(metric_id)
-```
-But what is that metric id thing?
+
 
 ### What can I do with a metric?
 Just `print(metric)` and you will get a description of what you can do.
@@ -100,6 +131,11 @@ score = metric(X, Y)
 If you want to suggest modifications to the standard interface, please open an issue.
 
 ## Organization of the repository
+Here is an overview of the files and directories:
+* [similarity/backend](similarity/backend): all the backend folders
+* [similarity/measure](similarity/measure): measure cards
+* [similarity/processing](similarity/processing): pre- and post-processing functions
+* [similarity/api](similarity/api) contains a config file [api.cue](similarity/api/api.cue) that specifies the public api. It also contains a dictionary [api.json](similarity/api/api.json) with all the compiled configs. The `id` argument in `similarity.make` refers to a path in this dictionary, and the corresponding value is used to instantiate the python object returned by the make function.
 
 ## Why use CUE instead of plain python?
 Can easily generate a json config describing the config
@@ -144,10 +180,10 @@ Checklist:
 
 
 
-### Adding a new benchmark
+<!-- ### Adding a new benchmark
 Either copy paste code
 * link to commit from which the code was copied
-or put the code in a python package and link to it
+or put the code in a python package and link to it -->
 
 
 ### Adding an new implementation of an existing metric
