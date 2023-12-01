@@ -25,11 +25,20 @@ pip install git+https://github.com/nacloos/similarity-measures.git
 
 ## Usage
 
-```python
-import similarity
 
-metric = similarity.make("cca")
+```python
+X, Y = np.random.randn(100, 30), np.random.randn(100, 30)
+
+# make a particular measure
+measure = similarity.make("measure.procrustes")
+score = measure.fit_score(X, Y)
+
+# make all the available measures
+measures = similarity.make("measure")
+for measure in measures:
+    score = measure.fit_score(X, Y)
 ```
+
 
 ## Standardized metric interface
 ### How do I create a metric?

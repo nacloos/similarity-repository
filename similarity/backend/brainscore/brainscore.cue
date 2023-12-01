@@ -15,7 +15,7 @@ _brainscore_path: "brainscore"  // TODO: problem installing brainscore as a pack
 
 // TODO: cross-validation?
 metric: {
-    [string]: {
+    [string]: #Metric & {
         #preprocessing: [
             #reshape2d,
             #numpy_to_brainio
@@ -27,7 +27,7 @@ metric: {
     }
     // correlation: {...}
     // TODO: pls?
-    linear_regression: #Metric & {
+    linear_regression:  {
         // #path: "similarity.backend.brainscore.utils.pls_metric"
         #path: "\(_brainscore_path).metrics.regression.CrossRegressedCorrelation"
         regression: null
@@ -36,12 +36,15 @@ metric: {
         }
         #fit_score_inputs: [["X", "source"], ["Y", "target"]]
     }
-    cka: #Metric & {
+    cka: {
         #path: "\(_brainscore_path).metrics.cka.CKAMetric"
         #fit_score_inputs: [["X", "assembly1"], ["Y", "assembly2"]]
     }
     // inferred from the code
-    // "rsa-correlation-spearman": {...}
+    "rsa-correlation-spearman": {
+        #path: "\(_brainscore_path).metrics.rdm.RDMMetric"
+        #fit_score_inputs: [["X", "assembly1"], ["Y", "assembly2"]]
+    }
 }
 
 

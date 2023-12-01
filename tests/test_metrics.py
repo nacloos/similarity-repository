@@ -15,6 +15,9 @@ test_inputs = [
 test_input_vars = ["metric", "seed"]
 
 
+# TODO: exclude rsa metrics that raises errors with the tests here
+
+
 # TODO: test distance measures separately then score measures
 
 def generate_data():

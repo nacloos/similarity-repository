@@ -13,13 +13,19 @@ metric: {
         // ]
     }
 
-    [("procrustes" | "cca" | "cka" | "permutation")]: {
+    [("procrustes" | "cca" | "cka" | "cka-angular" | "permutation")]: {
         #preprocessing: [
             #reshape2d
         ]
     }
 
     procrustes: metrics.#LinearMetric & {alpha: 1}
+    // "procrustes-sq": procrustes & {
+    //     #postprocessing: [
+    //         // square the distance
+    //         #target & {#path: "similarity.processing.square_score", #partial: true}
+    //     ]
+    // }
     cca: metrics.#LinearMetric & {alpha: 0}
     svcca: metrics.#LinearMetric & {
         alpha: 0
@@ -28,6 +34,10 @@ metric: {
             #pca & {n_components: 0.95}
         ]
     }
+    permutation: metrics.#PermutationMetric
+
+
+
     "svcca-var95": svcca
     "svcca-var99": metrics.#LinearMetric & {
         alpha: 0
@@ -37,17 +47,26 @@ metric: {
         ]
     }
 
-    permutation: metrics.#PermutationMetric
-    for score_method in ["euclidean", "angular"] {
-        ("permutation-" + score_method): permutation & {
-            "score_method": score_method
+    // for key in ["procrustes", "procrustes-sq", "cca", "permutation"] {
+    for key in ["procrustes", "cca", "permutation"] {
+        for score_method in ["euclidean", "angular"] {
+            (key +"-" + score_method): {
+                metric[key]
+                "score_method": score_method
+            }
         }
     }
-    // bug in netrep LinearCKA: "NameError: name 'angular_distance' is not defined"
-    // cka: metrics.#LinearCKA & {
-    //     // netrep LinearCKA doesn't have a fit_score method
-    //     #call_key: "score"
-    // }
+
+    "cka-angular": {
+        #path: "similarity.backend.netrep.cka.LinearCKA"
+        // netrep LinearCKA doesn't have a fit_score method
+        #call_key: "score"
+    }
+    cka: metric["cka-angular"] & {
+        #postprocessing: [
+            #target & {#path: "similarity.processing.cosine_score", #partial: true}
+        ]
+    }
 }
 
 

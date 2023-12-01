@@ -1,30 +1,59 @@
-// package backend
+package backend
 
-_methods: [
-    "stress",
-    "angular_cka",
-    "affine_invariant_riemannian",
-    "euclidean_shape_metric",
-    "angular_shape_metric"
-]
+// _methods: [
+//     "stress",
+//     "angular_cka",
+//     "affine_invariant_riemannian",
+//     "euclidean_shape_metric",
+//     "angular_shape_metric"
+// ]
+
+#array_to_tensor: #target & {
+    #path: "similarity.processing.array_to_tensor"
+    #partial: true
+}
+#tensor_to_float: #target & {
+    #path: "similarity.processing.tensor_to_float"
+    #partial: true
+}
+
 
 metric: {
-    [string]: {
+    [string]: #Metric & {
         #path: "repsim.compare"
-        // TODO: don't need to use the term "key"
-        #inputs: [
-            {name: "x", type: #TorchTensor},
-            {name: "y", type: #TorchTensor}
-        ]
-        #outputs: [
-            {name: "score", type: #TorchTensor}
-        ]
-        #scoring_method: "inner_product" | "angle" | "cosine" | "distance" | "square_distance"
-        method: string
+        // TODO: don't work for cka-angular??
+        // #function: true
+        // #fit_score_inp_keys: [["X", "x"], ["Y", "y"]]
     }
-    for method in _methods {
-        (method): {method: method}
+    "cka-angular": {
+        #path: "repsim.compare"
+        #fit_score_in_keys: [["X", "x"], ["Y", "y"]] // why have to add this here?
+        #function: true
+        #preprocessing: [
+            // repsim.compare requires torch tensors as inputs
+            #array_to_tensor
+        ]
+        #postprocessing: [ #tensor_to_float ]
+        method: "angular_cka"
     }
+
+    // TODO
+    // [string]: {
+    //     #path: "repsim.compare"
+    //     // TODO: don't need to use the term "key"
+    //     #inputs: [
+    //         {name: "x", type: #TorchTensor},
+    //         {name: "y", type: #TorchTensor}
+    //     ]
+    //     #outputs: [
+    //         {name: "score", type: #TorchTensor}
+    //     ]
+    //     #scoring_method: "inner_product" | "angle" | "cosine" | "distance" | "square_distance"
+    //     method: string
+    // }
+    // for method in _methods {
+    //     (method): {method: method}
+    // }
 }
 
 

@@ -12,6 +12,7 @@ import(
     // only string because used to generate metric id (TODO: allow number and convert to string?)
     parameters?: [string]: [...string]
     defaults?: _
+    properties?: _
     naming?: string
 }
 
@@ -19,6 +20,9 @@ import(
     citation: string | [...string]
     github?: string
 }
+
+// TODO: keys in cards define the MetricName type
+// #MetricName: or([for k, _ in cards { k }])
 
 // TODO?: categories: ["cca", "alignment", "rsm", "neighbors, ...]
 // useful for filering (e.g. backend table only for alignement and cca mertrics)
@@ -63,6 +67,10 @@ _cards: {
         // TODO: the survey has two rows for mean cc, ok to merge them here?
         name: "Mean Canonical Correlation"
         paper: [papers.yanai1974, papers.raghu2017, papers.kornblith2019]
+        parameters: {
+            scoring_method: ["euclidean", "angular"]
+        }
+
     }
     cca_mean_sq_corr: {
         name: "Mean Squared Canonical Correlation"
@@ -85,7 +93,12 @@ _cards: {
     procrustes: {
         name: "Orthogonal Procrustes"
         paper: [papers.ding2021, papers.williams2021]
+        parameters: {
+            scoring_method: ["euclidean", "angular"]
+        }
     }
+    // TODO: use argument? e.g. squared_or_not: ["sq", null]
+    "procrustes-sq": procrustes
     angular_shape_metric: {
         name: "Angular Shape Metric"
         paper: papers.williams2021
@@ -163,6 +176,19 @@ _cards: {
         name: "Centered Kernel Alignment"
         paper: papers.kornblith2019
         invariance: []
+        properties: [
+            "scale-invariant",
+            "rotation-invariant"
+        ]
+    }
+    "cka-angular": {
+        name: "Angular CKA"
+        paper: [papers.williams2021, papers.lange2022]
+        properties: [
+            "riemannian-metric",
+            "scale-invariant",
+            "rotation-invariant"
+        ]
     }
     dcor: {
         name: "Distance Correlation"

@@ -45,8 +45,13 @@ metric: {
         // #path: "\(_metric_path).lin_cka_prime_dist"
         #function: true
         #fit_score_inputs: [["X", "A"], ["Y", "B"]]
+        // TODO: (Ding, 2021): d_CKA = 1 - CKA
+        // this is not a proper metric?
+        #postprocessing: [
+            #target & {#path: "similarity.processing.one_minus_score", #partial: true}
+        ]
     }
-    procrustes: {
+    "procrustes-sq-euclidean": {
         // TODO: different from netrep?
         #path: "\(_metric_path).procrustes"
         #function: true

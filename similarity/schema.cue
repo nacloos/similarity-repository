@@ -63,7 +63,16 @@ import(
         #out_keys: #ModKeys | *["score"]
         ...
     }]
+    // TODO: allow appending steps to user defined postprocessing
+    #_postprocessing: [...]
 
+    if len(#_postprocessing) > 0 {
+        _postprocessing: #postprocessing + #_postprocessing
+    }
+    if len(#_postprocessing) == 0 {
+        _postprocessing: #postprocessing
+    }
+    
     // fit_score interface
     // #fit_score_inputs: [string, string] | *["X", "Y"]
     #fit_score_inputs: #ModKeys | *["X", "Y"]
@@ -152,7 +161,9 @@ import(
                 #out_keys: self.#fit_score_outputs
             },
             // postprocessing steps
-            for p in #postprocessing {
+            // for p in #postprocessing {
+            // TODO
+            for p in self._postprocessing {
                 #target & {
                     #path: p.#path
                     #partial: p.#partial

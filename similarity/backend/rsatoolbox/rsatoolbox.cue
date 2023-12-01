@@ -8,9 +8,9 @@ import(
 _rdm_methods: [
     "euclidean",
     "correlation",
-    // TODO: ValueError: descriptor must be a string! Crossvalidationrequires multiple measurements to be grouped
-    // "mahalanobis",
-    // "crossnobis",
+    "mahalanobis",
+    // TODO: just exclude them from unittests
+    // "crossnobis",  // ValueError: descriptor must be a string! Crossvalidationrequires multiple measurements to be grouped
     // "poisson",  // TODO: NaNs in the output
     // "poisson_cv"
 ]
@@ -25,7 +25,9 @@ _compare_methods: [
     "rho-a",
     "corr_cov",
     "cosine_cov",  
-    // "neg_riem_dist"  // numpy.linalg.LinAlgError: The leading minor of order 31 of B is not positive definite. The factorization of B could not be completed and no eigenvalues or eigenvectors were computed.
+
+    // matrix shape (10, 25) => failed to allocate 115Gb
+    // "neg_riem_dist"  // matrix shape (100, 30) => numpy.linalg.LinAlgError: The leading minor of order 31 of B is not positive definite. The factorization of B could not be completed and no eigenvalues or eigenvectors were computed.
  ]
 
 

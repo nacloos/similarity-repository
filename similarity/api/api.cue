@@ -1,14 +1,14 @@
 package api
 import(
-    "github.com/similarity/metric"
+    metrics "github.com/similarity/metric"
     metric_cards "github.com/similarity/metric:card"
     "github.com/similarity/backend:backends"
 )
 
 // TODO: openapi schema?
 
-"metric": {
-    for k, v in metric {
+metric: {
+    for k, v in metrics {
         (k): {
             "_out_": v["_out_"]  // keep only the fields to instantiate the metric
             // TODO: use card to write dostring for the metric? (accessible with help(metric))
@@ -22,6 +22,8 @@ import(
         }
     }
 }
+// TODO: rename metric to measure (more general)
+"measure": metric
 "backend": backends.#backends
 "paper": metric_cards.papers
 
