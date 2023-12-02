@@ -121,9 +121,9 @@ print(metric.fit_score)
 ```
 
 
-
+<!-- 
 ### Why this particular interface?
-sklearn
+sklearn -->
 
 ### How can I change the interface?
 If you want to change it for your own usage, just specify the interface you want when creating the metric. 
