@@ -4,6 +4,7 @@ import(
     "list"
     // "github.com/similarity"
     "github.com/similarity/backend"
+    // "github.com/similarity/metric:test_transforms"
     metric_cards "github.com/similarity/metric:card"
 
     netrep          "github.com/similarity/backend/netrep:backend"
@@ -45,21 +46,33 @@ _backends: {
         for k, v in backend.metric
         for T in transforms 
         if T.inp == k && backend.metric[T.out] == _|_ {
+        // && out[T.out] == _|_ {
             (T.out): {
                 v
                 #_postprocessing: T.function
-                // #postprocessing: T.function
-                // TODO: add T.function to postprocessing
+                // TODO: not working
+                // for kk, vv in v if kk != "_postprocessing_" {
+                //     (kk): vv
+                // }
+                // // append tsf to postprocessing
+                // "_postprocessing_": v["_postprocessing_"] + T.function
             }
         }
     }
 }
 
+// #derive_metrics: test_transforms.#derive_metrics
 // TODO: structural cycle if use #backends in for loop
 #backends: {
     for backend_name, backend in _backends {
     // for backend_name, backend in {"sim_metric": sim_metric} {
         (backend_name): metric: {
+            // slower
+            // (#derive_metrics & {
+            //     metrics: backend.metric
+            //     transforms: metric_cards.transforms
+            //     max_depht: 0
+            // }).out
             (#derived_metrics & {
                 "backend_name": backend_name
                 "backend": backend
@@ -102,6 +115,8 @@ _backends: {
 
     pwcca:              "sim_metric"
     cca_mean_sq_corr:   "sim_metric"
+    "procrustes-sq-euclidean": "sim_metric"
+
     cka:                "yuanli2333"
 
     // TODO
@@ -114,6 +129,8 @@ _backends: {
     }
 
     linear_regression:  "brainscore"
+    correlation:        "brainscore"
+
     pls:                "svcca"
     imd:                "imd"
     max_match:          "subspacematch"

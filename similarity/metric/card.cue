@@ -1,5 +1,6 @@
 package card
 import(
+    "math"
     "strings"
     "github.com/similarity/utils"
 )
@@ -12,7 +13,9 @@ import(
     // only string because used to generate metric id (TODO: allow number and convert to string?)
     parameters?: [string]: [...string]
     defaults?: _
-    properties?: _
+    // TODO: do the same with paper? just store the id of the paper?
+    // store the id of the poperty so that can easily filter by property
+    properties: [...#PropertyId] | *[]
     naming?: string
 }
 
@@ -20,6 +23,26 @@ import(
     citation: string | [...string]
     github?: string
 }
+
+property: {
+    score: {
+        name: "Score"
+        description: "Measure of similarity. A score of 1 indicates that the representations are identical."
+    }
+    metric: {
+        name: "Metric"
+        description: "Measure of distance."
+    }
+    "riemannian-metric": {}
+    "scale-invariant": {
+        name: "Scale Invariant"
+    }
+    "rotation-invariant": {
+        name: "Rotation Invariant"
+    }
+    
+}
+#PropertyId: or([for k, v in property { k }])
 
 // TODO: keys in cards define the MetricName type
 // #MetricName: or([for k, _ in cards { k }])
@@ -56,6 +79,9 @@ _cards: {
         // TODO: cue to generate names?
         naming: "score_method"
     }
+    correlation: {
+        name: "Correlation"
+    }
     // for score_method in ["euclidean", "angular"] {
     //     ("permutation-" + score_method): {
     //         name: "Permutation distance-\(score_method)"
@@ -70,10 +96,16 @@ _cards: {
         parameters: {
             scoring_method: ["euclidean", "angular"]
         }
+        properties: [
+            "score"
+        ]
 
     }
     cca_mean_sq_corr: {
         name: "Mean Squared Canonical Correlation"
+        properties: [
+            "score"
+        ]
     }
 
     // TODO
@@ -83,13 +115,18 @@ _cards: {
         parameters: {
             variance_fraction: ["var95", "var99"]
         }
+        properties: [
+            "score"
+        ]
     }
     pwcca: {
         name: "Projection-Weighted Canonical Correlation Analysis"
         paper: papers.morcos2018
+        properties: [
+            "score"
+        ]
     }
 
-    // alignment
     procrustes: {
         name: "Orthogonal Procrustes"
         paper: [papers.ding2021, papers.williams2021]
@@ -99,12 +136,28 @@ _cards: {
     }
     // TODO: use argument? e.g. squared_or_not: ["sq", null]
     "procrustes-sq": procrustes
-    angular_shape_metric: {
-        name: "Angular Shape Metric"
-        paper: papers.williams2021
-        // TODO: alpha=0 equivalant to cca, alpha=1 to procrustes
-        parameters: {
-            alpha: ["alpha0", "alpha0.5", "alpha1"]
+
+    "procrustes-score": {
+        name: "Procrustes Score"
+        properties: [
+            "score"
+        ]
+    }
+
+    for alpha in [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0] {
+        "shape_metric-angular-alpha\(math.Round(alpha*10))e-1": {
+            name: "Angular Shape Metric"
+            paper: papers.williams2021
+            // TODO: alpha=0 equivalant to cca, alpha=1 to procrustes
+            // parameters: {
+            //     alpha: ["alpha0", "alpha0.5", "alpha1"]
+            // }
+            properties: ["metric"]
+        }
+        "shape_metric-euclidean-alpha\(math.Round(alpha*10))e-1": {
+            name: "Euclidean Shape Metric"
+            paper: papers.williams2021
+            properties: ["metric"]
         }
     }
     partial_whitening_shape_metric: {
@@ -142,6 +195,9 @@ _cards: {
     rsa: {
         name: "Representational Similarity Analysis"
         paper: papers.kriegeskorte2008
+        properties: [
+            "score"
+        ]
         parameters: {
             rdm_method: [
                 "euclidean",
@@ -177,6 +233,7 @@ _cards: {
         paper: papers.kornblith2019
         invariance: []
         properties: [
+            "score",
             "scale-invariant",
             "rotation-invariant"
         ]
@@ -185,6 +242,7 @@ _cards: {
         name: "Angular CKA"
         paper: [papers.williams2021, papers.lange2022]
         properties: [
+            "metric",
             "riemannian-metric",
             "scale-invariant",
             "rotation-invariant"
@@ -209,6 +267,9 @@ _cards: {
     riemmanian: {
         name: "Riemmanian Distance"
         paper: papers.shahbazi2021
+        properties: [
+            "metric"
+        ]
     }
 
     // neighbors

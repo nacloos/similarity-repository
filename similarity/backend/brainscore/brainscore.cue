@@ -45,6 +45,10 @@ metric: {
         #path: "\(_brainscore_path).metrics.rdm.RDMMetric"
         #fit_score_inputs: [["X", "assembly1"], ["Y", "assembly2"]]
     }
+    correlation: {
+        #path: "\(_brainscore_path).metrics.correlation.Correlation"
+        #fit_score_inputs: [["X", "source"], ["Y", "target"]]
+    }
 }
 
 

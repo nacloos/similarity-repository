@@ -1,9 +1,13 @@
+from collections import defaultdict
+from functools import partial
+import inspect
 import os
 from typing import Literal
 from omegaconf import OmegaConf
 import json
 
 import config_utils
+from config_utils import DictModule, dict_set, dict_in, dict_get
 from similarity.metric import Metric
 from similarity.api import KeyId
 
@@ -20,6 +24,21 @@ PackageId = Literal[
 cached_configs = {}
 
 
+# store user defined configs
+nested_dict = lambda: defaultdict(nested_dict)
+registry = nested_dict()
+
+default_measure_config = {
+    "_target_": "similarity.Metric",
+    "metric": None,
+    "fit_score": None,
+    "fit": None,
+    "score": None,
+    # "call_key": None
+}
+registry["measure"] = defaultdict(lambda: default_measure_config)
+
+
 # TODO: remove id arg (use separate package and key args instead)?
 # but if use a single id arg, then can have autocomplete 
 # e.g. automatically generate a Literal type for all the possible ids 
@@ -30,6 +49,7 @@ def make(
         defaults_only=False,
         variants_only=False,
         use_cache=True,
+        cached_config=None,
         **kwargs) -> Metric:
     """
     Instantiate a python object from a config file.
@@ -37,6 +57,15 @@ def make(
         id: path to the config file and key to instantiate
         kwargs: keyword arguments passed to the object constructor
     """
+
+    # TODO: not working because registry is a default dict...
+    # if dict_in(registry, key):
+    #     print("Using user defined config:", key)
+    #     package = None  # temp sol to skip next if statement
+    #     cached_config = dict_get(registry, key)
+    #     assert cached_config is not None
+    #     key = None
+
     # TODO: problem with caching is that it doesn't update the package config when modifying a cue config
     if package is not None and use_cache:
         if package in cached_configs:
@@ -51,10 +80,6 @@ def make(
                                               config_dir=CONFIG_DIR,
                                               return_config=True)
         cached_configs[package] = cached_config
-    else:
-        cached_config = None
-
-    # TODO: preprocessing
 
     # use cached config
     return config_utils.make(
@@ -65,6 +90,61 @@ def make(
         cached_config=cached_config,
         **kwargs
     )
+
+
+def register(obj: object, id: str, **kwargs):
+    global registry
+
+    if isinstance(obj, dict):
+        dict_set(registry, id, obj)
+        return
+
+    if inspect.isfunction(obj):
+        sig = inspect.signature(obj)
+        params = sig.parameters
+        # bound = sig.bind_partial(1, **kwargs)
+        # print(bound.arguments)
+
+        # measure function should have 2 arguments (no if allow kwargs...)
+        # assert len(params) == 2
+        input_names = list(params.keys())
+        # assume first arg is X, second is Y
+        in_keys = [["X", input_names[0]], ["Y", input_names[1]]]
+
+        if len(kwargs) > 0:
+            obj = partial(obj, **kwargs)
+
+        fun = DictModule(
+            module=obj,
+            in_keys=in_keys,
+            out_keys=["score"]
+        )
+        dict_set(registry, id, fun)
+        return
+
+    if inspect.isclass(obj):
+        # TODO: fit, score functions?
+
+        fit_score_inputs = list(inspect.signature(obj.fit_score).parameters.keys())
+        fit_score = DictModule(
+            module=obj.fit_score,
+            in_keys=[
+                ["metric", fit_score_inputs[0]],
+                ["X", fit_score_inputs[1]],
+                ["Y", fit_score_inputs[2]]
+            ],
+            out_keys=["score"]
+        )
+        config = {
+            "_target_": "similarity.Metric",
+            "metric": {
+                "_target_": obj,
+                **kwargs
+            },
+            "fit_score": fit_score
+        }
+        dict_set(registry, id, config)
+        return
 
 
 def build(build_dir=BUILD_DIR):

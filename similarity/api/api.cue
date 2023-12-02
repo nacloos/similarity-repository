@@ -26,6 +26,7 @@ metric: {
 "measure": metric
 "backend": backends.#backends
 "paper": metric_cards.papers
+"property": metric_cards.property
 
 // TODO: metric cards in "metric" or in "card"?
 // "card": "metric": metric_cards.cards

@@ -24,9 +24,6 @@ metric: {
         // TODO: don't work for cka-angular??
         // #function: true
         // #fit_score_inp_keys: [["X", "x"], ["Y", "y"]]
-    }
-    "cka-angular": {
-        #path: "repsim.compare"
         #fit_score_in_keys: [["X", "x"], ["Y", "y"]] // why have to add this here?
         #function: true
         #preprocessing: [
@@ -34,7 +31,39 @@ metric: {
             #array_to_tensor
         ]
         #postprocessing: [ #tensor_to_float ]
+    }
+    "cka-angular": {
         method: "angular_cka"
+    }
+    // TODO: TypeError: __init__() missing 1 required positional argument: 'p'
+    "procrustes-angular": {
+        // #path: "repsim.compare"
+        // #fit_score_in_keys: [["X", "x"], ["Y", "y"]] // why have to add this here?
+        // #function: true
+        // #preprocessing: [
+        //     // repsim.compare requires torch tensors as inputs
+        //     #array_to_tensor
+        // ]
+        // #postprocessing: [ #tensor_to_float ]
+        method: "angular_shape_metric"
+        alpha: 1
+        // TODO: vary this param?
+        p: 100  // nb of components to keep (value used in the paper)
+    }
+    "procrustes-euclidean": {
+        method: "euclidean_shape_metric"
+        alpha: 1
+        p: 100
+    }
+    "cca-angular": {
+        method: "angular_shape_metric"
+        alpha: 0
+        p: 100
+    }
+    "cca-euclidean": {
+        method: "euclidean_shape_metric"
+        alpha: 0
+        p: 100
     }
 
     // TODO

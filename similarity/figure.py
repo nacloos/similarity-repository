@@ -148,5 +148,5 @@ if __name__ == "__main__":
     # # order cols by alphabetical order
     # plot_backend_metrics(backend_df, backend_cards, metric_names, save_path="./figures/backend_metrics.png")
 
-    # plot_backend_consistency(save_path="./figures/backend_consistency.png")
-    plot_backend_consistency(save_path="./figures/backend_consistency_no_variants.png", discard_variants=True)
+    plot_backend_consistency(save_path="./figures/backend_consistency.png")
+    # plot_backend_consistency(save_path="./figures/backend_consistency_no_variants.png", discard_variants=True)

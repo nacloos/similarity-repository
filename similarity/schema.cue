@@ -1,5 +1,6 @@
 package similarity
 import(
+    "list"
     "github.com/similarity/utils"
 )
 #target: utils.#target
@@ -63,6 +64,8 @@ import(
         #out_keys: #ModKeys | *["score"]
         ...
     }]
+    "_preprocessing_": #preprocessing
+    "_postprocessing_": #postprocessing
     // TODO: allow appending steps to user defined postprocessing
     #_postprocessing: [...]
 
@@ -117,6 +120,13 @@ import(
     // constructor kwargs
     ...
 
+
+    // definitions not working with transforms (when copy all the fields of a measure)
+    "_fit_score_in_keys_": self.#fit_score_in_keys
+    "_fit_score_outputs_": #fit_score_outputs
+    "_call_key_": #call_key
+
+    #reserved_keywords: ["_out_", "_preprocessing_", "_postprocessing_", "_call_key_", "_fit_score_in_keys_", "_fit_score_outputs_"]
     // pipeline to create the metric object
     "_out_": #target & {
         #path: "similarity.metric.Metric"
@@ -126,12 +136,18 @@ import(
             #path: self.#path
             #partial: self.#partial
             // loop through the keys in self (automatically ignores keys starting with _ or #)
-            { for k, v in self if k != "_out_" { (k): v } }
+            // keys start and ending with _ are reserved keywords
+            // for k, v in self if k != "_out_" {
+            for k, v in self 
+            if !list.Contains(#reserved_keywords, k) {
+                (k): v
+            }
         }
         
         fit_score: #Seq & {#modules: [
             // preprocessing steps
             for p in #preprocessing {
+            // for p in self["_preprocessing_"] {
                 // TODO: need to make it more general?
                 #target & {
                     #path: p.#path
@@ -144,26 +160,28 @@ import(
             #target & {
                 // #call_key can be used to specify a method to call on the metric class
 
-                #in_keys: self.#fit_score_in_keys 
-                if self.#call_key == null {
+                // #in_keys: self.#fit_score_in_keys 
+                #in_keys: self["_fit_score_in_keys_"] 
+                if self["_call_key_"] == null {
                     "_target_": self._target
                     // #path: metric.#path
                     // #in_keys: ["X", "Y"]
                     metric
                 }
-                if self.#call_key != null {
+                if self["_call_key_"] != null {
                     "_target_": "\(self._target).\(self.#call_key)"
                     // #path: "\(metric.#path).\(self.#call_key)"
                     // #in_keys: [["metric", "self"], "X", "Y"]
                 }
                 // use partial because target is a function here
                 #partial: true
-                #out_keys: self.#fit_score_outputs
+                #out_keys: self["_fit_score_outputs_"]
             },
             // postprocessing steps
             // for p in #postprocessing {
             // TODO
             for p in self._postprocessing {
+            // for p in self["_postprocessing_"] {
                 #target & {
                     #path: p.#path
                     #partial: p.#partial

@@ -109,7 +109,6 @@ def try_backend_consistency():
         k: v["backends"]
         for k, v in similarity.make("metric", return_config=True).items()
     }
-
     # backend_consistency_matrix(backend_by_metric, generate_data)
 
     X, Y = generate_data()
