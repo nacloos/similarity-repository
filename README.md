@@ -17,11 +17,13 @@ pip install git+https://github.com/nacloos/similarity-measures.git
 ```
 Or alternatively, you can clone the repository and run `pip install -e .` inside it.
 
-## Usage
 
-### Getting Started
+## Getting Started
 Each measure is identified by a unique id (listed [here](similarity/api/__init__.py)).
-Follow a naming convention
+Follow a naming convention:
+* ´.´ to separate levels of hierarchy
+* ´-´ to specify parameter values for a familly of measures. Don't use `.` for decimal numbers as it is used to separate levels of hierarchy. Use scientific notation instead (e.g. 1e-3 instead of 0.001)
+
 
 
 ```python
@@ -43,6 +45,24 @@ for name, measure in measures.items():
     score = measure.fit_score(X, Y)
     print(f"{name}: {score}")
 ```
+
+It is possible to get the configs without instantiating them into python objects using `return_config=True`. This can be useful to filter measures based on their properties. For example, to get all the measures that are scoring measures (i.e. measure of similarity where 1 is perferct similarity):
+```python
+score_measures = {
+  k: similarity.make(f"measure.{k}")
+  for k, cfg in similarity.make("measure", return_config=True).items()
+  if "score" in cfg["properties"]
+}
+```
+Or to get all the measures that are metrics (measure of dissimilarity that satisfies the axioms for a distance metric):
+```python
+metrics = {
+  k: similarity.make(f"measure.{k}")
+  for k, cfg in similarity.make("measure", return_config=True).items()
+  if "metric" in cfg["properties"]
+}
+```
+
 
 
 ### Backend Specific Measure
@@ -77,6 +97,7 @@ Separating `fit` and `score` allows to fit and evaluate the measure on different
 
 
 ## Standardized metric interface
+TODO: use the term measure insted of metric as it is more general
 
 
 ### What can I do with a metric?
