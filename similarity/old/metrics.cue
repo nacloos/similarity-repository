@@ -8,21 +8,21 @@
 //     alpha: 0
 // }
 
-// procrustes: #measure & {
+// procrustes: #Measure & {
 //     #path: "netrep.measures.Linearmeasure"
 //     #preprocessing: [#reshape2d]
 //     #postprocessing: [#angular_dist_to_score]
 //     alpha: 1
 // }
 
-// cca: #measure & {
+// cca: #Measure & {
 //     #path: "netrep.measures.Linearmeasure"
 //     #preprocessing: [#reshape2d]
 //     #postprocessing: [#angular_dist_to_score]
 //     alpha: 0
 // }
 
-// svcca: #measure & {
+// svcca: #Measure & {
 //     #path: "netrep.measures.Linearmeasure"
 //     #preprocessing: [#reshape2d, #pca & {n_components: 0.95}]
 //     #postprocessing: [#angular_dist_to_score]
@@ -30,7 +30,7 @@
 // }
 
 
-// cka: #measure & {
+// cka: #Measure & {
 //     // TODO: directly refer to github file instead of having to copy it here
 //     #path: "similarity.measures.yuanli2333.cka.linear_CKA"
 //     // don't use call_key because linear_CKA is already a function (not a class with a fit_score method)
@@ -40,7 +40,7 @@
 //     #postprocessing: [#arccos, #angular_dist_to_score]
 // }
 
-// #base_rsa: #measure & {
+// #base_rsa: #Measure & {
 //     #path: "similarity.measures.rsatoolbox.rsa.compute_rsa"
 //     #call_key: null
 //     #partial: true
@@ -56,7 +56,7 @@
 // }
 
 // // TODO
-// // dsa: #measure & {
+// // dsa: #Measure & {
 // //     #path: "netrep.measures.Linearmeasure"
 // //     #preprocessing: [#reshape2d]
 // //     #postprocessing: [#angular_dist_to_score]

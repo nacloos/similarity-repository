@@ -1,4 +1,4 @@
-package card
+package measure
 import(
     "github.com/similarity/utils"
 )

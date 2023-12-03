@@ -131,6 +131,9 @@ def plot_backend_consistency(discard_variants=False, save_path=None):
     backend_df = backend_df[sorted(backend_df.columns)]
     print(backend_df)
 
+    # remove columns with None (no implementation)
+    backend_df = backend_df.dropna(axis=1, how='all')
+
     plt.figure(figsize=(6+0.8*len(measure_names), 1+0.2*len(backend_names)), dpi=100)
     sns.heatmap(backend_df, vmin=0, vmax=0, annot_kws={"fontsize": 5}, annot=True, cmap="viridis", cbar=False, linewidths=1, linecolor='white')
     plt.ylabel("backend")

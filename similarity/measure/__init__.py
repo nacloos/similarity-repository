@@ -1,1 +1,1 @@
-from .metric import Measure
+from .measure_interface import Measure

@@ -1,7 +1,7 @@
 package backend
 
 measure: {
-    max_match: #measure & {
+    max_match: #Measure & {
         #path: "similarity.backend.subspacematch.score.maximum_match_score"
         #preprocessing: [
             #reshape2d

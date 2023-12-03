@@ -11,7 +11,7 @@ from config_utils import DictModule, dict_set, dict_in, dict_get
 from similarity.measure import Measure
 from similarity.api import KeyId
 
-# CONFIG_DIR = os.path.join(os.path.dirname(__file__), '../configs')
+
 CONFIG_DIR = os.path.join(os.path.dirname(__file__), './')
 BUILD_DIR = os.path.join(os.path.dirname(__file__), "./api")
 
@@ -40,13 +40,10 @@ default_measure_config = {
 registry["measure"] = defaultdict(lambda: default_measure_config)
 
 
-# TODO: remove id arg (use separate package and key args instead)?
-# but if use a single id arg, then can have autocomplete 
-# e.g. automatically generate a Literal type for all the possible ids 
-# or use a separate make function for each package (e.g. make_measure)
 def make(
         key: KeyId,
         package: PackageId = "api",
+        # TODO
         defaults_only=False,
         variants_only=False,
         use_cache=True,
@@ -67,7 +64,6 @@ def make(
     #     assert cached_config is not None
     #     key = None
 
-    # TODO: problem with caching is that it doesn't update the package config when modifying a cue config
     if package is not None and use_cache:
         if package in cached_configs:
             cached_config = cached_configs[package]

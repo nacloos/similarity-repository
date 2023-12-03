@@ -1,41 +1,38 @@
 package api
 import(
-    // measures "github.com/similarity/measure"
-    measure_cards "github.com/similarity/measure:card"
+    "github.com/similarity/measure"
     "github.com/similarity/measure:property"
     "github.com/similarity/backend:backends"
+    "github.com/similarity/papers"
 )
 
-// TODO: openapi schema?
 
-measure: {
-    // for k, v in measures {
+"measure": {
     for k, v in backends.measures {
         (k): {
             "_out_": v["_out_"]  // keep only the fields to instantiate the measure
             // TODO: use card to write dostring for the measure? (accessible with help(measure))
             // TODO: add backends id and default backend to measure cards?
-            measure_cards.cards[k]
             "backends": backends.backend_by_measure[k]
             "default_backend": backends.#default_backend[k]
-
-            // TODO?
-            // "card": {"backends": ..., ...}
+            // select only implemented measure
+            measure.cards[k]
+            // TODO: slow
+            // property.measure[k]
         }
     }
 }
-// TODO: rename measure to measure (more general)
-"measure": measure
+// don't take measures that don't have backend implementations
+// "measure": measure.cards
 
 "backend": backends.#backends
-"paper": measure_cards.papers
+"paper": papers
 
 // super slow
-// "backend": [string]: measure: backends.#MeasureName
+// "backend": [string]: measure: backends.#MeasureId
 
-"measure": property.measure
-"property": measure_cards.property
-
-// TODO: measure cards in "measure" or in "card"?
-// "card": "measure": measure_cards.cards
-
+// "measure": property.measure
+// TODO: by default, backends: []
+// TODO: some property that don't have backend implementations (cause error in try.py)
+// "property": measure.property
+"property": property.property

@@ -5,12 +5,12 @@
 // //     paper: string
 // //     authors: [...string]    
 // //     invariance?: [...string] 
-// //     measure: #measure
+// //     measure: #Measure
 // //     // TODO: schema?
 // // }
 
 
-// #measure: self={
+// #Measure: self={
 //     // path to measure class
 //     #path: string
 //     // set to true if refer to a function instead of a class

@@ -37,6 +37,11 @@ measure = similarity.make("measure.procrustes")
 score = measure.fit_score(X, Y)
 ```
 
+TODO: Meausre interface just __call__?
+
+The Measure interface is just a thin wrapper around the backend implementation that converts the input data to the expected format.
+
+
 You can also easily loop through all the available measures.
 ```python	
 # returns a dictionary with all the measures

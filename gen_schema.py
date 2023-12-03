@@ -1,3 +1,6 @@
+"""
+Preliminary attempt to automatically generate cue schemas from python modules.
+"""
 from config_utils.gen_schema import generate_module_schemas
 
 
@@ -8,8 +11,6 @@ generate_module_schemas(
     cue_dir="similarity/cue.mod/pkg/github.com"
 )
 
-
-# TODO: call package metrics or netrep?
 generate_module_schemas(
     "netrep/metrics",
     pkg_name="metrics",

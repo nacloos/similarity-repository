@@ -1,7 +1,10 @@
 package processing
 
 
-
+#transpose: {
+    #path: "similarity.processing.transpose"
+    #partial: true
+}
 #reshape2d: {
     #path: "similarity.processing.flatten_3d_to_2d"
     #partial: true

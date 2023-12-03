@@ -1,11 +1,11 @@
 package backend
 import(
     // "github.com/similarity/processing"
-    "github.com/similarity/measure:card"
+    "github.com/similarity/papers"
 )
 
 github: "https://github.com/js-d/sim_metric"
-paper: [card.papers.ding2021]
+paper: [papers.ding2021]
 
 
 // copied sim_metrics/dists in this folder

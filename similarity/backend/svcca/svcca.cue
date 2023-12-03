@@ -1,6 +1,6 @@
 package backend
 import(
-    "github.com/similarity/measure:card"
+    "github.com/similarity/papers"
 )
 
 // python files in this folder were copied from the github repo (+ some small modifications)

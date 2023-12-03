@@ -1,4 +1,4 @@
-package similarity
+package measure
 import(
     "list"
     "github.com/similarity/utils"
@@ -8,26 +8,9 @@ import(
 #ModKeys: utils.#ModKeys
 
 
-// can't put these schemas in measure because causes circular dependency between backend and meetric packages
-// backend needs to access the schemas and measure needs to access the backend implementations
-
-// TODO: force each measure to have a card
-
-// TODO: grob the folders in backend?
-// TODO: backend card
-// #BackendName: 
-//     "netrep" | 
-//     "rsatoolbox" |
-//     "yuanli2333"
-
-
-// #measureBackend: {
-//     [#MeasureName]: #measure
-// }
-
-#measure: self={
+// config for the python implementation of the Measure class
+#Measure: self={
     // path to measure class
-
     // TODO: #path is not defined in generated schemas (e.g. netrep Linearmeasure)
     if self["_target_"] != _|_ {
         _target: self["_target_"]
@@ -129,7 +112,7 @@ import(
     #reserved_keywords: ["_out_", "_preprocessing_", "_postprocessing_", "_call_key_", "_fit_score_in_keys_", "_fit_score_outputs_"]
     // pipeline to create the measure object
     "_out_": #target & {
-        #path: "similarity.measure.measure"
+        #path: "similarity.measure.Measure"
         
         measure: #target & {
             // set path and kwargs for measure

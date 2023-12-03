@@ -3,17 +3,15 @@
 class Measure:
     def __init__(
             self,
-            metric,
+            measure,
             fit_score,
             score=None,
             fit=None,
             interface=None,
             preprocessing=None,
             postprocessing=None):
-        # print("Metric.__init__")
-        # print(fit_score)
 
-        self._metric = metric
+        self._measure = measure
         self._score = score
         self._fit = fit
         self._fit_score = fit_score
@@ -33,8 +31,8 @@ class Measure:
             "score": self._score_impl,
             "fit_score": self._fit_score_impl
         }
-        # TODO: do this because want to print pipeline with e.g. print(metric.fit_score)
-        # but problem with self=metric arg
+        # TODO: do this because want to print pipeline with e.g. print(measure.fit_score)
+        # but problem with self=measure arg
         # impls = {
         #     "fit": self._fit,
         #     "score": self._score,
@@ -48,14 +46,14 @@ class Measure:
 
     def _fit_impl(self, X, Y):
         if self._fit is not None:
-            self._fit(metric=self._metric, X=X, Y=Y)
+            self._fit(measure=self._measure, X=X, Y=Y)
 
     def _score_impl(self, X, Y):
-        return self._score(metric=self._metric, X=X, Y=Y)
+        return self._score(measure=self._measure, X=X, Y=Y)
 
     def _fit_score_impl(self, X, Y):
         if self._fit_score is not None:
-            return self._fit_score(metric=self._metric, X=X, Y=Y)
+            return self._fit_score(measure=self._measure, X=X, Y=Y)
         else:
             self._fit_impl(X, Y)
             return self._score_impl(X, Y)
@@ -63,14 +61,14 @@ class Measure:
 
     def fit(self, X, Y):
         if self._fit is not None:
-            self._fit(metric=self._metric, X=X, Y=Y)
+            self._fit(measure=self._measure, X=X, Y=Y)
 
     def score(self, X, Y):
-        return self._score(metric=self._metric, X=X, Y=Y)
+        return self._score(measure=self._measure, X=X, Y=Y)
 
     def fit_score(self, X, Y):
         if self._fit_score is not None:
-            return self._fit_score(metric=self._metric, X=X, Y=Y)
+            return self._fit_score(measure=self._measure, X=X, Y=Y)
         else:
             self.fit(X, Y)
             return self.score(X, Y)
@@ -84,8 +82,8 @@ class Measure:
         if name in self.impls:
             return self.impls[name]
 
-        # if attr is not found in this class, try the metric
-        return getattr(self._metric, name)
+        # if attr is not found in this class, try the measure
+        return getattr(self._measure, name)
 
     def __call__(self, X, Y):
         # have to handle __call__ separately
@@ -106,8 +104,3 @@ class Measure:
         # TODO: Remove wrap DictModule around DictSequential to simplify it
         return s
 
-
-class MetricInterface:
-    def __init__(self, metric, interface):
-        self._metric = metric
-        self._interface = interface

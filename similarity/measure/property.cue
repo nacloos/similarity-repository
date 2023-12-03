@@ -41,7 +41,7 @@ measure: {
         "affine-invariant",
         "score",
     ]
-    // problem with list is that the order matters, dict => can be overwritten more easily
+    // TODO: problem with list is that the order matters, dict => can be overwritten more easily
     // cca: properties: {
     //     "permutation-invariant": true
     //     "scale-invariant": true

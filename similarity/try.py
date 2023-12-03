@@ -105,6 +105,12 @@ def backend_consistency_matrix(backend_by_measure, generate_data_fn, n_repeats=1
 
 
 def try_backend_consistency():
+    for k, v in similarity.make("measure", return_config=True).items():
+        if "backends" not in v:
+            print(k)
+            print(v.keys())
+            break
+
     backend_by_measure = {
         k: v["backends"]
         for k, v in similarity.make("measure", return_config=True).items()
