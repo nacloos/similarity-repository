@@ -123,30 +123,8 @@ import(
             }
         }
         
-        preprocessing: [
-            for p in #preprocessing {
-            // for p in self["_preprocessing_"] {
-                // TODO: need to make it more general?
-                #target & {
-                    #path: p.#path
-                    #partial: p.#partial
-                    #in_keys: p.#in_keys
-                    #out_keys: p.#out_keys
-                }
-            }
-        ]    
-        postprocessing: [
-            for p in self._postprocessing {
-            // for p in self["_postprocessing_"] {
-                #target & {
-                    #path: p.#path
-                    #partial: p.#partial
-                    #in_keys: p.#in_keys
-                    #out_keys: p.#out_keys
-                }
-            }
-        ]
-
+        preprocessing: [for p in #preprocessing { #target, p }]    
+        postprocessing: [for p in self._postprocessing { #target, p }]
 
         fit_score: #Seq & {#modules: [
             // preprocessing steps

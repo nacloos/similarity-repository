@@ -479,7 +479,8 @@
                                     "Y"
                                 ]
                             }
-                        }
+                        },
+                        "n_components": 0.95
                     }
                 ],
                 "postprocessing": [],
@@ -3779,7 +3780,8 @@
                                     "Y"
                                 ]
                             }
-                        }
+                        },
+                        "n_components": 0.95
                     }
                 ],
                 "postprocessing": [],
@@ -3886,7 +3888,8 @@
                                     "Y"
                                 ]
                             }
-                        }
+                        },
+                        "n_components": 0.99
                     }
                 ],
                 "postprocessing": [],
@@ -8460,7 +8463,8 @@
                                             "Y"
                                         ]
                                     }
-                                }
+                                },
+                                "n_components": 0.95
                             }
                         ],
                         "postprocessing": [],
@@ -8657,7 +8661,8 @@
                                             "Y"
                                         ]
                                     }
-                                }
+                                },
+                                "n_components": 0.95
                             }
                         ],
                         "postprocessing": [],
@@ -8768,7 +8773,8 @@
                                             "Y"
                                         ]
                                     }
-                                }
+                                },
+                                "n_components": 0.99
                             }
                         ],
                         "postprocessing": [],

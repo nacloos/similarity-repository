@@ -1,9 +1,6 @@
-// can't use the backend package because would cause circular import
 package backends
 import(
     "list"
-    // "github.com/similarity"
-    // "github.com/similarity/measure:test_transforms"
     "github.com/similarity/measure"
 
     netrep          "github.com/similarity/backend/netrep:backend"
@@ -20,7 +17,7 @@ import(
 #measure_ids: measure.#measure_ids
 #MeasureId: measure.#MeasureId
 
-_backends: [string]: _  // schema
+_backends: [string]: _
 _backends: {
     // will validate the backends
     "netrep":           netrep
@@ -34,14 +31,13 @@ _backends: {
     "imd":              imd
     "subspacematch":    subspacematch
 }
-// define the backend id type based on given backends
+
+// define the backend id type based on the given backends
 #BackendId: or([for id, _ in _backends { id }])
 
 
-// TODO: if a backend implements cka it also automatically implements cka-angular (just take the cos of cka)
 // automaticallly add derived measures to each backend if it is not already defined
-// need to write somewhere the transformation pipeline from "cka" to "cka-angular"
-
+// e.g. if a backend implements cka it also automatically implements cka-angular (just take the cos of cka)
 #derived_measures: {
     backend_name: #BackendId
     backend: _
@@ -55,13 +51,16 @@ _backends: {
             (T.out): {
                 v
                 #_postprocessing: T.function
-                // TODO: not working
-                // for kk, vv in v if kk != "_postprocessing_" {
-                //     (kk): vv
-                // }
-                // // append tsf to postprocessing
-                // "_postprocessing_": v["_postprocessing_"] + T.function
             }
+
+            // TODO: conflicting list lengths errror
+            // (T.out): "_out_": {
+            //     for kk, vv in v["_out_"] if kk != "postprocessing" {
+            //         (kk): vv
+            //     }
+            //     // append tsf to postprocessing
+            //     "postprocessing": v["_out_"]["postprocessing"] + T.function
+            // }
         }
     }
 }
