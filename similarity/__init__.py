@@ -22,12 +22,9 @@ PackageId = Literal[
     "measure",
 ]
 
+# cache package configs
 cached_configs = {}
 
-
-# store user defined configs
-# nested_dict = lambda: defaultdict(nested_dict)
-# registry = nested_dict()
 
 default_measure_config = {
     "_target_": "similarity.Measure",
@@ -37,15 +34,14 @@ default_measure_config = {
     "score": None,
     # "call_key": None
 }
+
+# store user defined configs
 registry = {}
 
 
 def make(
         key: KeyId,
         package: PackageId = "api",
-        # TODO
-        defaults_only=False,
-        variants_only=False,
         use_cache=True,
         cached_package=None,
         **kwargs) -> Measure:
@@ -59,7 +55,6 @@ def make(
         cached_package = {}
 
     if package is not None and use_cache:
-        print("cache")
         if package in cached_configs:
             cached_package = cached_configs[package]
         elif package == "api" and os.path.exists(BUILD_DIR + "/api.json"):
@@ -73,19 +68,9 @@ def make(
                                               return_config=True)
         # store in cache
         cached_configs[package] = cached_package
-    print(cached_package)
-    # if package == "api" and dict_in(registry, key):
-    #     print("Using user defined config:", key)
-    #     registered_obj = dict_get(registry, key)
-    #     print("registered_config", registered_obj)
-    #     if isinstance(registered_obj, dict):
-    #         cached_package = {**cached_package, **registered_obj}
-    #     else:
-    #         return registered_obj
+
     if package == "api":
         dict_update(cached_package, registry)
-
-    # print("make", key)
 
     # use cached config
     return config_utils.make(
@@ -151,7 +136,6 @@ def register(obj: object, id: str, **kwargs):
     else:
         raise TypeError(f"Expected type function or class, got {type(obj)}")
 
-    print("registry", registry)
     # default measure config
     if id.split(".")[0] == "measure":
         if "measure" not in registry:
@@ -159,7 +143,6 @@ def register(obj: object, id: str, **kwargs):
         registry["measure"][id.split(".")[1]] = default_measure_config
 
     dict_set(registry, id, cfg, mkidx=True)
-    print(registry)
 
 
 def build(build_dir=BUILD_DIR):
