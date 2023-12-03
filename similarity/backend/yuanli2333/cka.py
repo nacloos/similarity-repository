@@ -1,4 +1,3 @@
-# code taken from: https://github.com/yuanli2333/CKA-Centered-Kernel-Alignment/blob/master/CKA.py
 import math
 import numpy as np
 

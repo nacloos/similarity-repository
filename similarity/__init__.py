@@ -8,7 +8,7 @@ import json
 
 import config_utils
 from config_utils import DictModule, dict_set, dict_in, dict_get
-from similarity.metric import Metric
+from similarity.measure import Measure
 from similarity.api import KeyId
 
 # CONFIG_DIR = os.path.join(os.path.dirname(__file__), '../configs')
@@ -16,9 +16,10 @@ CONFIG_DIR = os.path.join(os.path.dirname(__file__), './')
 BUILD_DIR = os.path.join(os.path.dirname(__file__), "./api")
 
 
-# TODO: add type hint for auto-complete
 PackageId = Literal[
-    "metric"
+    "api",
+    "backend",
+    "measure",
 ]
 
 cached_configs = {}
@@ -29,8 +30,8 @@ nested_dict = lambda: defaultdict(nested_dict)
 registry = nested_dict()
 
 default_measure_config = {
-    "_target_": "similarity.Metric",
-    "metric": None,
+    "_target_": "similarity.Measure",
+    "measure": None,
     "fit_score": None,
     "fit": None,
     "score": None,
@@ -42,7 +43,7 @@ registry["measure"] = defaultdict(lambda: default_measure_config)
 # TODO: remove id arg (use separate package and key args instead)?
 # but if use a single id arg, then can have autocomplete 
 # e.g. automatically generate a Literal type for all the possible ids 
-# or use a separate make function for each package (e.g. make_metric)
+# or use a separate make function for each package (e.g. make_measure)
 def make(
         key: KeyId,
         package: PackageId = "api",
@@ -50,7 +51,7 @@ def make(
         variants_only=False,
         use_cache=True,
         cached_config=None,
-        **kwargs) -> Metric:
+        **kwargs) -> Measure:
     """
     Instantiate a python object from a config file.
     Args:
@@ -129,15 +130,15 @@ def register(obj: object, id: str, **kwargs):
         fit_score = DictModule(
             module=obj.fit_score,
             in_keys=[
-                ["metric", fit_score_inputs[0]],
+                ["measure", fit_score_inputs[0]],
                 ["X", fit_score_inputs[1]],
                 ["Y", fit_score_inputs[2]]
             ],
             out_keys=["score"]
         )
         config = {
-            "_target_": "similarity.Metric",
-            "metric": {
+            "_target_": "similarity.measure",
+            "measure": {
                 "_target_": obj,
                 **kwargs
             },

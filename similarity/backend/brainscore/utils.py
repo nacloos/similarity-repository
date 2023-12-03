@@ -6,12 +6,12 @@ from brainio.assemblies import NeuroidAssembly
 
 
 
-# rdm_metric = RDMCrossValidated()  # TODO: not working
+# rdm_measure = RDMCrossValidated()  # TODO: not working
 
 
 def numpy_to_brainio(X, Y):
     """
-    BrainScore metric takes NeuroidAssembly objects
+    BrainScore measure takes NeuroidAssembly objects
     """
     def _convert(X):
         assert len(X.shape) == 2, X.shape
@@ -48,21 +48,21 @@ if __name__ == "__main__":
     # Y = np.random.randn(100, 50)
     # X, Y = numpy_to_brainio(X, Y)
 
-    # metric = pls_metric()
-    # score = metric(source=X, target=Y)
+    # measure = pls_measure()
+    # score = measure(source=X, target=Y)
     # score = score.sel(aggregation='center')
     # print(score)
 
 
-    # metric = similarity.make("backend/brainscore/metric.cka", return_config=True)
-    # print(json.dumps(metric, indent=2))
+    # measure = similarity.make("backend/brainscore/measure.cka", return_config=True)
+    # print(json.dumps(measure, indent=2))
 
-    metric = similarity.make("backend/brainscore/metric.pls")
-    print(metric)
+    measure = similarity.make("backend/brainscore/measure.pls")
+    print(measure)
 
     X = np.random.randn(100, 50)
     Y = np.random.randn(100, 50)
-    print(metric.fit_score(X, Y))
+    print(measure.fit_score(X, Y))
 
 
 
@@ -75,18 +75,18 @@ if __name__ == "__main__":
 #                            dims=['presentation', 'neuroid'])
 # # assembly = numpy_to_brainio((np.arange(30 * 25) + np.random.randn(30 * 25)).reshape((30, 25)))
 
-# score = rdm_metric(assembly, assembly)  # TODO: not working
+# score = rdm_measure(assembly, assembly)  # TODO: not working
 
-# prediction, target = assembly, assembly  # we're testing how well the metric can predict the dataset itself
-# score = metric(source=prediction, target=target)
+# prediction, target = assembly, assembly  # we're testing how well the measure can predict the dataset itself
+# score = measure(source=prediction, target=target)
 # print(score)
 # print(score.raw)
 
 
-class BrainScoreMetric:
-    def __init__(self, symmetric=False, arccos=True):
+class BrainScoremeasure:
+    def __init__(self, symmeasure=False, arccos=True):
         super().__init__()
-        self.symmetric = symmetric
+        self.symmeasure = symmeasure
         self.arccos = arccos
 
     def fit(self, act1, act2):
@@ -96,7 +96,7 @@ class BrainScoreMetric:
         X1 = numpy_to_brainio(X1)
         X2 = numpy_to_brainio(X2)
         # predict X1 (neura data) from X2 (model activity)
-        score = metric(source=X2, target=X1)
+        score = measure(source=X2, target=X1)
         print(score)
         print(np.mean(score.raw))
         # self.r2 = np.mean(score.raw)
@@ -104,7 +104,7 @@ class BrainScoreMetric:
 
     def eval(self, act1, act2):
         self.fit(act1, act2)
-        if self.symmetric:
+        if self.symmeasure:
             first_r2 = self.r2
             self.fit(act2, act1)
             assert first_r2 != self.r2
@@ -116,10 +116,10 @@ class BrainScoreMetric:
         return "BrainScore distance"
 
 
-class BrainScoreRDMMetric:
-    def __init__(self, symmetric=False, arccos=True):
+class BrainScoreRDMmeasure:
+    def __init__(self, symmeasure=False, arccos=True):
         super().__init__()
-        self.symmetric = symmetric
+        self.symmeasure = symmeasure
         self.arccos = arccos
 
     def fit(self, act1, act2):
@@ -128,7 +128,7 @@ class BrainScoreRDMMetric:
 
         X1 = numpy_to_brainio(X1)
         X2 = numpy_to_brainio(X2)
-        score = rdm_metric(X1, X2)
+        score = rdm_measure(X1, X2)
         print(score)
         print(np.mean(score.raw))
         # self.r2 = np.mean(score.raw)
@@ -136,7 +136,7 @@ class BrainScoreRDMMetric:
 
     def eval(self, act1, act2):
         self.fit(act1, act2)
-        if self.symmetric:
+        if self.symmeasure:
             first_r2 = self.r2
             self.fit(act2, act1)
             assert first_r2 != self.r2

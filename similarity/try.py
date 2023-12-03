@@ -7,7 +7,7 @@ import similarity
 
 
 def papers_with_code():
-    papers = similarity.make(package="metric", key="papers")
+    papers = similarity.make(package="measure", key="papers")
 
     total = 0
     with_code = 0
@@ -27,50 +27,50 @@ def generate_data():
     return X, Y
 
 
-# metric = similarity.make("backend.repsim.metric.cka-angular")
-# print(metric)
-# print(metric._fit_score)
+# measure = similarity.make("backend.repsim.measure.cka-angular")
+# print(measure)
+# print(measure._fit_score)
 # X, Y = generate_data()
-# print(metric.fit_score(X, Y))
+# print(measure.fit_score(X, Y))
 
 
-def try_metrics():
-    metric_names = similarity.make("metric", return_config=True).keys()
+def try_measures():
+    measure_names = similarity.make("measure", return_config=True).keys()
     
-    for name in metric_names:
-        print("Metric:", name)
+    for name in measure_names:
+        print("measure:", name)
         # if not name.startswith("rsa-"):
         #     continue
 
         tic = perf_counter()
-        metric = similarity.make(f"metric.{name}")
+        measure = similarity.make(f"measure.{name}")
         print("Time:", perf_counter() - tic)
-        print(metric)
+        print(measure)
 
         X, Y = generate_data()
-        print(metric.fit_score(X=X, Y=Y))
+        print(measure.fit_score(X=X, Y=Y))
 
         X = np.random.randn(100, 5, 30)
         Y = np.random.randn(100, 5, 30)
-        print(metric.fit_score(X=X, Y=Y))
+        print(measure.fit_score(X=X, Y=Y))
         print()
 
 
     # TODO
-    # @config("my_metric")
-    # def my_metric(X, Y):
+    # @config("my_measure")
+    # def my_measure(X, Y):
     #     return 0
 
 
-    # metric = similarity.make(
-    #     "my_metric",
+    # measure = similarity.make(
+    #     "my_measure",
     #     preprocessing=["reshape2d"],
     #     postprocessing=["angular_dist_to_score"]
     # )
 
 
-def backend_consistency_matrix(backend_by_metric, generate_data_fn, n_repeats=10):
-    for metric_name, backends in backend_by_metric.items():
+def backend_consistency_matrix(backend_by_measure, generate_data_fn, n_repeats=10):
+    for measure_name, backends in backend_by_measure.items():
         num_backends = len(backends)
         consistency_matrix = np.zeros((num_backends, num_backends))
 
@@ -81,8 +81,8 @@ def backend_consistency_matrix(backend_by_metric, generate_data_fn, n_repeats=10
             Y = X.copy() + np.random.randn(*X.shape) * 0.1 * (k+1) / n_repeats
 
             for i, backend_name in enumerate(backends):
-                metric = similarity.make(f"backend.{backend_name}.metric.{metric_name}")
-                result = metric.fit_score(X, Y)
+                measure = similarity.make(f"backend.{backend_name}.measure.{measure_name}")
+                result = measure.fit_score(X, Y)
                 backend_results[backend_name].append(result)
 
         backend_results = {
@@ -97,33 +97,33 @@ def backend_consistency_matrix(backend_by_metric, generate_data_fn, n_repeats=10
                     diff = np.linalg.norm(backend_results[backend1] - backend_results[backend2])
                     # diff = np.max(np.abs(backend_results[backend1] - backend_results[backend2]))
                     consistency_matrix[i, j] = diff
-                    consistency_matrix[j, i] = diff  # Symmetric matrix
+                    consistency_matrix[j, i] = diff  # Symmeasure matrix
 
-        print(f"Consistency Matrix for {metric_name}:")
+        print(f"Consistency Matrix for {measure_name}:")
         print(consistency_matrix)
         print("---------------")
 
 
 def try_backend_consistency():
-    backend_by_metric = {
+    backend_by_measure = {
         k: v["backends"]
-        for k, v in similarity.make("metric", return_config=True).items()
+        for k, v in similarity.make("measure", return_config=True).items()
     }
-    # backend_consistency_matrix(backend_by_metric, generate_data)
+    # backend_consistency_matrix(backend_by_measure, generate_data)
 
     X, Y = generate_data()
-    for metric_name, backends in backend_by_metric.items():
-        metric_results = {}
-        print("Metric:", metric_name)
+    for measure_name, backends in backend_by_measure.items():
+        measure_results = {}
+        print("measure:", measure_name)
         for backend_name in backends:
             print("Backend:", backend_name)
 
-            metric = similarity.make(f"backend.{backend_name}.metric.{metric_name}")
-            assert isinstance(metric, similarity.Metric), f"Expected type Metric, got '{metric}'"
-            res = metric.fit_score(X, Y)
-            metric_results[backend_name] = res
+            measure = similarity.make(f"backend.{backend_name}.measure.{measure_name}")
+            assert isinstance(measure, similarity.Measure), f"Expected type measure, got '{measure}'"
+            res = measure.fit_score(X, Y)
+            measure_results[backend_name] = res
 
-        print(metric_results)
+        print(measure_results)
         print("---------------")
 
 
@@ -131,17 +131,17 @@ def try_benchmark():
     # TODO: why don't work with config? (argument _out_, problem in instantiate?)
     benchmark = similarity.make("klabunde23_dimensionality")
 
-    for metric_name in ["procrustes", "cca", "svcca", "cka", "rsa"]:
-        metric = similarity.make(metric_name)
-        print(metric)
+    for measure_name in ["procrustes", "cca", "svcca", "cka", "rsa"]:
+        measure = similarity.make(measure_name)
+        print(measure)
         # TODO
-        metric_fun = lambda X, Y: metric.fit_score(X, Y)
-        benchmark(metric_fun, save_path=f"figures/klabunde23/{metric_name}.png")
+        measure_fun = lambda X, Y: measure.fit_score(X, Y)
+        benchmark(measure_fun, save_path=f"figures/klabunde23/{measure_name}.png")
         print(benchmark)
 
 
 if __name__ == "__main__":
     # papers_with_code()
-    # try_metrics()
+    # try_measures()
     try_backend_consistency()
     # try_benchmark()

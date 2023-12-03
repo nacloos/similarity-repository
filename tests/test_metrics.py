@@ -65,7 +65,7 @@ def test_backends():
     for metric_name, backends in backend_by_metric.items():
         for backend_name in backends:
             metric = similarity.make(f"backend.{backend_name}.metric.{metric_name}")
-            assert isinstance(metric, similarity.Metric), f"Expected type Metric, got '{metric}'"
+            assert isinstance(metric, similarity.Measure), f"Expected type Metric, got '{metric}'"
             score = metric.fit_score(X, Y)
             assert isinstance(score, float)
 

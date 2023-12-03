@@ -1,7 +1,7 @@
 package test
 import(
     "strings"
-    "github.com/similarity/metric:card"
+    "github.com/similarity/measure:card"
     "github.com/similarity/utils"
 )
 

@@ -1,6 +1,6 @@
-package metrics
+package measures
 
-#LinearMetric: {
+#Linearmeasure: {
 	@jsonschema(schema="http://json-schema.org/draft/2019-09/schema#")
 
 	// Alpha
@@ -16,7 +16,7 @@ package metrics
 	score_method?: "angular" | "euclidean" | *"angular"
 
 	// Path to locate the object (the package has to be installed)
-	"_target_": string | *"netrep.metrics.LinearMetric"
+	"_target_": string | *"netrep.measures.Linearmeasure"
 	"_wrap_"?: {
 		...
 	}

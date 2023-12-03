@@ -2,7 +2,7 @@
 
 // TODO: make("...", strict=True) => don't do any type convertion or reshaping, raise error if type doesn't comply
 
-metric: {
+measure: {
 
     test: {
         #inputs: [

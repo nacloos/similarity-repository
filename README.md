@@ -209,3 +209,7 @@ or put the code in a python package and link to it -->
 
 ### Adding an new implementation of an existing metric
 
+
+
+## References
+Leverage implementations from:

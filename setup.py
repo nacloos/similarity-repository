@@ -64,7 +64,9 @@ install_requires = [
     # TODO: pypi doesn't allow direct dependencies on github repos
     'config-utils @ git+https://github.com/nacloos/config-utils.git',
     # TODO: install[dev]
-    'pytest-json-report'
+    'pytest-json-report',
+    'requests',
+    'gitpython'
 ]
 
 for k, v in requirements.items():

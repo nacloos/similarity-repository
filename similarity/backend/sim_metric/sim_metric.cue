@@ -1,10 +1,15 @@
 package backend
 import(
     // "github.com/similarity/processing"
+    "github.com/similarity/measure:card"
 )
 
-// _metric_path: "similarity.backend.sim_metric.sim_metric.dists.scoring"
-_metric_path: "similarity.backend.sim_metric.dists.scoring"
+github: "https://github.com/js-d/sim_metric"
+paper: [card.papers.ding2021]
+
+
+// copied sim_metrics/dists in this folder
+_measure_path: "similarity.backend.sim_metric.dists.scoring"
 _utils_path: "similarity.backend.sim_metric.utils"
 
 #transpose: #target & {
@@ -12,12 +17,12 @@ _utils_path: "similarity.backend.sim_metric.utils"
     #partial: true
 }
 
-metric: {
-    [string]: #Metric & {
+measure: {
+    [string]: #Measure & {
         #preprocessing: [
             #reshape2d,
             // sim_metric scoring functions expect representations to be in shape (neuron, sample)
-            // but similarity.Metric expects (sample, neuron)
+            // but similarity.measure expects (sample, neuron)
             // processing.#transpose
             #transpose
         ]
@@ -40,26 +45,22 @@ metric: {
         #fit_score_inputs: [["X", "rep1"], ["Y", "rep2"]]
     }
     cka: {
-        #path: "\(_metric_path).lin_cka_dist"
+        #path: "\(_measure_path).lin_cka_dist"
         // TODO: what is cka prime?
-        // #path: "\(_metric_path).lin_cka_prime_dist"
+        // #path: "\(_measure_path).lin_cka_prime_dist"
         #function: true
         #fit_score_inputs: [["X", "A"], ["Y", "B"]]
         // TODO: (Ding, 2021): d_CKA = 1 - CKA
-        // this is not a proper metric?
+        // this is not a proper measure?
         #postprocessing: [
             #target & {#path: "similarity.processing.one_minus_score", #partial: true}
         ]
     }
     "procrustes-sq-euclidean": {
         // TODO: different from netrep?
-        #path: "\(_metric_path).procrustes"
+        #path: "\(_measure_path).procrustes"
         #function: true
         #fit_score_inputs: [["X", "A"], ["Y", "B"]]
     }
 }
 
-
-card: {
-    github: "https://github.com/js-d/sim_metric"
-}

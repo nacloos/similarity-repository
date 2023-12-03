@@ -4,8 +4,8 @@ import(
     "list"
     // "github.com/similarity"
     "github.com/similarity/backend"
-    // "github.com/similarity/metric:test_transforms"
-    metric_cards "github.com/similarity/metric:card"
+    // "github.com/similarity/measure:test_transforms"
+    measure_cards "github.com/similarity/measure:card"
 
     netrep          "github.com/similarity/backend/netrep:backend"
     repsim          "github.com/similarity/backend/repsim:backend"
@@ -34,18 +34,18 @@ _backends: {
     "subspacematch":    subspacematch
 }
 // TODO: if a backend implements cka it also automatically implements cka-angular (just take the cos of cka)
-// automaticallly add derived metrics to each backend if it is not already defined
+// automaticallly add derived measures to each backend if it is not already defined
 // need to write somewhere the transformation pipeline from "cka" to "cka-angular"
 
-#derived_metrics: {
+#derived_measures: {
     backend_name: #BackendName
     backend: _
     transforms: [...]
 
     out: {
-        for k, v in backend.metric
+        for k, v in backend.measure
         for T in transforms 
-        if T.inp == k && backend.metric[T.out] == _|_ {
+        if T.inp == k && backend.measure[T.out] == _|_ {
         // && out[T.out] == _|_ {
             (T.out): {
                 v
@@ -61,45 +61,45 @@ _backends: {
     }
 }
 
-// #derive_metrics: test_transforms.#derive_metrics
+// #derive_measures: test_transforms.#derive_measures
 // TODO: structural cycle if use #backends in for loop
 #backends: {
     for backend_name, backend in _backends {
     // for backend_name, backend in {"sim_metric": sim_metric} {
-        (backend_name): metric: {
+        (backend_name): measure: {
             // slower
-            // (#derive_metrics & {
-            //     metrics: backend.metric
-            //     transforms: metric_cards.transforms
+            // (#derive_measures & {
+            //     measures: backend.measure
+            //     transforms: measure_cards.transforms
             //     max_depht: 0
             // }).out
-            (#derived_metrics & {
+            (#derived_measures & {
                 "backend_name": backend_name
                 "backend": backend
-                transforms: metric_cards.transforms
+                transforms: measure_cards.transforms
             }).out
         }
         (backend_name): backend
     }
 }
 // #backends: _backends
-// _a: metric_cards
+// _a: measure_cards
 
 // _backend: sim_metric
-// for k, v in _backend.metric {
-//     for T in metric_cards.transforms 
-//     if T.inp == k && _backend.metric[T.out] == _|_ {
-//         #backends: sim_metric: metric: (T.out): {
-//             _backend.metric[k]
+// for k, v in _backend.measure {
+//     for T in measure_cards.transforms 
+//     if T.inp == k && _backend.measure[T.out] == _|_ {
+//         #backends: sim_metric: measure: (T.out): {
+//             _backend.measure[k]
 //             // TODO: add T.function to postprocessing
 //         }
 //     }
 // }
 
-// default backend choice for each metric
-// id instead of name? e.g. _default_backend: [#MetricId]: #BackendId  // TODO?
-#default_backend: [#MetricName]: #BackendName  // schema
-// TODO: if a backend is the only one that supports a metric, then it should be the default backend for that metric
+// default backend choice for each measure
+// id instead of name? e.g. _default_backend: [#measureId]: #BackendId  // TODO?
+#default_backend: [#MeasureName]: #BackendName  // schema
+// TODO: if a backend is the only one that supports a measure, then it should be the default backend for that measure
 #default_backend: {
     procrustes:         "netrep"
     cca:                "netrep"
@@ -109,7 +109,7 @@ _backends: {
     permutation:        "netrep"
 
     // TODO: temp
-    for id, _ in netrep.metric if id != "cka" {
+    for id, _ in netrep.measure if id != "cka" {
         (id): "netrep"
     }
 
@@ -119,12 +119,15 @@ _backends: {
 
     cka:                "yuanli2333"
 
+
+    "riemannian_metric": "repsim"
+    
     // TODO
     // rsa:                "rsatoolbox"
     // [string & =~ "^rsa.*"]: "rsatoolbox"
     
-    // all the metrics in rsatoolbox that starts with rsa
-    for id, _ in rsatoolbox.metric if id =~ "^rsa.*"{
+    // all the measures in rsatoolbox that starts with rsa
+    for id, _ in rsatoolbox.measure if id =~ "^rsa.*"{
         (id): "rsatoolbox"
     }
 
@@ -136,10 +139,10 @@ _backends: {
     max_match:          "subspacematch"
 }
 
-// all the metrics that have a card
-#metric_names: backend.#metric_names
+// all the measures that have a card
+#measure_names: backend.#measure_names
 
-#MetricName: backend.#MetricName
+#MeasureName: backend.#MeasureName
 #BackendName: or([for id, _ in #backends { id }])
 
 cards: {
@@ -147,24 +150,24 @@ cards: {
     for id, backend in #backends {
         (id): {
             backend.card
-            metrics: [for k, v in backend.metric { k }]
+            measures: [for k, v in backend.measure { k }]
         }
     }
 }
-metric_names: #metric_names
+measure_names: #measure_names
 
-metric_by_backend: #BackendName: [...#MetricName]
-metric_by_backend: {
+measure_by_backend: #BackendName: [...#MeasureName]
+measure_by_backend: {
     for id, backend in #backends {
-        (id): [for k, v in backend.metric { k }]
+        (id): [for k, v in backend.measure { k }]
     }
 }
 
-backend_by_metric: #MetricName: [...#BackendName]
-backend_by_metric: {
-    for metric_name in #metric_names {
-        (metric_name): [
-            for backend_name, metrics in metric_by_backend if list.Contains(metrics, metric_name) {
+backend_by_measure: #MeasureName: [...#BackendName]
+backend_by_measure: {
+    for measure_name in #measure_names {
+        (measure_name): [
+            for backend_name, measures in measure_by_backend if list.Contains(measures, measure_name) {
                 backend_name
             }
         ]
@@ -174,3 +177,15 @@ backend_by_metric: {
 backends: #backends
 default_backend: #default_backend
 
+
+
+measures: {
+    // create fields for measures that have a default implementation
+    for name in measure_names if default_backend[name] != _|_ {
+        // TODO: "let" statement seems to terribly slow down the compilation
+        // let backend = _backends[_default_backend[name]]
+        // (name): backend.measure[name]
+        // much faster than the two lines above!
+        (name): backends[default_backend[name]].measure[name]
+    }
+}

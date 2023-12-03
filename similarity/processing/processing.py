@@ -67,7 +67,7 @@ def pca_preprocessing(X, Y, **kwargs):
 
 
 def angular_dist(score):
-    # take the arcosine to get a proper distance metric
+    # take the arcosine to get a proper distance measure
     return np.arccos(score)
 
 
@@ -76,10 +76,10 @@ def angular_dist_to_score(score):
     return normalized_score
 
 
-def angular_to_euclidean_shape_metric(X, Y, score):
+def angular_to_euclidean_shape_measure(X, Y, score):
     """
-    shape-metric-angular: arccos(<X, YQ>/(||X|| ||Y||)))
-    shape-metric-euclidean: ||X - YQ||
+    shape-measure-angular: arccos(<X, YQ>/(||X|| ||Y||)))
+    shape-measure-euclidean: ||X - YQ||
     Ref: (Williams, 2021), (Lange, 2023)
     """
     X_norm = np.linalg.norm(X, ord="fro")
@@ -87,21 +87,21 @@ def angular_to_euclidean_shape_metric(X, Y, score):
     return np.sqrt(X_norm**2 + Y_norm**2 - 2 * X_norm * Y_norm * np.cos(score))
 
 
-def euclidean_to_angular_shape_metric(X, Y, score):
+def euclidean_to_angular_shape_measure(X, Y, score):
     X_norm = np.linalg.norm(X, ord="fro")
     Y_norm = np.linalg.norm(Y, ord="fro")
     return np.arccos((X_norm**2 + Y_norm**2 - score**2) / (2 * X_norm * Y_norm))
 
 
-def angular_metric_to_normalize_scored(score):
+def angular_measure_to_normalize_scored(score):
     return 1 - score/(np.pi/2)
 
 
 if __name__ == "__main__":
-    from netrep.metrics import LinearMetric
+    from netrep.measures import Linearmeasure
 
-    procrustes_angular = LinearMetric(alpha=1, score_method="angular")
-    procrustes_euclidean = LinearMetric(alpha=1, score_method="euclidean")
+    procrustes_angular = Linearmeasure(alpha=1, score_method="angular")
+    procrustes_euclidean = Linearmeasure(alpha=1, score_method="euclidean")
 
     X, Y = np.random.randn(100, 10), np.random.randn(100, 10)
 
@@ -109,5 +109,5 @@ if __name__ == "__main__":
     score_euclidean = procrustes_euclidean.fit_score(X, Y)    
     print(score_angular)
     print(score_euclidean)
-    print(euclidean_to_angular_shape_metric(X, Y, score_euclidean))
-    print(angular_to_euclidean_shape_metric(X, Y, score_angular))
+    print(euclidean_to_angular_shape_measure(X, Y, score_euclidean))
+    print(angular_to_euclidean_shape_measure(X, Y, score_angular))

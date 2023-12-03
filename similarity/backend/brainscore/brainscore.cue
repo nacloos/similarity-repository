@@ -1,7 +1,7 @@
 package backend
 
-_brainscore_path: "brainscore"  // TODO: problem installing brainscore as a package
-// _brainscore_path: "similarity.backend.brainscore.brainscore"
+// TODO: temporarily copied brainscore package in this repo (had issues installing it as a package because of old version of sklearn)
+_brainscore_path: "brainscore"  
 
     
 #numpy_to_brainio: #target & {
@@ -13,9 +13,9 @@ _brainscore_path: "brainscore"  // TODO: problem installing brainscore as a pack
     #partial: true
 }
 
-// TODO: cross-validation?
-metric: {
-    [string]: #Metric & {
+
+measure: {
+    [string]: #Measure & {
         #preprocessing: [
             #reshape2d,
             #numpy_to_brainio
@@ -25,6 +25,7 @@ metric: {
         ]
         #call_key: "__call__"
     }
+
     // correlation: {...}
     // TODO: pls?
     linear_regression:  {
@@ -52,6 +53,14 @@ metric: {
 }
 
 
+// id: "brainscore"
+// name: "Brain-Score"
+// github: "https://github.com/brain-score/brain-score"
+// citation: [
+// ]
+
+
+// TODO: don't need card??
 card: {
     id: "brainscore"
     name: "Brain-Score"

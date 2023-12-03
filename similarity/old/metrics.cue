@@ -1,38 +1,38 @@
 // package similarity
 // import(
-//     netrep_metrics "github.com/netrep/metrics"
+//     netrep_measures "github.com/netrep/measures"
 // )
 
-// // TODO: metrics subpackage or just one netrep package?
-// test: netrep_metrics.#LinearMetric & {
+// // TODO: measures subpackage or just one netrep package?
+// test: netrep_measures.#Linearmeasure & {
 //     alpha: 0
 // }
 
-// procrustes: #Metric & {
-//     #path: "netrep.metrics.LinearMetric"
+// procrustes: #measure & {
+//     #path: "netrep.measures.Linearmeasure"
 //     #preprocessing: [#reshape2d]
 //     #postprocessing: [#angular_dist_to_score]
 //     alpha: 1
 // }
 
-// cca: #Metric & {
-//     #path: "netrep.metrics.LinearMetric"
+// cca: #measure & {
+//     #path: "netrep.measures.Linearmeasure"
 //     #preprocessing: [#reshape2d]
 //     #postprocessing: [#angular_dist_to_score]
 //     alpha: 0
 // }
 
-// svcca: #Metric & {
-//     #path: "netrep.metrics.LinearMetric"
+// svcca: #measure & {
+//     #path: "netrep.measures.Linearmeasure"
 //     #preprocessing: [#reshape2d, #pca & {n_components: 0.95}]
 //     #postprocessing: [#angular_dist_to_score]
 //     alpha: 0
 // }
 
 
-// cka: #Metric & {
+// cka: #measure & {
 //     // TODO: directly refer to github file instead of having to copy it here
-//     #path: "similarity.metrics.yuanli2333.cka.linear_CKA"
+//     #path: "similarity.measures.yuanli2333.cka.linear_CKA"
 //     // don't use call_key because linear_CKA is already a function (not a class with a fit_score method)
 //     #call_key: null
 //     #partial: true
@@ -40,8 +40,8 @@
 //     #postprocessing: [#arccos, #angular_dist_to_score]
 // }
 
-// #base_rsa: #Metric & {
-//     #path: "similarity.metrics.rsatoolbox.rsa.compute_rsa"
+// #base_rsa: #measure & {
+//     #path: "similarity.measures.rsatoolbox.rsa.compute_rsa"
 //     #call_key: null
 //     #partial: true
 //     #preprocessing: [#reshape2d]
@@ -56,8 +56,8 @@
 // }
 
 // // TODO
-// // dsa: #Metric & {
-// //     #path: "netrep.metrics.LinearMetric"
+// // dsa: #measure & {
+// //     #path: "netrep.measures.Linearmeasure"
 // //     #preprocessing: [#reshape2d]
 // //     #postprocessing: [#angular_dist_to_score]
 // //     alpha: 0

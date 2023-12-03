@@ -31,7 +31,7 @@ _compare_methods: [
  ]
 
 
-// TODO: generate mock data to test the metrics?
+// TODO: generate mock data to test the measures?
 // see rsatoolbox tests?
 
 
@@ -41,8 +41,8 @@ _compare_methods: [
 // "cca alpha-0.1"
 
 // TODO: all the variations of rsa?
-metric: {
-    [string]: #Metric & {
+measure: {
+    [string]: #Measure & {
         #path: "similarity.backend.rsatoolbox.rsa.compute_rsa"
         #call_key: null
         #partial: true

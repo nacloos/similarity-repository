@@ -7,10 +7,10 @@ https://github.com/brain-score/brain-score/issues/327
 Can't directly overwrite it in the requirements.txt
 
 
-TODO: how to install only brainscore.metrics? (don't need all the requirements)
+TODO: how to install only brainscore.measures? (don't need all the requirements)
 
 
-TODO: problem using brainscore module. Just copy paste metrics folder here...
+TODO: problem using brainscore module. Just copy paste measures folder here...
 
 
 Delete brainscore tests because don't want them to be run by pytest

@@ -18,8 +18,8 @@ package backend
 }
 
 
-metric: {
-    [string]: #Metric & {
+measure: {
+    [string]: #Measure & {
         #path: "repsim.compare"
         // TODO: don't work for cka-angular??
         // #function: true
@@ -64,6 +64,9 @@ metric: {
         method: "euclidean_shape_metric"
         alpha: 0
         p: 100
+    }
+    "riemannian_metric": {
+        method: "affine_invariant_riemannian"
     }
 
     // TODO

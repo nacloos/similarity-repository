@@ -20,11 +20,22 @@ import(
 }
 
 #Paper: {
-    citation: string | [...string]
+    citation?: string | [...string]
     github?: string
+    bibtex?: string
 }
 
 property: {
+    "permutation-invariant": {},
+    "scale-invariant": {
+        name: "Scale Invariant"
+    }
+    "rotation-invariant": {
+        name: "Rotation Invariant"
+    }
+    "invertible-linear-invariant": {}
+    "translation-invariant": {}
+    "affine-invariant": {}
     score: {
         name: "Score"
         description: "Measure of similarity. A score of 1 indicates that the representations are identical."
@@ -33,14 +44,6 @@ property: {
         name: "Metric"
         description: "Measure of distance."
     }
-    "riemannian-metric": {}
-    "scale-invariant": {
-        name: "Scale Invariant"
-    }
-    "rotation-invariant": {
-        name: "Rotation Invariant"
-    }
-    
 }
 #PropertyId: or([for k, v in property { k }])
 
@@ -78,6 +81,9 @@ _cards: {
         }
         // TODO: cue to generate names?
         naming: "score_method"
+        // properties: [
+        //     "permutation-invariant"
+        // ]
     }
     correlation: {
         name: "Correlation"
@@ -96,35 +102,45 @@ _cards: {
         parameters: {
             scoring_method: ["euclidean", "angular"]
         }
-        properties: [
-            "score"
-        ]
-
+        // properties: [
+        //     "score",
+        //     "permutation-invariant",
+        //     "scale-invariant",
+        //     "rotation-invariant",
+        //     "translation-invariant",
+        //     "affine-invariant",
+        //     "invertible-linear-invariant",
+        // ]
     }
     cca_mean_sq_corr: {
         name: "Mean Squared Canonical Correlation"
-        properties: [
-            "score"
-        ]
+        // properties: [
+        //     "score"
+        // ]
     }
 
-    // TODO
     svcca: {
         name: "Singular Vector Canonical Correlation Analysis"
         paper: papers.raghu2017
         parameters: {
             variance_fraction: ["var95", "var99"]
         }
-        properties: [
-            "score"
-        ]
+        // properties: [
+        //     "score",
+        //     "permutation-invariant",
+        //     "scale-invariant",
+        //     "rotation-invariant",
+        //     "translation-invariant",
+        // ]
     }
     pwcca: {
         name: "Projection-Weighted Canonical Correlation Analysis"
         paper: papers.morcos2018
-        properties: [
-            "score"
-        ]
+    }
+
+    "riemannian_metric": {
+        name: "Riemannian Metric"
+        paper: papers.shahbazi2021
     }
 
     procrustes: {
@@ -133,15 +149,21 @@ _cards: {
         parameters: {
             scoring_method: ["euclidean", "angular"]
         }
+        // properties: [
+        //     "metric",
+        //     "permutation-invariant",
+        //     "scale-invariant",
+        //     "rotation-invariant"
+        // ]
     }
     // TODO: use argument? e.g. squared_or_not: ["sq", null]
     "procrustes-sq": procrustes
 
     "procrustes-score": {
         name: "Procrustes Score"
-        properties: [
-            "score"
-        ]
+        // properties: [
+        //     "score"
+        // ]
     }
 
     for alpha in [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0] {
@@ -152,12 +174,12 @@ _cards: {
             // parameters: {
             //     alpha: ["alpha0", "alpha0.5", "alpha1"]
             // }
-            properties: ["metric"]
+            // properties: ["metric"]
         }
         "shape_metric-euclidean-alpha\(math.Round(alpha*10))e-1": {
             name: "Euclidean Shape Metric"
             paper: papers.williams2021
-            properties: ["metric"]
+            // properties: ["metric"]
         }
     }
     partial_whitening_shape_metric: {
@@ -195,9 +217,14 @@ _cards: {
     rsa: {
         name: "Representational Similarity Analysis"
         paper: papers.kriegeskorte2008
-        properties: [
-            "score"
-        ]
+        // properties: [
+        //     "score",
+        //     // TODO: may depend on the specific implementation and preprocessing
+        //     // make it possible to overwrite the default properties?
+        //     "permutation-invariant",
+        //     "scale-invariant",
+        //     "translation-invariant"
+        // ]
         parameters: {
             rdm_method: [
                 "euclidean",
@@ -232,21 +259,23 @@ _cards: {
         name: "Centered Kernel Alignment"
         paper: papers.kornblith2019
         invariance: []
-        properties: [
-            "score",
-            "scale-invariant",
-            "rotation-invariant"
-        ]
+        // properties: [
+        //     "score",
+        //     "scale-invariant",
+        //     "rotation-invariant",
+        //     "permutation-invariant",
+        //     "translation-invariant"
+        // ]
     }
     "cka-angular": {
         name: "Angular CKA"
         paper: [papers.williams2021, papers.lange2022]
-        properties: [
-            "metric",
-            "riemannian-metric",
-            "scale-invariant",
-            "rotation-invariant"
-        ]
+        // properties: [
+        //     "metric",
+        //     // "riemannian-metric",
+        //     "scale-invariant",
+        //     "rotation-invariant"
+        // ]
     }
     dcor: {
         name: "Distance Correlation"
@@ -264,12 +293,12 @@ _cards: {
         name: "Unified Linear Probing"
         paper: papers.boixadsera2022
     }
-    riemmanian: {
+    "riemmanian_metric": {
         name: "Riemmanian Distance"
         paper: papers.shahbazi2021
-        properties: [
-            "metric"
-        ]
+        // properties: [
+        //     "metric"
+        // ]
     }
 
     // neighbors
@@ -402,6 +431,18 @@ papers: {
     morcos2018: {
         citation: "Ari S. Morcos, Maithra Raghu, and Samy Bengio. 2018. Insights on representational similarity in neural networks with canonical correlation. In NeurIPS."
         github: "https://github.com/google/svcca"
+        bibtex: """
+@incollection{NIPS2018_7815,
+    title = {Insights on representational similarity in neural networks with canonical correlation},
+    author = {Morcos, Ari and Raghu, Maithra and Bengio, Samy},
+    booktitle = {Advances in Neural Information Processing Systems 31},
+    editor = {S. Bengio and H. Wallach and H. Larochelle and K. Grauman and N. Cesa-Bianchi and R. Garnett},
+    pages = {5732--5741},
+    year = {2018},
+    publisher = {Curran Associates, Inc.},
+    url = {http://papers.nips.cc/paper/7815-insights-on-representational-similarity-in-neural-networks-with-canonical-correlation.pdf}
+}
+"""
     }
     khrulkov2018: {
         citation: "Valentin Khrulkov and Ivan Oseledets. 2018. Geometry Score: A Method For Comparing Generative Adversarial Networks. In ICML."
@@ -417,6 +458,18 @@ papers: {
     }
     raghu2017: {
         citation: "Maithra Raghu, Justin Gilmer, Jason Yosinski, and Jascha Sohl-Dickstein. 2017. SVCCA: Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics and Interpretability. In NeurIPS."
+        bibtex: """
+@incollection{NIPS2017_7188,
+    title = {SVCCA: Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics and Interpretability},
+    author = {Raghu, Maithra and Gilmer, Justin and Yosinski, Jason and Sohl-Dickstein, Jascha},
+    booktitle = {Advances in Neural Information Processing Systems 30},
+    editor = {I. Guyon and U. V. Luxburg and S. Bengio and H. Wallach and R. Fergus and S. Vishwanathan and R. Garnett},
+    pages = {6076--6085},
+    year = {2017},
+    publisher = {Curran Associates, Inc.},
+    url = {http://papers.nips.cc/paper/7188-svcca-singular-vector-canonical-correlation-analysis-for-deep-learning-dynamics-and-interpretability.pdf}
+}
+"""
     }
     camastra2016: {
         citation: "Francesco Camastra and Antonino Staiano. 2016. Intrinsic dimension estimation: Advances and open problems. Information Sciences 328 (2016)."

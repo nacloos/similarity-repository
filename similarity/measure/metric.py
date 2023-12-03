@@ -1,6 +1,6 @@
 
 
-class Metric:
+class Measure:
     def __init__(
             self,
             metric,

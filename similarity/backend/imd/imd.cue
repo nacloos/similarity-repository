@@ -1,7 +1,7 @@
 package backend
 
-metric: {
-    imd: #Metric & {
+measure: {
+    imd: #Measure & {
         #path: "msid.msid_score"
         #function: true
         #preprocessing: [

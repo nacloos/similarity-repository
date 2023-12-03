@@ -8,10 +8,10 @@ import(
 #ModKeys: utils.#ModKeys
 
 
-// can't put these schemas in metric because causes circular dependency between backend and meetric packages
-// backend needs to access the schemas and metric needs to access the backend implementations
+// can't put these schemas in measure because causes circular dependency between backend and meetric packages
+// backend needs to access the schemas and measure needs to access the backend implementations
 
-// TODO: force each metric to have a card
+// TODO: force each measure to have a card
 
 // TODO: grob the folders in backend?
 // TODO: backend card
@@ -21,14 +21,14 @@ import(
 //     "yuanli2333"
 
 
-// #MetricBackend: {
-//     [#MetricName]: #Metric
+// #measureBackend: {
+//     [#MeasureName]: #measure
 // }
 
-#Metric: self={
-    // path to metric class
+#measure: self={
+    // path to measure class
 
-    // TODO: #path is not defined in generated schemas (e.g. netrep LinearMetric)
+    // TODO: #path is not defined in generated schemas (e.g. netrep Linearmeasure)
     if self["_target_"] != _|_ {
         _target: self["_target_"]
     }
@@ -39,7 +39,7 @@ import(
     #path: string
     // set to true if refer to a function instead of a class
     #partial: bool | *false
-    // attribute name of the method to call on the metric class
+    // attribute name of the method to call on the measure class
     #call_key: string | null | *"fit_score"
 
     #function: bool | *false
@@ -48,7 +48,7 @@ import(
         #call_key: null
     }
 
-    // preprocessing steps to apply on X, Y before the metric
+    // preprocessing steps to apply on X, Y before the measure
     #preprocessing: [...{
         #path: string
         #partial: bool | *true
@@ -56,7 +56,7 @@ import(
         #out_keys: #ModKeys | *["X", "Y"]
         ...
     }]
-    // postprocessing steps to apply on the metric score (e.g. normalize to [0, 1])
+    // postprocessing steps to apply on the measure score (e.g. normalize to [0, 1])
     #postprocessing: [...{
         #path: string
         #partial: bool | *true
@@ -85,7 +85,7 @@ import(
     
     // TODO: allow it to be overwritten?
     if self.#call_key == null {
-        // don't need to pass "self" because metric is already a function
+        // don't need to pass "self" because measure is already a function
         // #fit_score_in_keys: [
         //     ["X", self.#fit_score_inputs[0]],
         //     ["Y", self.#fit_score_inputs[1]]
@@ -95,12 +95,12 @@ import(
     if self.#call_key != null {
         // need to pass "self" because target is a class method
         // #fit_score_in_keys: [
-        //     ["metric", "self"], 
+        //     ["measure", "self"], 
         //     ["X", self.#fit_score_inputs[0]], 
         //     ["Y", self.#fit_score_inputs[1]]
         // ]
         #fit_score_in_keys: [
-            ["metric", "self"], 
+            ["measure", "self"], 
             self.#fit_score_inputs[0], 
             self.#fit_score_inputs[1]
         ]
@@ -127,12 +127,12 @@ import(
     "_call_key_": #call_key
 
     #reserved_keywords: ["_out_", "_preprocessing_", "_postprocessing_", "_call_key_", "_fit_score_in_keys_", "_fit_score_outputs_"]
-    // pipeline to create the metric object
+    // pipeline to create the measure object
     "_out_": #target & {
-        #path: "similarity.metric.Metric"
+        #path: "similarity.measure.measure"
         
-        metric: #target & {
-            // set path and kwargs for metric
+        measure: #target & {
+            // set path and kwargs for measure
             #path: self.#path
             #partial: self.#partial
             // loop through the keys in self (automatically ignores keys starting with _ or #)
@@ -156,22 +156,22 @@ import(
                     #out_keys: p.#out_keys
                 }
             },
-            // call metric
+            // call measure
             #target & {
-                // #call_key can be used to specify a method to call on the metric class
+                // #call_key can be used to specify a method to call on the measure class
 
                 // #in_keys: self.#fit_score_in_keys 
                 #in_keys: self["_fit_score_in_keys_"] 
                 if self["_call_key_"] == null {
                     "_target_": self._target
-                    // #path: metric.#path
+                    // #path: measure.#path
                     // #in_keys: ["X", "Y"]
-                    metric
+                    measure
                 }
                 if self["_call_key_"] != null {
                     "_target_": "\(self._target).\(self.#call_key)"
-                    // #path: "\(metric.#path).\(self.#call_key)"
-                    // #in_keys: [["metric", "self"], "X", "Y"]
+                    // #path: "\(measure.#path).\(self.#call_key)"
+                    // #in_keys: [["measure", "self"], "X", "Y"]
                 }
                 // use partial because target is a function here
                 #partial: true
@@ -190,7 +190,7 @@ import(
                 }
             }
         ]
-        #in_keys: ["metric", "X", "Y"]
+        #in_keys: ["measure", "X", "Y"]
         #out_keys: [["score", null]]  // return the score value as a number (not a dict)
         }
     }

@@ -1,6 +1,6 @@
 
 
-// TODO: metric card?
+// TODO: measure card?
 #Permutation: {}
 #Orthogonal: {}
 #IsotropicScaling: {}

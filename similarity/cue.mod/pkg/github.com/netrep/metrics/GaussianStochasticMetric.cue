@@ -1,6 +1,6 @@
-package metrics
+package measures
 
-#GaussianStochasticMetric: {
+#GaussianStochasticmeasure: {
 	@jsonschema(schema="http://json-schema.org/draft/2019-09/schema#")
 
 	// Alpha
@@ -25,7 +25,7 @@ package metrics
 	n_restarts?: int | *1
 
 	// Path to locate the object (the package has to be installed)
-	"_target_": string | *"netrep.metrics.GaussianStochasticMetric"
+	"_target_": string | *"netrep.measures.GaussianStochasticmeasure"
 	"_wrap_"?: {
 		...
 	}

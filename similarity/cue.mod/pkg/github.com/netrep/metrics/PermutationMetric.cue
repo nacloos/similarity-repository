@@ -1,6 +1,6 @@
-package metrics
+package measures
 
-#PermutationMetric: {
+#Permutationmeasure: {
 	@jsonschema(schema="http://json-schema.org/draft/2019-09/schema#")
 
 	// Center Columns
@@ -13,7 +13,7 @@ package metrics
 	score_method?: "angular" | "euclidean" | *"angular"
 
 	// Path to locate the object (the package has to be installed)
-	"_target_": string | *"netrep.metrics.PermutationMetric"
+	"_target_": string | *"netrep.measures.Permutationmeasure"
 	"_wrap_"?: {
 		...
 	}

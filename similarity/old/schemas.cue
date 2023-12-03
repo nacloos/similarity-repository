@@ -1,21 +1,21 @@
 // package similarity
 
-// // #MetricCard: {
+// // #measureCard: {
 // //     name: string
 // //     paper: string
 // //     authors: [...string]    
 // //     invariance?: [...string] 
-// //     metric: #Metric
+// //     measure: #measure
 // //     // TODO: schema?
 // // }
 
 
-// #Metric: self={
-//     // path to metric class
+// #measure: self={
+//     // path to measure class
 //     #path: string
 //     // set to true if refer to a function instead of a class
 //     #partial: bool | *false
-//     // attribute name of the method to call on the metric class
+//     // attribute name of the method to call on the measure class
 //     #call_key: string | null | *"fit_score"
 
 //     #function: bool | *false
@@ -24,7 +24,7 @@
 //         #call_key: null
 //     }
 
-//     // preprocessing steps to apply on X, Y before the metric
+//     // preprocessing steps to apply on X, Y before the measure
 //     #preprocessing: [...{
 //         #path: string
 //         #partial: bool | *true
@@ -32,7 +32,7 @@
 //         #out_keys: ["X", "Y"]
 //         ...
 //     }]
-//     // postprocessing steps to apply on the metric score (e.g. normalize to [0, 1])
+//     // postprocessing steps to apply on the measure score (e.g. normalize to [0, 1])
 //     #postprocessing: [...{
 //         #path: string
 //         #partial: bool | *true
@@ -45,12 +45,12 @@
 //     // constructor kwargs
 //     ...
 
-//     // pipeline to create the metric object
+//     // pipeline to create the measure object
 //     "_out_": #target & {
-//         #path: "similarity.metrics.metric.Metric"
+//         #path: "similarity.measures.measure.measure"
         
-//         metric: #target & {
-//             // set path and kwargs for metric
+//         measure: #target & {
+//             // set path and kwargs for measure
 //             #path: self.#path
 //             #partial: self.#partial
 //             // loop through the keys in self (automatically ignores keys starting with _ or #)
@@ -68,19 +68,19 @@
 //                     #out_keys: p.#out_keys
 //                 }
 //             },
-//             // call metric
+//             // call measure
 //             #target & {
-//                 // #call_key can be used to specify a method to call on the metric class
+//                 // #call_key can be used to specify a method to call on the measure class
 //                 if self.#call_key == null {
-//                     #path: metric.#path
-//                     // don't need to pass "self" because metric is already a function
+//                     #path: measure.#path
+//                     // don't need to pass "self" because measure is already a function
 //                     #in_keys: ["X", "Y"]
-//                     metric
+//                     measure
 //                 }
 //                 if self.#call_key != null {
-//                     #path: "\(metric.#path).\(self.#call_key)"
+//                     #path: "\(measure.#path).\(self.#call_key)"
 //                     // need to pass "self" because target is a class method
-//                     #in_keys: [["metric", "self"], "X", "Y"]
+//                     #in_keys: [["measure", "self"], "X", "Y"]
 //                 }
 //                 // use partial because target is a function here
 //                 #partial: true
@@ -97,7 +97,7 @@
 //                 }
 //             }
 //         ]
-//         #in_keys: ["metric", "X", "Y"]
+//         #in_keys: ["measure", "X", "Y"]
 //         #out_keys: [["score", null]]  // return the score value as a number (not a dict)
 //         }
 //     }

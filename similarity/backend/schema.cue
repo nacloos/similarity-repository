@@ -1,19 +1,19 @@
 package backend
 import(
-    // can't import metric here because it will cause a circular dependency
+    // can't import measure here because it will cause a circular dependency
     // => move schemas to similarity package...
     "github.com/similarity"
     "github.com/similarity/utils"
     "github.com/similarity/processing"
-    // TODO: if user different card package in metric, then cannot just do similarity.make(package="metric", ...)
-    metric_cards "github.com/similarity/metric:card"
+    // TODO: if user different card package in measure, then cannot just do similarity.make(package="measure", ...)
+    measure_cards "github.com/similarity/measure:card"
 )
 #target: utils.#target
-#Metric: similarity.#Metric
-// #MetricName: similarity.#MetricName
+#measure: similarity.#measure
+// #MeasureName: similarity.#MeasureName
 
-// TODO: get metric names from cards (but can't import metric here because of cyclic import)
-// #metric_names: [
+// TODO: get measure names from cards (but can't import measure here because of cyclic import)
+// #measure_names: [
 //     "procrustes", 
 //     "cca", 
 //     "cca_mean_sq_corr",
@@ -27,9 +27,9 @@ import(
 //     "imd",
 //     "max_match"
 // ]
-#metric_names: [for k, _ in metric_cards.cards { k }]
+#measure_names: [for k, _ in measure_cards.cards { k }]
 
-#MetricName: or(#metric_names)
+#MeasureName: or(#measure_names)
 
 #Card: {
     id?: string,  // TODO: automatically extract id?
@@ -41,16 +41,16 @@ import(
 card: #Card
 
 
-// close restrict the keys of metric to be in #MetricName
-metric: close({
-    // #Metric doesn't do anything by default, it just adds functionalities
-    // [#MetricName]: #Metric  // why is it so slow???
-    [#MetricName]: { ... }
+// close restrict the keys of measure to be in #MeasureName
+measure: close({
+    // #measure doesn't do anything by default, it just adds functionalities
+    // [#MeasureName]: #measure  // why is it so slow???
+    [#MeasureName]: { ... }
 })
 
 
-// for k, v in metric {
-//     metric: (k): #Metric & v
+// for k, v in measure {
+//     measure: (k): #measure & v
 // }
 
 // prevode helper functions for pre and post processing

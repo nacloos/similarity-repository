@@ -33,7 +33,7 @@
 //         // TOOD: @bibtex("...")
 //         reference: [
 //             {
-//                 title: "Generalized Shape Metrics on Neural Representations"
+//                 title: "Generalized Shape measures on Neural Representations"
 //                 author: "Alex H. Williams and Erin Kunz and Simon Kornblith and Scott W. Linderman"
 //                 year: "2022"
 //                 eprint: "2110.14739"
@@ -42,7 +42,7 @@
 //             },
 //             {bibtex: """
 //                 @misc{williams2022generalized,
-//                     title={Generalized Shape Metrics on Neural Representations}, 
+//                     title={Generalized Shape measures on Neural Representations}, 
 //                     author={Alex H. Williams and Erin Kunz and Simon Kornblith and Scott W. Linderman},
 //                     year={2022},
 //                     eprint={2110.14739},
