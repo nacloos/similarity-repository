@@ -89,16 +89,12 @@ import(
         ]
     }
 
-
     // TODO: backend
     // TODO: interface (need special_kwargs: ["interface", "postprocessing", "preprocessing"])
     // interface: {
     //     fit_score: ["__call__", "fit_score"]
     //     // fit_score: ["score", "__call__"]
     // }
-    // #convert_to_distance: { ... } | *null
-    // distance: bool | *false
-    // if distance { #convert_to_distance != null}
 
     // constructor kwargs
     ...
@@ -127,8 +123,7 @@ import(
             }
         }
         
-        fit_score: #Seq & {#modules: [
-            // preprocessing steps
+        preprocessing: [
             for p in #preprocessing {
             // for p in self["_preprocessing_"] {
                 // TODO: need to make it more general?
@@ -138,7 +133,33 @@ import(
                     #in_keys: p.#in_keys
                     #out_keys: p.#out_keys
                 }
-            },
+            }
+        ]    
+        postprocessing: [
+            for p in self._postprocessing {
+            // for p in self["_postprocessing_"] {
+                #target & {
+                    #path: p.#path
+                    #partial: p.#partial
+                    #in_keys: p.#in_keys
+                    #out_keys: p.#out_keys
+                }
+            }
+        ]
+
+
+        fit_score: #Seq & {#modules: [
+            // preprocessing steps
+            // for p in #preprocessing {
+            // // for p in self["_preprocessing_"] {
+            //     // TODO: need to make it more general?
+            //     #target & {
+            //         #path: p.#path
+            //         #partial: p.#partial
+            //         #in_keys: p.#in_keys
+            //         #out_keys: p.#out_keys
+            //     }
+            // },
             // call measure
             #target & {
                 // #call_key can be used to specify a method to call on the measure class
@@ -163,18 +184,18 @@ import(
             // postprocessing steps
             // for p in #postprocessing {
             // TODO
-            for p in self._postprocessing {
-            // for p in self["_postprocessing_"] {
-                #target & {
-                    #path: p.#path
-                    #partial: p.#partial
-                    #in_keys: p.#in_keys
-                    #out_keys: p.#out_keys
-                }
-            }
+            // for p in self._postprocessing {
+            // // for p in self["_postprocessing_"] {
+            //     #target & {
+            //         #path: p.#path
+            //         #partial: p.#partial
+            //         #in_keys: p.#in_keys
+            //         #out_keys: p.#out_keys
+            //     }
+            // }
         ]
-        #in_keys: ["measure", "X", "Y"]
-        #out_keys: [["score", null]]  // return the score value as a number (not a dict)
+        // #in_keys: ["measure", "X", "Y"]
+        // #out_keys: [["score", null]]  // return the score value as a number (not a dict)
         }
     }
 }

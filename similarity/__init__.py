@@ -44,12 +44,17 @@ def make(
         package: PackageId = "api",
         use_cache=True,
         cached_package=None,
+        _convert_="all",
         **kwargs) -> Measure:
     """
-    Instantiate a python object from a config file.
+    Instantiate a python object from a config.
     Args:
-        id: path to the config file and key to instantiate
-        kwargs: keyword arguments passed to the object constructor
+        key: dot path to config
+        package: package to use
+        use_cache: whether to use cached config
+        cached_package: cached config
+        _convert_: by default convert all omegaconf configs to python objects
+        **kwargs: additional kwargs to pass to config
     """
     if cached_package is None:
         cached_package = {}
@@ -79,6 +84,7 @@ def make(
         key=key,
         config_dir=CONFIG_DIR,
         cached_config=cached_package,
+        _convert_=_convert_,
         **kwargs
     )
 

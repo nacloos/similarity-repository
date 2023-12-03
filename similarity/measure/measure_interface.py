@@ -28,9 +28,6 @@ class Measure:
         self._fit = fit
         self._fit_score = fit_score
 
-        self._preprocess = create_module_seq(preprocessing, self.default_preprocessing_inputs, self.default_preprocessing_outputs)
-        self._postprocess = create_module_seq(postprocessing, self.default_postprocessing_inputs, self.default_postprocessing_outputs)
-
         if interface is None:
             interface = {
                 "fit": "fit",
@@ -40,6 +37,26 @@ class Measure:
         else:
             assert isinstance(interface, dict), type(interface)
         self.interface = interface
+
+        _preprocess = create_module_seq(preprocessing, self.default_preprocessing_inputs, self.default_preprocessing_outputs)
+        _postprocess = create_module_seq(postprocessing, self.default_postprocessing_inputs, self.default_postprocessing_outputs)
+
+        # compose modules
+        self._fit = DictModule(
+            module=_preprocess + fit,
+            in_keys=["measure", "X", "Y"],
+            out_keys=[None]
+        )
+        self._score = DictModule(
+            module=_preprocess + score + _postprocess,
+            in_keys=["measure", "X", "Y"],
+            out_keys=[["score", None]]  # return the score value as a number (not a dict)
+        )
+        self._fit_score = DictModule(
+            module=_preprocess + fit_score + _postprocess,
+            in_keys=["measure", "X", "Y"],
+            out_keys=[["score", None]]  # return the score value as a number (not a dict)
+        )
 
         impls = {
             "fit": self._fit_impl,
@@ -121,24 +138,29 @@ class Measure:
 
 
 def create_module_seq(modules, in_keys, out_keys):
-    if modules is None:
-        modules = []
-    elif isinstance(modules, DictModule):
-        modules = [modules]
-    elif isinstance(modules, Callable):
-        modules = [
-            DictModule(
-                module=modules,
-                in_keys=in_keys,
-                out_keys=out_keys
-            )
-        ]
-    elif isinstance(modules, list):
-        modules = [
-            create_module_seq(m, in_keys, out_keys)
-            for m in modules
-        ]
-    else:
-        raise TypeError(f"Expected Callable, DictModule or list, found {type(modules)}")
+    def _parse_modules(modules, in_keys, out_keys):
+        if modules is None:
+            modules = []
+        elif isinstance(modules, DictModule):
+            modules = [modules]
+        elif isinstance(modules, Callable):
+            modules = [
+                DictModule(
+                    module=modules,
+                    in_keys=in_keys,
+                    out_keys=out_keys
+                )
+            ]
+        elif isinstance(modules, list):
+            parsed_modules = []
+            for m in modules:
+                parsed_modules.extend(
+                    _parse_modules(m, in_keys, out_keys)
+                )
+            modules = parsed_modules
+        else:
+            raise TypeError(f"Expected Callable, DictModule or list, found {type(modules)}")
+        return modules
 
-    return DictSequential(modules)
+    modules = _parse_modules(modules, in_keys, out_keys)
+    return DictSequential(*modules)

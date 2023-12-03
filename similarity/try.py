@@ -5,7 +5,6 @@ from time import perf_counter
 import similarity
 
 
-
 def papers_with_code():
     papers = similarity.make(package="measure", key="papers")
 
