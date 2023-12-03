@@ -7,7 +7,7 @@ from omegaconf import OmegaConf
 import json
 
 import config_utils
-from config_utils import DictModule, dict_set, dict_in, dict_get
+from config_utils import DictModule, dict_set, dict_in, dict_get, dict_update
 from similarity.measure import Measure
 from similarity.api import KeyId
 
@@ -26,8 +26,8 @@ cached_configs = {}
 
 
 # store user defined configs
-nested_dict = lambda: defaultdict(nested_dict)
-registry = nested_dict()
+# nested_dict = lambda: defaultdict(nested_dict)
+# registry = nested_dict()
 
 default_measure_config = {
     "_target_": "similarity.Measure",
@@ -37,7 +37,7 @@ default_measure_config = {
     "score": None,
     # "call_key": None
 }
-registry["measure"] = defaultdict(lambda: default_measure_config)
+registry = {}
 
 
 def make(
@@ -47,7 +47,7 @@ def make(
         defaults_only=False,
         variants_only=False,
         use_cache=True,
-        cached_config=None,
+        cached_package=None,
         **kwargs) -> Measure:
     """
     Instantiate a python object from a config file.
@@ -55,28 +55,37 @@ def make(
         id: path to the config file and key to instantiate
         kwargs: keyword arguments passed to the object constructor
     """
-
-    # TODO: not working because registry is a default dict...
-    # if dict_in(registry, key):
-    #     print("Using user defined config:", key)
-    #     package = None  # temp sol to skip next if statement
-    #     cached_config = dict_get(registry, key)
-    #     assert cached_config is not None
-    #     key = None
+    if cached_package is None:
+        cached_package = {}
 
     if package is not None and use_cache:
+        print("cache")
         if package in cached_configs:
-            cached_config = cached_configs[package]
+            cached_package = cached_configs[package]
         elif package == "api" and os.path.exists(BUILD_DIR + "/api.json"):
             # load api.json
             with open(BUILD_DIR + "/api.json", "r") as f:
-                cached_config = json.load(f)
+                cached_package = json.load(f)
         else:
-            # compile the package config
-            cached_config = config_utils.make(package=package,
+            # compile the package config (don't use key)
+            cached_package = config_utils.make(package=package,
                                               config_dir=CONFIG_DIR,
                                               return_config=True)
-        cached_configs[package] = cached_config
+        # store in cache
+        cached_configs[package] = cached_package
+    print(cached_package)
+    # if package == "api" and dict_in(registry, key):
+    #     print("Using user defined config:", key)
+    #     registered_obj = dict_get(registry, key)
+    #     print("registered_config", registered_obj)
+    #     if isinstance(registered_obj, dict):
+    #         cached_package = {**cached_package, **registered_obj}
+    #     else:
+    #         return registered_obj
+    if package == "api":
+        dict_update(cached_package, registry)
+
+    # print("make", key)
 
     # use cached config
     return config_utils.make(
@@ -84,7 +93,7 @@ def make(
         package=package,
         key=key,
         config_dir=CONFIG_DIR,
-        cached_config=cached_config,
+        cached_config=cached_package,
         **kwargs
     )
 
@@ -93,10 +102,9 @@ def register(obj: object, id: str, **kwargs):
     global registry
 
     if isinstance(obj, dict):
-        dict_set(registry, id, obj)
-        return
+        cfg = obj
 
-    if inspect.isfunction(obj):
+    elif inspect.isfunction(obj):
         sig = inspect.signature(obj)
         params = sig.parameters
         # bound = sig.bind_partial(1, **kwargs)
@@ -116,10 +124,9 @@ def register(obj: object, id: str, **kwargs):
             in_keys=in_keys,
             out_keys=["score"]
         )
-        dict_set(registry, id, fun)
-        return
+        cfg = fun
 
-    if inspect.isclass(obj):
+    elif inspect.isclass(obj):
         # TODO: fit, score functions?
 
         fit_score_inputs = list(inspect.signature(obj.fit_score).parameters.keys())
@@ -132,7 +139,7 @@ def register(obj: object, id: str, **kwargs):
             ],
             out_keys=["score"]
         )
-        config = {
+        cfg = {
             "_target_": "similarity.measure",
             "measure": {
                 "_target_": obj,
@@ -140,8 +147,19 @@ def register(obj: object, id: str, **kwargs):
             },
             "fit_score": fit_score
         }
-        dict_set(registry, id, config)
-        return
+
+    else:
+        raise TypeError(f"Expected type function or class, got {type(obj)}")
+
+    print("registry", registry)
+    # default measure config
+    if id.split(".")[0] == "measure":
+        if "measure" not in registry:
+            registry["measure"] = {}
+        registry["measure"][id.split(".")[1]] = default_measure_config
+
+    dict_set(registry, id, cfg, mkidx=True)
+    print(registry)
 
 
 def build(build_dir=BUILD_DIR):

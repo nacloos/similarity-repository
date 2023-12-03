@@ -1,6 +1,18 @@
+from typing import Callable
+from config_utils import DictModule, DictSequential
 
 
 class Measure:
+    default_interface = {
+        "fit": "fit",
+        "score": "score",
+        "fit_score": "fit_score"
+    }
+    default_preprocessing_inputs = ["X", "Y"]
+    default_preprocessing_outputs = ["X", "Y"]
+    default_postprocessing_inputs = ["score"]
+    default_postprocessing_outputs = ["score"]
+
     def __init__(
             self,
             measure,
@@ -15,6 +27,9 @@ class Measure:
         self._score = score
         self._fit = fit
         self._fit_score = fit_score
+
+        self._preprocess = create_module_seq(preprocessing, self.default_preprocessing_inputs, self.default_preprocessing_outputs)
+        self._postprocess = create_module_seq(postprocessing, self.default_postprocessing_inputs, self.default_postprocessing_outputs)
 
         if interface is None:
             interface = {
@@ -104,3 +119,26 @@ class Measure:
         # TODO: Remove wrap DictModule around DictSequential to simplify it
         return s
 
+
+def create_module_seq(modules, in_keys, out_keys):
+    if modules is None:
+        modules = []
+    elif isinstance(modules, DictModule):
+        modules = [modules]
+    elif isinstance(modules, Callable):
+        modules = [
+            DictModule(
+                module=modules,
+                in_keys=in_keys,
+                out_keys=out_keys
+            )
+        ]
+    elif isinstance(modules, list):
+        modules = [
+            create_module_seq(m, in_keys, out_keys)
+            for m in modules
+        ]
+    else:
+        raise TypeError(f"Expected Callable, DictModule or list, found {type(modules)}")
+
+    return DictSequential(modules)
