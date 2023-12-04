@@ -5,14 +5,11 @@ Please [share your feedback](https://forms.gle/YxEakx4bLi6D4qQYA)!
 
 # Similarity Measures Repository
 
-<!-- ![Backend metrics](figures/backend_metrics.png) -->
+
 ![Backend metrics](https://github.com/nacloos/similarity-measures/blob/main/backend_metrics.png)
 
 
 The goal of this repository is to gather **existing**  implementations of similarity measures for neural networks into a **single** python package, with a **common** and **customizable** interface.
-
-
-<!-- No measure is re-implemented here! Leverage only existing implementations. -->
 
 
 ## Installation
