@@ -119,7 +119,7 @@ The Measure interface is just a thin wrapper around the backend implementation t
 
 ### Registering New Measures
 
-You can register new measures locally and use them as any other measure.
+You can register new measures locally and use them as any other measure in the package.
 For example, to register a function:
 
 ```python

@@ -25,7 +25,7 @@ requirements = {
         "fire",
         "networkx",
         "matplotlib",
-        # "tensorflow",  # not needed
+        # "tensorflow",  # not needed here
         "result_caching @ git+https://github.com/brain-score/result_caching",
         "jupyter",
         "pybtex",
