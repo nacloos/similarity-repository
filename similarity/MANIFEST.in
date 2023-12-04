@@ -1,3 +1,0 @@
-include similarity/**/*.cue
-include similarity/**/*.py
-include similarity/api/api.json
