@@ -18,7 +18,7 @@ def test_simple_make():
 
 
 def test_measure_subgroups():
-    # make all the measures
+    # # make all the measures
     measures = similarity.make("measure")
     for name, measure in measures.items():
         # all the measures have the same interface
@@ -96,8 +96,10 @@ def test_register():
     score = metric2.fit_score(X, Y)
     print(score)
 
-test_simple_make()
-test_measure_subgroups()
-test_choose_backend()
-test_customize_interface()
-test_register()
+
+# if __name__ == "__main__":
+#     test_simple_make()
+#     test_measure_subgroups()
+#     test_choose_backend()
+#     test_customize_interface()
+#     test_register()
