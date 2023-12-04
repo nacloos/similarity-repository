@@ -1,5 +1,7 @@
 package backend
 
+github: "https://github.com/MeckyWu/subspace-match"
+
 measure: {
     max_match: #Measure & {
         #path: "similarity.backend.subspacematch.score.maximum_match_score"
@@ -7,11 +9,8 @@ measure: {
             #reshape2d
         ]
         #function: true
-        // TODO: how to evaluate measure with parameters?
+        // TODO: vary param
         epsilon: 0.25
     }
 }
 
-card: {
-    github: "https://github.com/MeckyWu/subspace-match"
-}

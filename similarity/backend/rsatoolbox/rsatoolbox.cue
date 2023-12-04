@@ -31,16 +31,6 @@ _compare_methods: [
  ]
 
 
-// TODO: generate mock data to test the measures?
-// see rsatoolbox tests?
-
-
-// "rsa rdm-euclidiean compare-tau-b"
-// <=> make("rsa", rdm="euclidean", compare="tau-b")
-// "rsa rdm-euclidiean compare-corr_cov"
-// "cca alpha-0.1"
-
-// TODO: all the variations of rsa?
 measure: {
     [string]: #Measure & {
         #path: "similarity.backend.rsatoolbox.rsa.compute_rsa"

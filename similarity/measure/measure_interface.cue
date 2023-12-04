@@ -127,17 +127,6 @@ import(
         postprocessing: [for p in self._postprocessing { #target, p }]
 
         fit_score: #Seq & {#modules: [
-            // preprocessing steps
-            // for p in #preprocessing {
-            // // for p in self["_preprocessing_"] {
-            //     // TODO: need to make it more general?
-            //     #target & {
-            //         #path: p.#path
-            //         #partial: p.#partial
-            //         #in_keys: p.#in_keys
-            //         #out_keys: p.#out_keys
-            //     }
-            // },
             // call measure
             #target & {
                 // #call_key can be used to specify a method to call on the measure class
@@ -159,21 +148,6 @@ import(
                 #partial: true
                 #out_keys: self["_fit_score_outputs_"]
             },
-            // postprocessing steps
-            // for p in #postprocessing {
-            // TODO
-            // for p in self._postprocessing {
-            // // for p in self["_postprocessing_"] {
-            //     #target & {
-            //         #path: p.#path
-            //         #partial: p.#partial
-            //         #in_keys: p.#in_keys
-            //         #out_keys: p.#out_keys
-            //     }
-            // }
-        ]
-        // #in_keys: ["measure", "X", "Y"]
-        // #out_keys: [["score", null]]  // return the score value as a number (not a dict)
-        }
+        ]}
     }
 }

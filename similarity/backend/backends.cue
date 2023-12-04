@@ -36,6 +36,49 @@ _backends: {
 #BackendId: or([for id, _ in _backends { id }])
 
 
+// default backend choice for each measure
+#default_backend: [#MeasureId]: #BackendId  // schema
+// TODO: if a backend is the only one that supports a measure, then it should be the default backend for that measure
+#default_backend: {
+    procrustes:         "netrep"
+    cca:                "netrep"
+    svcca:              "netrep"
+    "svcca-var95":      "netrep"
+    "svcca-var99":      "netrep"
+    permutation:        "netrep"
+
+    // TODO: temp
+    for id, _ in netrep.measure if id != "cka" {
+        (id): "netrep"
+    }
+
+    pwcca:              "sim_metric"
+    cca_mean_sq_corr:   "sim_metric"
+    "procrustes-sq-euclidean": "sim_metric"
+
+    cka:                "yuanli2333"
+
+
+    "riemannian_metric": "repsim"
+    
+    // TODO
+    // rsa:                "rsatoolbox"
+    // [string & =~ "^rsa.*"]: "rsatoolbox"
+    
+    // all the measures in rsatoolbox that starts with rsa
+    for id, _ in rsatoolbox.measure if id =~ "^rsa.*"{
+        (id): "rsatoolbox"
+    }
+
+    linear_regression:  "brainscore"
+    correlation:        "brainscore"
+
+    pls:                "svcca"
+    imd:                "imd"
+    max_match:          "subspacematch"
+}
+
+
 // automaticallly add derived measures to each backend if it is not already defined
 // e.g. if a backend implements cka it also automatically implements cka-angular (just take the cos of cka)
 #derived_measures: {
@@ -86,62 +129,6 @@ _backends: {
         (backend_name): backend
     }
 }
-// #backends: _backends
-// _a: measure
-
-// _backend: sim_metric
-// for k, v in _backend.measure {
-//     for T in measure.transforms 
-//     if T.inp == k && _backend.measure[T.out] == _|_ {
-//         #backends: sim_metric: measure: (T.out): {
-//             _backend.measure[k]
-//             // TODO: add T.function to postprocessing
-//         }
-//     }
-// }
-
-// default backend choice for each measure
-#default_backend: [#MeasureId]: #BackendId  // schema
-// TODO: if a backend is the only one that supports a measure, then it should be the default backend for that measure
-#default_backend: {
-    procrustes:         "netrep"
-    cca:                "netrep"
-    svcca:              "netrep"
-    "svcca-var95":      "netrep"
-    "svcca-var99":      "netrep"
-    permutation:        "netrep"
-
-    // TODO: temp
-    for id, _ in netrep.measure if id != "cka" {
-        (id): "netrep"
-    }
-
-    pwcca:              "sim_metric"
-    cca_mean_sq_corr:   "sim_metric"
-    "procrustes-sq-euclidean": "sim_metric"
-
-    cka:                "yuanli2333"
-
-
-    "riemannian_metric": "repsim"
-    
-    // TODO
-    // rsa:                "rsatoolbox"
-    // [string & =~ "^rsa.*"]: "rsatoolbox"
-    
-    // all the measures in rsatoolbox that starts with rsa
-    for id, _ in rsatoolbox.measure if id =~ "^rsa.*"{
-        (id): "rsatoolbox"
-    }
-
-    linear_regression:  "brainscore"
-    correlation:        "brainscore"
-
-    pls:                "svcca"
-    imd:                "imd"
-    max_match:          "subspacematch"
-}
-
 
 measure_ids: #measure_ids
 

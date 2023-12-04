@@ -2,12 +2,6 @@
     "measure": {
         "permutation": {
             "name": "Permutation",
-            "parameters": {
-                "score_method": [
-                    "euclidean",
-                    "angular"
-                ]
-            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -80,7 +74,12 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "naming": "score_method",
+            "parameters": {
+                "score_method": [
+                    "euclidean",
+                    "angular"
+                ]
+            },
             "properties": []
         },
         "correlation": {
@@ -3391,12 +3390,6 @@
         },
         "permutation-euclidean": {
             "name": "Permutation",
-            "parameters": {
-                "score_method": [
-                    "euclidean",
-                    "angular"
-                ]
-            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -3470,17 +3463,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "naming": "score_method",
-            "properties": []
-        },
-        "permutation-angular": {
-            "name": "Permutation",
             "parameters": {
                 "score_method": [
                     "euclidean",
                     "angular"
                 ]
             },
+            "properties": []
+        },
+        "permutation-angular": {
+            "name": "Permutation",
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -3554,7 +3546,12 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "naming": "score_method",
+            "parameters": {
+                "score_method": [
+                    "euclidean",
+                    "angular"
+                ]
+            },
             "properties": []
         },
         "cca-euclidean": {
@@ -11730,6 +11727,7 @@
             }
         },
         "repsim": {
+            "github": "https://github.com/wrongu/repsim/",
             "measure": {
                 "cka-angular": {
                     "method": "angular_cka",
@@ -13657,12 +13655,10 @@
                         }
                     }
                 }
-            },
-            "card": {
-                "github": "https://github.com/wrongu/repsim/"
             }
         },
         "brainscore": {
+            "github": "https://github.com/brain-score/brain-score",
             "measure": {
                 "linear_regression": {
                     "regression": null,
@@ -14578,16 +14574,6 @@
                         }
                     }
                 }
-            },
-            "card": {
-                "id": "brainscore",
-                "name": "Brain-Score",
-                "github": "https://github.com/brain-score/brain-score",
-                "website": "www.brain-score.org",
-                "citation": [
-                    "@article{SchrimpfKubilius2018BrainScore,\n    title={Brain-Score: Which Artificial Neural Network for Object Recognition is most Brain-Like?},\n    author={Martin Schrimpf and Jonas Kubilius and Ha Hong and Najib J. Majaj and Rishi Rajalingham and Elias B. Issa and Kohitij Kar and Pouya Bashivan and Jonathan Prescott-Roy and Franziska Geiger and Kailyn Schmidt and Daniel L. K. Yamins and James J. DiCarlo},\n    journal={bioRxiv preprint},\n    year={2018},\n    url={https://www.biorxiv.org/content/10.1101/407007v2}\n}",
-                    "@article{Schrimpf2020integrative,\n    title={Integrative Benchmarking to Advance Neurally Mechanistic Models of Human Intelligence},\n    author={Schrimpf, Martin and Kubilius, Jonas and Lee, Michael J and Murty, N Apurva Ratan and Ajemian, Robert and DiCarlo, James J},\n    journal={Neuron},\n    year={2020},\n    url={https://www.cell.com/neuron/fulltext/S0896-6273(20)30605-X}\n}"
-                ]
             }
         },
         "yuanli2333": {
@@ -22285,6 +22271,7 @@
             }
         },
         "subspacematch": {
+            "github": "https://github.com/MeckyWu/subspace-match",
             "measure": {
                 "max_match": {
                     "_preprocessing_": [
@@ -22367,9 +22354,6 @@
                     },
                     "epsilon": 0.25
                 }
-            },
-            "card": {
-                "github": "https://github.com/MeckyWu/subspace-match"
             }
         }
     },

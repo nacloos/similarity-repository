@@ -19,38 +19,26 @@ import(
     // only string because used to generate metric id (TODO: allow number and convert to string?)
     parameters?: [string]: [...string]
     defaults?: _
-    // default_parameter
-    // TODO: do the same with paper? just store the id of the paper?
-    // store the id of the poperty so that can easily filter by property
-    // properties: [...#PropertyId] | *[]
     naming?: string
-    // backends: [...]
 
     properties: [...] | *[]
     backends: _ | *[]
     default_backend: _ | *null
 
     // python implementation using default backend
-    // TODO: don't want to instantiate metrics that doesn't have "_out_"?
-    // "_out_": _ | *null
     "_out_"?: _
 }
 
 _cards: [string]: #MeasureCard
 _cards: {
     ...
-    // TODO: scoring_method?
     permutation: {
         name: "Permutation"
         // TODO: order of the parameters? => user naming
         parameters: {
             score_method: ["euclidean", "angular"]
         }
-        // TODO: cue to generate names?
-        naming: "score_method"
-        // properties: [
-        //     "permutation-invariant"
-        // ]
+        // naming: "score_method" 
     }
     correlation: {
         name: "Correlation"
@@ -63,7 +51,7 @@ _cards: {
  
     // canonical correlation analysis
     cca: {  // TODO: call it cca or mean_cca?
-        // TODO: the survey has two rows for mean cc, ok to merge them here?
+        // TODO: klabunde23 survey has two rows for mean cc, ok to merge them here?
         name: "Mean Canonical Correlation"
         paper: [papers.yanai1974, papers.raghu2017, papers.kornblith2019]
         parameters: {

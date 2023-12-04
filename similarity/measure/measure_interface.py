@@ -126,7 +126,6 @@ class Measure:
             # s += f"  {v}(X, Y)\n"
             s += f"{v}(X, Y), "
         s = s[:-2] + "]"
-        # TODO: Remove wrap DictModule around DictSequential to simplify it
         return s
 
 
