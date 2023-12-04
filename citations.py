@@ -41,7 +41,7 @@ def generate_citations():
 
 if __name__ == "__main__":
     citations = generate_citations()
-    print(len(citations))
+    print(f"Generated {len(citations)} citations")
     text = ""
     for citation in citations:
         text += f"{citation}\n\n"
