@@ -1,3 +1,8 @@
+Status: Under active development. API subject to change.
+
+<!-- TODO: link survey. Please [share your feedback]()! -->
+
+
 # Similarity Measures Repository
 
 <!-- ![Backend metrics](figures/backend_metrics.png) -->
@@ -19,14 +24,10 @@ Or alternatively, you can clone the repository and run `pip install -e .` inside
 
 
 ## Getting Started
-Each measure is identified by a unique id (listed [here](similarity/api/__init__.py)).
-Follow a naming convention:
-* ´.´ to separate levels of hierarchy
-* ´-´ to specify parameter values for a familly of measures. Don't use `.` for decimal numbers as it is used to separate levels of hierarchy. Use scientific notation instead (e.g. 1e-3 instead of 0.001)
 
-
-
+Here is an example of making and using a measure to quantify the similarity between two datasets.
 ```python
+import numpy as np
 import similarity
 
 # generate some random data
@@ -36,127 +37,126 @@ X, Y = np.random.randn(100, 30), np.random.randn(100, 30)
 measure = similarity.make("measure.procrustes")
 score = measure.fit_score(X, Y)
 ```
+`similarity.make` returns a Measure object with the following methods:
+* `fit(X, Y)`: fit the measure on the data (useful for cross-validation)
+* `score(X, Y) -> float`: evaluate the measure on the data
+* `fit_score(X, Y) -> float`: fit and evaluate the measure on the data at the same time
 
-TODO: Meausre interface just __call__?
-
-The Measure interface is just a thin wrapper around the backend implementation that converts the input data to the expected format.
+where the inputs `X` and `Y` are 2-dimensional **numpy arrays** of shape **(sample, neuron)**.
 
 
-You can also easily loop through all the available measures.
+Each measure has a unique identifier, where the hyphen `-` symbol is used to specify parameter values for a family of measures. For example, `measure.procrustes-sq-euclidean` refers to the squared Euclidean version of the Procrustes metric.
+
+
+You can find a list with all the implemented ids [here](similarity/api/__init__.py).
+
+
+### Selecting Groups of Measures
+
+You can easily make all the available measures by not specifying any particular measure id:
 ```python	
-# returns a dictionary with all the measures
+# make all the measures
 measures = similarity.make("measure")
 for name, measure in measures.items():
+    # all the measures have the same interface
     score = measure.fit_score(X, Y)
     print(f"{name}: {score}")
 ```
 
-It is possible to get the configs without instantiating them into python objects using `return_config=True`. This can be useful to filter measures based on their properties. For example, to get all the measures that are scoring measures (i.e. measure of similarity where 1 is perferct similarity):
+You can also filter out measures based on their properties. For example, to get all the measures that are scoring measures (i.e. measure of similarity where 1 is perfect similarity):
+
 ```python
-score_measures = {
-  k: similarity.make(f"measure.{k}")
-  for k, cfg in similarity.make("measure", return_config=True).items()
-  if "score" in cfg["properties"]
-}
-```
-Or to get all the measures that are metrics (measure of dissimilarity that satisfies the axioms for a distance metric):
-```python
-metrics = {
-  k: similarity.make(f"measure.{k}")
-  for k, cfg in similarity.make("measure", return_config=True).items()
-  if "metric" in cfg["properties"]
-}
+# return_config=True returns the config instead of the instantiated object
+measure_configs = similarity.make("measure", return_config=True)
+# select desired subset
+score_ids = [k for k, cfg in measure_configs.items() if "score" in cfg["properties"]]
+# make the measures
+score_measures = {k: similarity.make(f"measure.{k}") for k in score_ids}
+
+for name, measure in score_measures.items():
+    print(f"Score {name}: {measure.fit_score(X, Y)}")
 ```
 
-
-
-### Backend Specific Measure
-TODO: explain default backend and default parameters
-
-
-Accessing a measure for a specific backend:
+Or to get all the measures that are metrics (i.e. measure of dissimilarity that satisfies the axioms a distance metric):
 ```python
-# replace {backend_name} and {metric_name} by the backend and metric names
-similarity.make("backend.{backend_name}.metric.{metric_name}")
+metric_ids = [k for k, cfg in measure_configs.items() if "metric" in cfg["properties"]]
+# make the measures
+metric_measures = {k: similarity.make(f"measure.{k}") for k in metric_ids}
+
+for name, measure in metric_measures.items():
+    print(f"Metric {name}: {measure.fit_score(X, Y)}")
 ```
 
 
-### Common Default Interface
-All the measures have a common default interface
-Follow the sklean convention.
+### Choosing a Specific Backend
 
-Two input arraws X, Y of shape sample x neuron.
-
+`similarity.make("measure.{id}")` automatically selects the default backend for the measure. If you want to use a different backend, you can specify it with:
 ```python
-Measure:
-    fit(X, Y)
-    score(X, Y) -> float
-    fit_score(X: np.ndarray[sample, neuron], Y: np.ndarray[sample, neuron]) -> float
-
-```
-Separating `fit` and `score` allows to fit and evaluate the measure on different datasets (e.g. to do cross-validation). `fit_score` provides a quick way to do both on the same data.
-
-
-### Customized Interface
-
-
-
-## Standardized metric interface
-TODO: use the term measure insted of metric as it is more general
-
-
-### What can I do with a metric?
-Just `print(metric)` and you will get a description of what you can do.
-
-```python
-print(metric)
-# TODO: add example output
-
-metric.fit(X, Y)
-metric.score(X, Y) -> float
-     # rationale: it can be useful to fit and evaluate on different data for example, when using cross-validation
-metric.fit_score(X: np.ndarray[sample, neuron], Y: np.ndarray[sample, neuron]) -> float
-    # rationale: a quick way to fit and evaluate the metric on the same data
+# example of backend and measure
+backend_id = "repsim"
+measure_id = "procrustes"
+measure = similarity.make(f"backend.{backend_id}.measure.{measure_id}")
 ```
 
-If you want a more in-depth description, you can print each method individually:
-```python
-print(metric.fit_score)
+Default backends are specified in [similarity/backend/backends.cue](similarity/backend/backends.cue). In the future, specific criteria such as estimation accuracy or compute efficiency can be used to determine the default backend for a measure.
 
+### Customizing the Measure Interface
+
+The goal of the package is to have a common interface for similarity measures, while keeping this shared interface flexible and customizable. 
+
+For example, if you want a measure that can directly be used as a function instead of a class, you can specify it with:
+```python
+measure = similarity.make(
+  "measure.procrustes",
+  interface={
+    # replaces the method fit_score with a __call__ method 
+    "fit_score": "__call__"
+  }
+)
+score = measure(X, Y)
 ```
 
+The Measure interface is just a thin wrapper around the backend implementation that converts the inputs to the expected format and allows renaming methods and variables.
+
+
+
+### Registering New Measures
+
+You can register new measures locally and use them as any other measure.
+For example, to register a function:
+
+```python
+def my_metric(x, y):
+    return x.reshape(-1) @ y.reshape(-1) / (np.linalg.norm(x) * np.linalg.norm(y))
+
+# register the function with a unique id
+similarity.register(my_metric, "measure.my_metric.fit_score")
+
+metric = similarity.make("measure.my_metric")
+score = metric.fit_score(X, Y)
+```
+
+You can also register a class:
+```python
+class MyMetric:
+    def fit(self, X, Y):
+        pass
+
+    def score(self, X, Y):
+        return X.reshape(-1) @ Y.reshape(-1) / (np.linalg.norm(X) * np.linalg.norm(Y))
+
+    def fit_score(self, x, y):
+        self.fit(x, y)
+        return self.score(x, y)
+
+similarity.register(MyMetric, "measure.my_metric2")
+
+metric2 = similarity.make("measure.my_metric2")
+score = metric2.fit_score(X, Y)
+```
 
 <!-- 
-### Why this particular interface?
-sklearn -->
-
-### How can I change the interface?
-If you want to change it for your own usage, just specify the interface you want when creating the metric. 
-```python
-metric = similarity.make(
-    metric_id, 
-    interface={
-        "fit_score": "__call__"  # metric can now be used as a function
-    }
-)
-...
-score = metric(X, Y)
-```
-
-If you want to have your own custom metric creator, you can leverage python functools' `partial` function:
-```python
-from functools import partial
-
-make_metric = partial(similarity.make, interface={"fit_score": "__call__"})
-metric = make_metric(metric_id)
-...
-score = metric(X, Y)
-```
-
-
-If you want to suggest modifications to the standard interface, please open an issue.
-
-## Organization of the repository
+## Organization of the Repository
 Here is an overview of the files and directories:
 * [similarity/backend](similarity/backend): all the backend folders
 * [similarity/measure](similarity/measure): measure cards
@@ -168,6 +168,9 @@ Can easily generate a json config describing the config
 
 Why cue language? Can use schema to validate config. Show example of adding a metric that doesn't have a card
 e.g. it constrains backends can only register metrics that have a card
+
+
+https://cuelang.org/docs/
 
 
 ## Adding an implementation of an existing metric
@@ -206,10 +209,10 @@ Checklist:
 
 
 
-<!-- ### Adding a new benchmark
+### Adding a new benchmark
 Either copy paste code
 * link to commit from which the code was copied
-or put the code in a python package and link to it -->
+or put the code in a python package and link to it
 
 
 ### Adding an new implementation of an existing metric
@@ -217,4 +220,4 @@ or put the code in a python package and link to it -->
 
 
 ## References
-Leverage implementations from:
+Leverage implementations from: -->

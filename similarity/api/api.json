@@ -320,7 +320,15 @@
                     "angular"
                 ]
             },
-            "properties": []
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "rotation-invariant",
+                "invertible-linear-invariant",
+                "translation-invariant",
+                "affine-invariant",
+                "score"
+            ]
         },
         "cca_mean_sq_corr": {
             "name": "Mean Squared Canonical Correlation",
@@ -526,7 +534,13 @@
                     "var99"
                 ]
             },
-            "properties": []
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "rotation-invariant",
+                "translation-invariant",
+                "score"
+            ]
         },
         "pwcca": {
             "name": "Projection-Weighted Canonical Correlation Analysis",
@@ -630,7 +644,11 @@
                 "github": "https://github.com/google/svcca",
                 "bibtex": "@incollection{NIPS2018_7815,\ntitle = {Insights on representational similarity in neural networks with canonical correlation},\nauthor = {Morcos, Ari and Raghu, Maithra and Bengio, Samy},\nbooktitle = {Advances in Neural Information Processing Systems 31},\neditor = {S. Bengio and H. Wallach and H. Larochelle and K. Grauman and N. Cesa-Bianchi and R. Garnett},\npages = {5732--5741},\nyear = {2018},\npublisher = {Curran Associates, Inc.},\nurl = {http://papers.nips.cc/paper/7815-insights-on-representational-similarity-in-neural-networks-with-canonical-correlation.pdf}\n}"
             },
-            "properties": []
+            "properties": [
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ]
         },
         "riemannian_metric": {
             "name": "Riemannian Metric",
@@ -1289,7 +1307,12 @@
                 "rdm_method": "euclidean",
                 "compare_method": "cosine"
             },
-            "properties": []
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ]
         },
         "cka": {
             "name": "Centered Kernel Alignment",
@@ -1368,7 +1391,13 @@
             "paper": {
                 "citation": "Simon Kornblith, Mohammad Norouzi, Honglak Lee, and Geoffrey E. Hinton. 2019. Similarity of Neural Network Representations Revisited. In ICML."
             },
-            "properties": []
+            "properties": [
+                "permutation-invariant",
+                "rotation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ]
         },
         "cka-angular": {
             "name": "Angular CKA",
@@ -1540,7 +1569,12 @@
                 "citation": "Anton Tsitsulin, Marina Munkhoeva, Davide Mottin, Panagiotis Karras, Alex Bronstein, Ivan Oseledets, and Emmanuel Mueller. 2020. The Shape of Data: Intrinsic Distance for Data Distributions. In ICLR.",
                 "github": "https://github.com/xgfs/imd"
             },
-            "properties": []
+            "properties": [
+                "permutation-invariant",
+                "rotation-invariant",
+                "scale-invariant",
+                "translation-invariant"
+            ]
         },
         "shape_metric-angular-alpha0e-1": {
             "name": "Angular Shape Metric",
@@ -4032,7 +4066,11 @@
                     "angular"
                 ]
             },
-            "properties": []
+            "properties": [
+                "permutation-invariant",
+                "rotation-invariant",
+                "metric"
+            ]
         },
         "procrustes-angular": {
             "name": "Orthogonal Procrustes",
@@ -4129,7 +4167,12 @@
                     "angular"
                 ]
             },
-            "properties": []
+            "properties": [
+                "permutation-invariant",
+                "rotation-invariant",
+                "scale-invariant",
+                "metric"
+            ]
         },
         "procrustes-sq-euclidean": {
             "name": "Orthogonal Procrustes",

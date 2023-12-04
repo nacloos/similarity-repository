@@ -45,7 +45,7 @@ class Measure:
         self._fit = DictModule(
             module=_preprocess + fit,
             in_keys=["measure", "X", "Y"],
-            out_keys=[None]
+            out_keys=[]
         )
         self._score = DictModule(
             module=_preprocess + score + _postprocess,

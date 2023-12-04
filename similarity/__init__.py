@@ -118,25 +118,51 @@ def register(obj: object, id: str, **kwargs):
         cfg = fun
 
     elif inspect.isclass(obj):
-        # TODO: fit, score functions?
+        # fit_score_inputs = list(inspect.signature(obj.fit_score).parameters.keys())
+        # fit_score = DictModule(
+        #     module=obj.fit_score,
+        #     in_keys=[
+        #         ["measure", fit_score_inputs[0]],
+        #         ["X", fit_score_inputs[1]],
+        #         ["Y", fit_score_inputs[2]]
+        #     ],
+        #     out_keys=["score"]
+        # )
+        def _method_to_module(obj, method_name, outputs):
+            if not hasattr(obj, method_name):
+                return None
 
-        fit_score_inputs = list(inspect.signature(obj.fit_score).parameters.keys())
-        fit_score = DictModule(
-            module=obj.fit_score,
-            in_keys=[
-                ["measure", fit_score_inputs[0]],
-                ["X", fit_score_inputs[1]],
-                ["Y", fit_score_inputs[2]]
-            ],
-            out_keys=["score"]
-        )
+            method = getattr(obj, method_name)
+            method_inputs = list(inspect.signature(method).parameters.keys())
+
+            module = DictModule(
+                module=method,
+                in_keys=[
+                    # assume first arg is self and refers to the measure object
+                    ["measure", method_inputs[0]],
+                    ["X", method_inputs[1]],
+                    ["Y", method_inputs[2]]
+                ],
+                out_keys=outputs
+            )
+            return module
+
+        # assume outputs are ["score"] for  score and fit_score
+        fit = _method_to_module(obj, "fit", outputs=[])
+        score = _method_to_module(obj, "score", outputs=["score"])
+        fit_score = _method_to_module(obj, "fit_score", outputs=["score"])
+
         cfg = {
-            "_target_": "similarity.measure",
+            "_target_": "similarity.Measure",
             "measure": {
-                "_target_": obj,
-                **kwargs
+                # need to create the measure object when the config is being instantiated
+                "_target_": "similarity.create_object",
+                "obj": obj,
+                "kwargs": kwargs
             },
-            "fit_score": fit_score
+            "fit_score": fit_score,
+            "fit": fit,
+            "score": score
         }
 
     else:
@@ -149,6 +175,10 @@ def register(obj: object, id: str, **kwargs):
         registry["measure"][id.split(".")[1]] = default_measure_config
 
     dict_set(registry, id, cfg, mkidx=True)
+
+
+def create_object(obj, kwargs):
+    return obj(**kwargs)
 
 
 def build(build_dir=BUILD_DIR):

@@ -18,7 +18,9 @@ import(
             // select only implemented measure
             measure.cards[k]
             // TODO: slow
-            // property.measure[k]
+            if property.measure[k] != _|_ {
+                property.measure[k]
+            }
         }
     }
 }

@@ -83,6 +83,7 @@ measure: {
         "scale-invariant",
         "metric",
     ]
+    // TODO: add properties to all the variations!
     "shape_metric-angular": properties: [
         "permutation-invariant",
         "rotation-invariant",
