@@ -1,6 +1,6 @@
 Status: Under active development. API subject to change.
 
-<!-- TODO: link survey. Please [share your feedback]()! -->
+Please [share your feedback](https://forms.gle/YxEakx4bLi6D4qQYA)!
 
 
 # Similarity Measures Repository
