@@ -63,13 +63,7 @@ class Measure:
             "score": self._score_impl,
             "fit_score": self._fit_score_impl
         }
-        # TODO: do this because want to print pipeline with e.g. print(measure.fit_score)
-        # but problem with self=measure arg
-        # impls = {
-        #     "fit": self._fit,
-        #     "score": self._score,
-        #     "fit_score": self._fit_score
-        # }
+
         self.impls = {}
         # use interface to rename impls keys
         for k, v in impls.items():
@@ -89,7 +83,6 @@ class Measure:
         else:
             self._fit_impl(X, Y)
             return self._score_impl(X, Y)
-
 
     def fit(self, X, Y):
         if self._fit is not None:

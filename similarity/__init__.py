@@ -98,8 +98,6 @@ def register(obj: object, id: str, **kwargs):
     elif inspect.isfunction(obj):
         sig = inspect.signature(obj)
         params = sig.parameters
-        # bound = sig.bind_partial(1, **kwargs)
-        # print(bound.arguments)
 
         # measure function should have 2 arguments (no if allow kwargs...)
         # assert len(params) == 2
@@ -118,16 +116,6 @@ def register(obj: object, id: str, **kwargs):
         cfg = fun
 
     elif inspect.isclass(obj):
-        # fit_score_inputs = list(inspect.signature(obj.fit_score).parameters.keys())
-        # fit_score = DictModule(
-        #     module=obj.fit_score,
-        #     in_keys=[
-        #         ["measure", fit_score_inputs[0]],
-        #         ["X", fit_score_inputs[1]],
-        #         ["Y", fit_score_inputs[2]]
-        #     ],
-        #     out_keys=["score"]
-        # )
         def _method_to_module(obj, method_name, outputs):
             if not hasattr(obj, method_name):
                 return None

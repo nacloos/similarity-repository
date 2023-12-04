@@ -1,8 +1,5 @@
 from setuptools import setup, find_packages
 
-# TODO: install all the backend requirements.txt
-
-# TODO: can't use cue to load requirements.cue because config-utils not yet installed
 requirements = {
     "rsatoolbox": [
         'rsatoolbox'
@@ -90,6 +87,6 @@ setup(
     # extras_require={
     #     'rtd': rtd_requires
     # },
-    description='A hub for similarity measures.',
+    description='A repository for similarity measures.',
     author='Nathan Cloos'
 )
