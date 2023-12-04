@@ -1,8 +1,10 @@
 package backend
 import(
     "strings"
+    "github.com/similarity/papers"
 )
-
+github: "https://github.com/rsagroup/rsatoolbox"
+paper: [papers.kriegeskorte2008]
 
 // TODO: some methods accept extra input (e.g. noise cov)
 _rdm_methods: [

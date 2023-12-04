@@ -21,7 +21,7 @@ import(
     defaults?: _
     naming?: string
 
-    properties: [...] | *[]
+    properties: [...#PropertyId] | *[]
     backends: _ | *[]
     default_backend: _ | *null
 
@@ -29,26 +29,57 @@ import(
     "_out_"?: _
 }
 
+#PropertyId: or([for k, v in property { k }])
+
+property: [string]: {
+    name?: string
+    description?: string
+}
+property: {
+    "permutation-invariant": {
+        name: "Permutation Invariant"
+    },
+    "scale-invariant": {
+        name: "Scale Invariant"
+    }
+    "rotation-invariant": {
+        name: "Rotation Invariant"
+    }
+    "invertible-linear-invariant": {
+        name: "Invertible Linear Invariant"
+    }
+    "translation-invariant": {
+        name: "Translation Invariant"
+    }
+    "affine-invariant": {
+        name: "Affine Invariant"
+    }
+    score: {
+        name: "Score"
+        description: "Measure of similarity. A score of 1 indicates that the representations are identical."
+    }
+    metric: {
+        name: "Metric"
+        description: "Measure that satisfies the axioms for a metric: non-negativity, identity, symmetry, and triangle inequality. A metric of 0 indicates that the representations are identical."
+    }
+}
+
 _cards: [string]: #MeasureCard
 _cards: {
     ...
     permutation: {
         name: "Permutation"
-        // TODO: order of the parameters? => user naming
         parameters: {
             score_method: ["euclidean", "angular"]
         }
-        // naming: "score_method" 
+        properties: [
+            "permutation-invariant",
+            "metric"
+        ]
     }
     correlation: {
         name: "Correlation"
-    }
-    // for score_method in ["euclidean", "angular"] {
-    //     ("permutation-" + score_method): {
-    //         name: "Permutation distance-\(score_method)"
-    //     }
-    // }
- 
+    } 
     // canonical correlation analysis
     cca: {  // TODO: call it cca or mean_cca?
         // TODO: klabunde23 survey has two rows for mean cc, ok to merge them here?
@@ -57,15 +88,15 @@ _cards: {
         parameters: {
             scoring_method: ["euclidean", "angular"]
         }
-        // properties: [
-        //     "score",
-        //     "permutation-invariant",
-        //     "scale-invariant",
-        //     "rotation-invariant",
-        //     "translation-invariant",
-        //     "affine-invariant",
-        //     "invertible-linear-invariant",
-        // ]
+        properties: [
+            "permutation-invariant",
+            "scale-invariant",
+            "rotation-invariant",
+            "invertible-linear-invariant",
+            "translation-invariant",
+            "affine-invariant",
+            "score",
+        ]
     }
     cca_mean_sq_corr: {
         name: "Mean Squared Canonical Correlation"
@@ -80,17 +111,22 @@ _cards: {
         parameters: {
             variance_fraction: ["var95", "var99"]
         }
-        // properties: [
-        //     "score",
-        //     "permutation-invariant",
-        //     "scale-invariant",
-        //     "rotation-invariant",
-        //     "translation-invariant",
-        // ]
+        properties: [
+            "permutation-invariant",
+            "scale-invariant",
+            "rotation-invariant",
+            "translation-invariant",
+            "score",
+        ]
     }
     pwcca: {
         name: "Projection-Weighted Canonical Correlation Analysis"
         paper: papers.morcos2018
+        properties: [
+            "scale-invariant",
+            "translation-invariant",
+            "score",
+        ]
     }
 
     "riemannian_metric": {
@@ -111,14 +147,28 @@ _cards: {
         //     "rotation-invariant"
         // ]
     }
+    "procrustes-euclidean": properties: [
+        "permutation-invariant",
+        "rotation-invariant",
+        "metric",
+    ]
+    "procrustes-angular": properties: [
+        "permutation-invariant",
+        "rotation-invariant",
+        "scale-invariant",
+        "metric",
+    ]
     // TODO: use argument? e.g. squared_or_not: ["sq", null]
     "procrustes-sq": procrustes
 
     "procrustes-score": {
         name: "Procrustes Score"
-        // properties: [
-        //     "score"
-        // ]
+        properties: [
+            "permutation-invariant",
+            "rotation-invariant",
+            "scale-invariant",
+            "score"
+        ]
     }
 
     for alpha in [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0] {
@@ -129,18 +179,18 @@ _cards: {
             // parameters: {
             //     alpha: ["alpha0", "alpha0.5", "alpha1"]
             // }
-            // properties: ["metric"]
+            properties: ["metric"]
         }
         "shape_metric-euclidean-alpha\(math.Round(alpha*10))e-1": {
             name: "Euclidean Shape Metric"
             paper: papers.williams2021
-            // properties: ["metric"]
+            properties: ["metric"]
         }
     }
-    partial_whitening_shape_metric: {
-        name: "Partial-Whitening Shape Metric"
-        paper: papers.williams2021
-    }
+    // partial_whitening_shape_metric: {
+    //     name: "Partial-Whitening Shape Metric"
+    //     paper: papers.williams2021
+    // }
     // TODO
     pls: {
         name: "Partial Least Squares"
@@ -172,14 +222,12 @@ _cards: {
     rsa: {
         name: "Representational Similarity Analysis"
         paper: papers.kriegeskorte2008
-        // properties: [
-        //     "score",
-        //     // TODO: may depend on the specific implementation and preprocessing
-        //     // make it possible to overwrite the default properties?
-        //     "permutation-invariant",
-        //     "scale-invariant",
-        //     "translation-invariant"
-        // ]
+        properties: [
+            "permutation-invariant",
+            "scale-invariant",
+            "translation-invariant",
+            "score"
+        ]
         parameters: {
             rdm_method: [
                 "euclidean",
@@ -213,23 +261,24 @@ _cards: {
     cka: {
         name: "Centered Kernel Alignment"
         paper: papers.kornblith2019
-        // properties: [
-        //     "score",
-        //     "scale-invariant",
-        //     "rotation-invariant",
-        //     "permutation-invariant",
-        //     "translation-invariant"
-        // ]
+        properties: [
+            "permutation-invariant",
+            "rotation-invariant",
+            "scale-invariant",
+            "translation-invariant",
+            "score"
+        ]
     }
     "cka-angular": {
         name: "Angular CKA"
         paper: [papers.williams2021, papers.lange2022]
-        // properties: [
-        //     "metric",
-        //     // "riemannian-metric",
-        //     "scale-invariant",
-        //     "rotation-invariant"
-        // ]
+        properties: [
+            "permutation-invariant",
+            "rotation-invariant",
+            "scale-invariant",
+            "translation-invariant",
+            "metric"
+        ]
     }
     dcor: {
         name: "Distance Correlation"
@@ -250,9 +299,9 @@ _cards: {
     "riemmanian_metric": {
         name: "Riemmanian Distance"
         paper: papers.shahbazi2021
-        // properties: [
-        //     "metric"
-        // ]
+        properties: [
+            "metric"
+        ]
     }
 
     // neighbors
@@ -277,14 +326,32 @@ _cards: {
     gs: {
         name: "Geometry Score"
         paper: papers.khrulkov2018
+        properties: [
+            "permutation-invariant",
+            "rotation-invariant",
+            "scale-invariant",
+            "translation-invariant",
+        ]
     }
     imd: {
         name: "Multi-scale Intrinsic Distance"
         paper: papers.tsitsulin2020
+        properties: [
+            "permutation-invariant",
+            "rotation-invariant",
+            "scale-invariant",
+            "translation-invariant",
+        ]
     }
     rtd: {
         name: "Representation Topology Divergence"
         paper: papers.barannikov2022
+        properties: [
+            "permutation-invariant",
+            "rotation-invariant",
+            "scale-invariant",
+            "translation-invariant",
+        ]
     }
 
     // statistic

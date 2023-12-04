@@ -2,7 +2,6 @@ package backend
 import(
     "github.com/similarity/papers"
 )
-
 // python files in this folder were copied from the github repo (+ some small modifications)
 github: "https://github.com/google/svcca/"
 paper: [papers.raghu2017, papers.morcos2018]

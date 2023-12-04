@@ -1,5 +1,6 @@
 package backend
 
+github: "https://github.com/yuanli2333/CKA-Centered-Kernel-Alignment"
 
 measure: {
     cka: #Measure & {

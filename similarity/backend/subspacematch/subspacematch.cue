@@ -1,6 +1,9 @@
 package backend
-
+import(
+    "github.com/similarity/papers"
+)
 github: "https://github.com/MeckyWu/subspace-match"
+paper: [papers.wang2018]
 
 measure: {
     max_match: #Measure & {

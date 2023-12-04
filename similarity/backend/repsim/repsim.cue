@@ -1,6 +1,10 @@
 package backend
+import(
+    "github.com/similarity/papers"
+)
 
 github: "https://github.com/wrongu/repsim/"
+paper: [papers.lange2023]
 
 
 #array_to_tensor: #target & {

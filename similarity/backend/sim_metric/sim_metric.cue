@@ -3,7 +3,6 @@ import(
     // "github.com/similarity/processing"
     "github.com/similarity/papers"
 )
-
 github: "https://github.com/js-d/sim_metric"
 paper: [papers.ding2021]
 

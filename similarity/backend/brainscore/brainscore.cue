@@ -1,7 +1,10 @@
 package backend
+import(
+    "github.com/similarity/papers"
+)
 
 github: "https://github.com/brain-score/brain-score"
-
+paper: [papers.schrimpf2018, papers.schrimpf2020]
 
 // TODO: temporarily copied brainscore package in this repo (had issues installing it as a package because of old version of sklearn)
 _brainscore_path: "brainscore"  

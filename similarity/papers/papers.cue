@@ -7,6 +7,32 @@ package papers
 }
 
 [string]: #Paper
+klabunde2023: {
+    citation: "Max Klabunde, Tobias Schumacher, Markus Strohmaier, & Florian Lemmerich. (2023). Similarity of Neural Network Models: A Survey of Functional and Representational Measures."
+    bibtex: """
+@misc{klabunde2023similarity,
+    title={Similarity of Neural Network Models: A Survey of Functional and Representational Measures}, 
+    author={Max Klabunde and Tobias Schumacher and Markus Strohmaier and Florian Lemmerich},
+    year={2023},
+    eprint={2305.06329},
+    archivePrefix={arXiv},
+    primaryClass={cs.LG}
+}"""
+    github: "https://github.com/mklabunde/survey_measures"
+}
+lange2023: {
+    citation: "Richard D. Lange, Devin Kwok, Jordan Matelsky, Xinyue Wang, David S. Rolnick, & Konrad P. Kording. (2022). Neural Networks as Paths through the Space of Representations."
+    bibtex: """
+@misc{lange2022neural,
+      title={Neural Networks as Paths through the Space of Representations}, 
+      author={Richard D. Lange and Devin Kwok and Jordan Matelsky and Xinyue Wang and David S. Rolnick and Konrad P. Kording},
+      year={2022},
+      eprint={2206.10999},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}"""
+    github: "https://github.com/wrongu/repsim"
+}
 barannikov2022: {
     citation: "Serguei Barannikov, Ilya Trofimov, Nikita Balabin, and Evgeny Burnaev. 2022. Representation Topology Divergence: A Method for Comparing Neural Network Representations. In ICML."
     github: "https://github.com/IlyaTrofimov/RTD"
@@ -49,6 +75,17 @@ williams2021: {
 wang2021: {
     citation: "Feng Wang and Huaping Liu. 2021. Understanding the Behaviour of Contrastive Loss. In CVPR."
 }
+schrimpf2020: {
+    citation: "Schrimpf, M., Kubilius, J., Lee, M., Murty, N., Ajemian, R., & DiCarlo, J. (2020). Integrative Benchmarking to Advance Neurally Mechanistic Models of Human Intelligence. Neuron."
+    bibtex: """
+@article{Schrimpf2020integrative,
+  title={Integrative Benchmarking to Advance Neurally Mechanistic Models of Human Intelligence},
+  author={Schrimpf, Martin and Kubilius, Jonas and Lee, Michael J and Murty, N Apurva Ratan and Ajemian, Robert and DiCarlo, James J},
+  journal={Neuron},
+  year={2020},
+  url={https://www.cell.com/neuron/fulltext/S0896-6273(20)30605-X}
+}"""
+}
 hryniowski2020: {
     citation: "Andrew Hryniowski and Alexander Wong. 2020. Inter-layer Information Similarity Assessment of Deep Neural Networks Via Topological Similarity and Persistence Analysis of Data Neighbour Dynamics. ArXiv preprint (2020)."
 }
@@ -68,6 +105,17 @@ kornblith2019: {
 }
 may2019: {
     citation: "Avner May, Jian Zhang, Tri Dao, and Christopher Ré. 2019. On the Downstream Performance of Compressed Word Embeddings. In NeurIPS."
+}
+schrimpf2018: {
+    citation: "Martin Schrimpf, Jonas Kubilius, Ha Hong, Najib J. Majaj, Rishi Rajalingham, Elias B. Issa, Kohitĳ Kar, Pouya Bashivan, Jonathan Prescott-Roy, Franziska Geiger, Kailyn Schmidt, Daniel L. K. Yamins, & James J. DiCarlo (2018). Brain-Score: Which Artificial Neural Network for Object Recognition is most Brain-Like?. bioRxiv preprint."
+    bibtex: """
+@article{SchrimpfKubilius2018BrainScore,
+  title={Brain-Score: Which Artificial Neural Network for Object Recognition is most Brain-Like?},
+  author={Martin Schrimpf and Jonas Kubilius and Ha Hong and Najib J. Majaj and Rishi Rajalingham and Elias B. Issa and Kohitij Kar and Pouya Bashivan and Jonathan Prescott-Roy and Franziska Geiger and Kailyn Schmidt and Daniel L. K. Yamins and James J. DiCarlo},
+  journal={bioRxiv preprint},
+  year={2018},
+  url={https://www.biorxiv.org/content/10.1101/407007v2}
+}"""
 }
 morcos2018: {
     citation: "Ari S. Morcos, Maithra Raghu, and Samy Bengio. 2018. Insights on representational similarity in neural networks with canonical correlation. In NeurIPS."

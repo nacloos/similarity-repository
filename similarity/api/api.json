@@ -2,6 +2,12 @@
     "measure": {
         "permutation": {
             "name": "Permutation",
+            "parameters": {
+                "score_method": [
+                    "euclidean",
+                    "angular"
+                ]
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -74,13 +80,10 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "parameters": {
-                "score_method": [
-                    "euclidean",
-                    "angular"
-                ]
-            },
-            "properties": []
+            "properties": [
+                "permutation-invariant",
+                "metric"
+            ]
         },
         "correlation": {
             "name": "Correlation",
@@ -217,6 +220,12 @@
                     "citation": "Simon Kornblith, Mohammad Norouzi, Honglak Lee, and Geoffrey E. Hinton. 2019. Similarity of Neural Network Representations Revisited. In ICML."
                 }
             ],
+            "parameters": {
+                "scoring_method": [
+                    "euclidean",
+                    "angular"
+                ]
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -313,12 +322,6 @@
                 "svcca"
             ],
             "default_backend": "netrep",
-            "parameters": {
-                "scoring_method": [
-                    "euclidean",
-                    "angular"
-                ]
-            },
             "properties": [
                 "permutation-invariant",
                 "scale-invariant",
@@ -433,6 +436,12 @@
                 "citation": "Maithra Raghu, Justin Gilmer, Jason Yosinski, and Jascha Sohl-Dickstein. 2017. SVCCA: Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics and Interpretability. In NeurIPS.",
                 "bibtex": "@incollection{NIPS2017_7188,\ntitle = {SVCCA: Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics and Interpretability},\nauthor = {Raghu, Maithra and Gilmer, Justin and Yosinski, Jason and Sohl-Dickstein, Jascha},\nbooktitle = {Advances in Neural Information Processing Systems 30},\neditor = {I. Guyon and U. V. Luxburg and S. Bengio and H. Wallach and R. Fergus and S. Vishwanathan and R. Garnett},\npages = {6076--6085},\nyear = {2017},\npublisher = {Curran Associates, Inc.},\nurl = {http://papers.nips.cc/paper/7188-svcca-singular-vector-canonical-correlation-analysis-for-deep-learning-dynamics-and-interpretability.pdf}\n}"
             },
+            "parameters": {
+                "variance_fraction": [
+                    "var95",
+                    "var99"
+                ]
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -527,12 +536,6 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "parameters": {
-                "variance_fraction": [
-                    "var95",
-                    "var99"
-                ]
-            },
             "properties": [
                 "permutation-invariant",
                 "scale-invariant",
@@ -543,6 +546,11 @@
         },
         "pwcca": {
             "name": "Projection-Weighted Canonical Correlation Analysis",
+            "paper": {
+                "citation": "Ari S. Morcos, Maithra Raghu, and Samy Bengio. 2018. Insights on representational similarity in neural networks with canonical correlation. In NeurIPS.",
+                "github": "https://github.com/google/svcca",
+                "bibtex": "@incollection{NIPS2018_7815,\ntitle = {Insights on representational similarity in neural networks with canonical correlation},\nauthor = {Morcos, Ari and Raghu, Maithra and Bengio, Samy},\nbooktitle = {Advances in Neural Information Processing Systems 31},\neditor = {S. Bengio and H. Wallach and H. Larochelle and K. Grauman and N. Cesa-Bianchi and R. Garnett},\npages = {5732--5741},\nyear = {2018},\npublisher = {Curran Associates, Inc.},\nurl = {http://papers.nips.cc/paper/7815-insights-on-representational-similarity-in-neural-networks-with-canonical-correlation.pdf}\n}"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -638,11 +646,6 @@
                 "svcca"
             ],
             "default_backend": "sim_metric",
-            "paper": {
-                "citation": "Ari S. Morcos, Maithra Raghu, and Samy Bengio. 2018. Insights on representational similarity in neural networks with canonical correlation. In NeurIPS.",
-                "github": "https://github.com/google/svcca",
-                "bibtex": "@incollection{NIPS2018_7815,\ntitle = {Insights on representational similarity in neural networks with canonical correlation},\nauthor = {Morcos, Ari and Raghu, Maithra and Bengio, Samy},\nbooktitle = {Advances in Neural Information Processing Systems 31},\neditor = {S. Bengio and H. Wallach and H. Larochelle and K. Grauman and N. Cesa-Bianchi and R. Garnett},\npages = {5732--5741},\nyear = {2018},\npublisher = {Curran Associates, Inc.},\nurl = {http://papers.nips.cc/paper/7815-insights-on-representational-similarity-in-neural-networks-with-canonical-correlation.pdf}\n}"
-            },
             "properties": [
                 "scale-invariant",
                 "translation-invariant",
@@ -847,6 +850,209 @@
                 ]
             },
             "properties": []
+        },
+        "procrustes-euclidean": {
+            "name": "Orthogonal Procrustes",
+            "paper": [
+                {
+                    "citation": "Frances Ding, Jean-Stanislas Denain, and Jacob Steinhardt. 2021. Grounding Representation Similarity Through Statistical Testing. In NeurIPS.",
+                    "github": "https://github.com/js-d/sim_metric"
+                },
+                {
+                    "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                    "github": "https://github.com/ahwillia/netrep"
+                }
+            ],
+            "_out_": {
+                "_target_": "similarity.measure.Measure",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "measure": {
+                    "alpha": 1,
+                    "_target_": "netrep.metrics.LinearMetric",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [],
+                    "score_method": "euclidean"
+                },
+                "preprocessing": [
+                    {
+                        "_target_": "similarity.processing.flatten_3d_to_2d",
+                        "_partial_": true,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "_wrap_": {
+                            "dict_mod": {
+                                "_target_": "config_utils.dict_module.DictModule",
+                                "in_keys": [
+                                    "X",
+                                    "Y"
+                                ],
+                                "out_keys": [
+                                    "X",
+                                    "Y"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "postprocessing": [],
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "netrep.metrics.LinearMetric.fit_score",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "measure",
+                                            "self"
+                                        ],
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "backends": [
+                "netrep",
+                "repsim",
+                "mklabunde",
+                "sim_metric"
+            ],
+            "default_backend": "netrep",
+            "properties": [
+                "permutation-invariant",
+                "rotation-invariant",
+                "metric"
+            ],
+            "parameters": {
+                "scoring_method": [
+                    "euclidean",
+                    "angular"
+                ]
+            }
+        },
+        "procrustes-angular": {
+            "name": "Orthogonal Procrustes",
+            "paper": [
+                {
+                    "citation": "Frances Ding, Jean-Stanislas Denain, and Jacob Steinhardt. 2021. Grounding Representation Similarity Through Statistical Testing. In NeurIPS.",
+                    "github": "https://github.com/js-d/sim_metric"
+                },
+                {
+                    "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                    "github": "https://github.com/ahwillia/netrep"
+                }
+            ],
+            "_out_": {
+                "_target_": "similarity.measure.Measure",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "measure": {
+                    "alpha": 1,
+                    "_target_": "netrep.metrics.LinearMetric",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [],
+                    "score_method": "angular"
+                },
+                "preprocessing": [
+                    {
+                        "_target_": "similarity.processing.flatten_3d_to_2d",
+                        "_partial_": true,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "_wrap_": {
+                            "dict_mod": {
+                                "_target_": "config_utils.dict_module.DictModule",
+                                "in_keys": [
+                                    "X",
+                                    "Y"
+                                ],
+                                "out_keys": [
+                                    "X",
+                                    "Y"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "postprocessing": [],
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "netrep.metrics.LinearMetric.fit_score",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "measure",
+                                            "self"
+                                        ],
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "backends": [
+                "netrep",
+                "repsim",
+                "mklabunde",
+                "sim_metric"
+            ],
+            "default_backend": "netrep",
+            "properties": [
+                "permutation-invariant",
+                "rotation-invariant",
+                "scale-invariant",
+                "metric"
+            ],
+            "parameters": {
+                "scoring_method": [
+                    "euclidean",
+                    "angular"
+                ]
+            }
         },
         "pls": {
             "name": "Partial Least Squares",
@@ -1171,28 +1377,6 @@
                 "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
                 "github": "https://github.com/rsagroup/rsatoolbox"
             },
-            "parameters": {
-                "rdm_method": [
-                    "euclidean",
-                    "correlation",
-                    "mahalanobis",
-                    "crossnobis",
-                    "poisson",
-                    "poisson_cv"
-                ],
-                "compare_method": [
-                    "cosine",
-                    "spearman",
-                    "corr",
-                    "kendall",
-                    "tau_b",
-                    "tau_a",
-                    "rho_a",
-                    "corr_cov",
-                    "cosine_cov",
-                    "neg_riem_dist"
-                ]
-            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -1302,19 +1486,44 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
             "properties": [
                 "permutation-invariant",
                 "scale-invariant",
                 "translation-invariant",
                 "score"
-            ]
+            ],
+            "parameters": {
+                "rdm_method": [
+                    "euclidean",
+                    "correlation",
+                    "mahalanobis",
+                    "crossnobis",
+                    "poisson",
+                    "poisson_cv"
+                ],
+                "compare_method": [
+                    "cosine",
+                    "spearman",
+                    "corr",
+                    "kendall",
+                    "tau_b",
+                    "tau_a",
+                    "rho_a",
+                    "corr_cov",
+                    "cosine_cov",
+                    "neg_riem_dist"
+                ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
         },
         "cka": {
             "name": "Centered Kernel Alignment",
+            "paper": {
+                "citation": "Simon Kornblith, Mohammad Norouzi, Honglak Lee, and Geoffrey E. Hinton. 2019. Similarity of Neural Network Representations Revisited. In ICML."
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -1387,9 +1596,6 @@
                 "sim_metric"
             ],
             "default_backend": "yuanli2333",
-            "paper": {
-                "citation": "Simon Kornblith, Mohammad Norouzi, Honglak Lee, and Geoffrey E. Hinton. 2019. Similarity of Neural Network Representations Revisited. In ICML."
-            },
             "properties": [
                 "permutation-invariant",
                 "rotation-invariant",
@@ -1400,6 +1606,16 @@
         },
         "cka-angular": {
             "name": "Angular CKA",
+            "paper": [
+                {
+                    "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                    "github": "https://github.com/ahwillia/netrep"
+                },
+                {
+                    "citation": "Richard D. Lange, David S. Rolnick, and Konrad P. Kording. 2022. Clustering units in neural networks: upstream vs downstream information. TMLR (2022).",
+                    "github": "https://github.com/wrongu/modularity"
+                }
+            ],
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -1476,20 +1692,20 @@
                 "sim_metric"
             ],
             "default_backend": "netrep",
-            "paper": [
-                {
-                    "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                    "github": "https://github.com/ahwillia/netrep"
-                },
-                {
-                    "citation": "Richard D. Lange, David S. Rolnick, and Konrad P. Kording. 2022. Clustering units in neural networks: upstream vs downstream information. TMLR (2022).",
-                    "github": "https://github.com/wrongu/modularity"
-                }
-            ],
-            "properties": []
+            "properties": [
+                "permutation-invariant",
+                "rotation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "metric"
+            ]
         },
         "imd": {
             "name": "Multi-scale Intrinsic Distance",
+            "paper": {
+                "citation": "Anton Tsitsulin, Marina Munkhoeva, Davide Mottin, Panagiotis Karras, Alex Bronstein, Ivan Oseledets, and Emmanuel Mueller. 2020. The Shape of Data: Intrinsic Distance for Data Distributions. In ICLR.",
+                "github": "https://github.com/xgfs/imd"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -1564,10 +1780,6 @@
                 "imd"
             ],
             "default_backend": "imd",
-            "paper": {
-                "citation": "Anton Tsitsulin, Marina Munkhoeva, Davide Mottin, Panagiotis Karras, Alex Bronstein, Ivan Oseledets, and Emmanuel Mueller. 2020. The Shape of Data: Intrinsic Distance for Data Distributions. In ICLR.",
-                "github": "https://github.com/xgfs/imd"
-            },
             "properties": [
                 "permutation-invariant",
                 "rotation-invariant",
@@ -1577,6 +1789,10 @@
         },
         "shape_metric-angular-alpha0e-1": {
             "name": "Angular Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -1653,14 +1869,16 @@
                 "svcca"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "shape_metric-euclidean-alpha0e-1": {
             "name": "Euclidean Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -1737,14 +1955,16 @@
                 "svcca"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "shape_metric-angular-alpha1e-1": {
             "name": "Angular Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -1819,14 +2039,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "shape_metric-euclidean-alpha1e-1": {
             "name": "Euclidean Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -1901,14 +2123,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "shape_metric-angular-alpha2e-1": {
             "name": "Angular Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -1983,14 +2207,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "shape_metric-euclidean-alpha2e-1": {
             "name": "Euclidean Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -2065,14 +2291,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "shape_metric-angular-alpha3e-1": {
             "name": "Angular Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -2147,14 +2375,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "shape_metric-euclidean-alpha3e-1": {
             "name": "Euclidean Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -2229,14 +2459,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "shape_metric-angular-alpha4e-1": {
             "name": "Angular Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -2311,14 +2543,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "shape_metric-euclidean-alpha4e-1": {
             "name": "Euclidean Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -2393,14 +2627,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "shape_metric-angular-alpha5e-1": {
             "name": "Angular Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -2475,14 +2711,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "shape_metric-euclidean-alpha5e-1": {
             "name": "Euclidean Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -2557,14 +2795,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "shape_metric-angular-alpha6e-1": {
             "name": "Angular Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -2639,14 +2879,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "shape_metric-euclidean-alpha6e-1": {
             "name": "Euclidean Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -2721,14 +2963,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "shape_metric-angular-alpha7e-1": {
             "name": "Angular Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -2803,14 +3047,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "shape_metric-euclidean-alpha7e-1": {
             "name": "Euclidean Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -2885,14 +3131,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "shape_metric-angular-alpha8e-1": {
             "name": "Angular Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -2967,14 +3215,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "shape_metric-euclidean-alpha8e-1": {
             "name": "Euclidean Shape Metric",
+            "paper": {
+                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                "github": "https://github.com/ahwillia/netrep"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -3049,14 +3299,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
+            "properties": [
+                "metric"
+            ]
+        },
+        "shape_metric-angular-alpha9e-1": {
+            "name": "Angular Shape Metric",
             "paper": {
                 "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
                 "github": "https://github.com/ahwillia/netrep"
             },
-            "properties": []
-        },
-        "shape_metric-angular-alpha9e-1": {
-            "name": "Angular Shape Metric",
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -3131,14 +3383,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
+            "properties": [
+                "metric"
+            ]
+        },
+        "shape_metric-euclidean-alpha9e-1": {
+            "name": "Euclidean Shape Metric",
             "paper": {
                 "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
                 "github": "https://github.com/ahwillia/netrep"
             },
-            "properties": []
-        },
-        "shape_metric-euclidean-alpha9e-1": {
-            "name": "Euclidean Shape Metric",
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -3213,14 +3467,16 @@
                 "netrep"
             ],
             "default_backend": "netrep",
+            "properties": [
+                "metric"
+            ]
+        },
+        "shape_metric-angular-alpha10e-1": {
+            "name": "Angular Shape Metric",
             "paper": {
                 "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
                 "github": "https://github.com/ahwillia/netrep"
             },
-            "properties": []
-        },
-        "shape_metric-angular-alpha10e-1": {
-            "name": "Angular Shape Metric",
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -3298,14 +3554,16 @@
                 "sim_metric"
             ],
             "default_backend": "netrep",
+            "properties": [
+                "metric"
+            ]
+        },
+        "shape_metric-euclidean-alpha10e-1": {
+            "name": "Euclidean Shape Metric",
             "paper": {
                 "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
                 "github": "https://github.com/ahwillia/netrep"
             },
-            "properties": []
-        },
-        "shape_metric-euclidean-alpha10e-1": {
-            "name": "Euclidean Shape Metric",
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -3382,14 +3640,18 @@
                 "sim_metric"
             ],
             "default_backend": "netrep",
-            "paper": {
-                "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                "github": "https://github.com/ahwillia/netrep"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "permutation-euclidean": {
             "name": "Permutation",
+            "parameters": {
+                "score_method": [
+                    "euclidean",
+                    "angular"
+                ]
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -3463,16 +3725,19 @@
                 "netrep"
             ],
             "default_backend": "netrep",
+            "properties": [
+                "permutation-invariant",
+                "metric"
+            ]
+        },
+        "permutation-angular": {
+            "name": "Permutation",
             "parameters": {
                 "score_method": [
                     "euclidean",
                     "angular"
                 ]
             },
-            "properties": []
-        },
-        "permutation-angular": {
-            "name": "Permutation",
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -3546,13 +3811,10 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "parameters": {
-                "score_method": [
-                    "euclidean",
-                    "angular"
-                ]
-            },
-            "properties": []
+            "properties": [
+                "permutation-invariant",
+                "metric"
+            ]
         },
         "cca-euclidean": {
             "name": "Mean Canonical Correlation",
@@ -3568,6 +3830,12 @@
                     "citation": "Simon Kornblith, Mohammad Norouzi, Honglak Lee, and Geoffrey E. Hinton. 2019. Similarity of Neural Network Representations Revisited. In ICML."
                 }
             ],
+            "parameters": {
+                "scoring_method": [
+                    "euclidean",
+                    "angular"
+                ]
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -3645,13 +3913,15 @@
                 "svcca"
             ],
             "default_backend": "netrep",
-            "parameters": {
-                "scoring_method": [
-                    "euclidean",
-                    "angular"
-                ]
-            },
-            "properties": []
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "rotation-invariant",
+                "invertible-linear-invariant",
+                "translation-invariant",
+                "affine-invariant",
+                "score"
+            ]
         },
         "cca-angular": {
             "name": "Mean Canonical Correlation",
@@ -3667,6 +3937,12 @@
                     "citation": "Simon Kornblith, Mohammad Norouzi, Honglak Lee, and Geoffrey E. Hinton. 2019. Similarity of Neural Network Representations Revisited. In ICML."
                 }
             ],
+            "parameters": {
+                "scoring_method": [
+                    "euclidean",
+                    "angular"
+                ]
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -3744,19 +4020,27 @@
                 "svcca"
             ],
             "default_backend": "netrep",
-            "parameters": {
-                "scoring_method": [
-                    "euclidean",
-                    "angular"
-                ]
-            },
-            "properties": []
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "rotation-invariant",
+                "invertible-linear-invariant",
+                "translation-invariant",
+                "affine-invariant",
+                "score"
+            ]
         },
         "svcca-var95": {
             "name": "Singular Vector Canonical Correlation Analysis",
             "paper": {
                 "citation": "Maithra Raghu, Justin Gilmer, Jason Yosinski, and Jascha Sohl-Dickstein. 2017. SVCCA: Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics and Interpretability. In NeurIPS.",
                 "bibtex": "@incollection{NIPS2017_7188,\ntitle = {SVCCA: Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics and Interpretability},\nauthor = {Raghu, Maithra and Gilmer, Justin and Yosinski, Jason and Sohl-Dickstein, Jascha},\nbooktitle = {Advances in Neural Information Processing Systems 30},\neditor = {I. Guyon and U. V. Luxburg and S. Bengio and H. Wallach and R. Fergus and S. Vishwanathan and R. Garnett},\npages = {6076--6085},\nyear = {2017},\npublisher = {Curran Associates, Inc.},\nurl = {http://papers.nips.cc/paper/7188-svcca-singular-vector-canonical-correlation-analysis-for-deep-learning-dynamics-and-interpretability.pdf}\n}"
+            },
+            "parameters": {
+                "variance_fraction": [
+                    "var95",
+                    "var99"
+                ]
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -3852,19 +4136,25 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "parameters": {
-                "variance_fraction": [
-                    "var95",
-                    "var99"
-                ]
-            },
-            "properties": []
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "rotation-invariant",
+                "translation-invariant",
+                "score"
+            ]
         },
         "svcca-var99": {
             "name": "Singular Vector Canonical Correlation Analysis",
             "paper": {
                 "citation": "Maithra Raghu, Justin Gilmer, Jason Yosinski, and Jascha Sohl-Dickstein. 2017. SVCCA: Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics and Interpretability. In NeurIPS.",
                 "bibtex": "@incollection{NIPS2017_7188,\ntitle = {SVCCA: Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics and Interpretability},\nauthor = {Raghu, Maithra and Gilmer, Justin and Yosinski, Jason and Sohl-Dickstein, Jascha},\nbooktitle = {Advances in Neural Information Processing Systems 30},\neditor = {I. Guyon and U. V. Luxburg and S. Bengio and H. Wallach and R. Fergus and S. Vishwanathan and R. Garnett},\npages = {6076--6085},\nyear = {2017},\npublisher = {Curran Associates, Inc.},\nurl = {http://papers.nips.cc/paper/7188-svcca-singular-vector-canonical-correlation-analysis-for-deep-learning-dynamics-and-interpretability.pdf}\n}"
+            },
+            "parameters": {
+                "variance_fraction": [
+                    "var95",
+                    "var99"
+                ]
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -3960,215 +4250,12 @@
                 "netrep"
             ],
             "default_backend": "netrep",
-            "parameters": {
-                "variance_fraction": [
-                    "var95",
-                    "var99"
-                ]
-            },
-            "properties": []
-        },
-        "procrustes-euclidean": {
-            "name": "Orthogonal Procrustes",
-            "paper": [
-                {
-                    "citation": "Frances Ding, Jean-Stanislas Denain, and Jacob Steinhardt. 2021. Grounding Representation Similarity Through Statistical Testing. In NeurIPS.",
-                    "github": "https://github.com/js-d/sim_metric"
-                },
-                {
-                    "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                    "github": "https://github.com/ahwillia/netrep"
-                }
-            ],
-            "_out_": {
-                "_target_": "similarity.measure.Measure",
-                "_partial_": false,
-                "_recursive_": true,
-                "_convert_": "all",
-                "_args_": [],
-                "measure": {
-                    "alpha": 1,
-                    "_target_": "netrep.metrics.LinearMetric",
-                    "_partial_": false,
-                    "_recursive_": true,
-                    "_convert_": "all",
-                    "_args_": [],
-                    "score_method": "euclidean"
-                },
-                "preprocessing": [
-                    {
-                        "_target_": "similarity.processing.flatten_3d_to_2d",
-                        "_partial_": true,
-                        "_recursive_": true,
-                        "_convert_": "all",
-                        "_args_": [],
-                        "_wrap_": {
-                            "dict_mod": {
-                                "_target_": "config_utils.dict_module.DictModule",
-                                "in_keys": [
-                                    "X",
-                                    "Y"
-                                ],
-                                "out_keys": [
-                                    "X",
-                                    "Y"
-                                ]
-                            }
-                        }
-                    }
-                ],
-                "postprocessing": [],
-                "fit_score": {
-                    "_target_": "config_utils.dict_module.DictSequential",
-                    "_partial_": false,
-                    "_recursive_": true,
-                    "_convert_": "all",
-                    "_args_": [
-                        {
-                            "_target_": "netrep.metrics.LinearMetric.fit_score",
-                            "_partial_": true,
-                            "_recursive_": true,
-                            "_convert_": "all",
-                            "_args_": [],
-                            "_wrap_": {
-                                "dict_mod": {
-                                    "_target_": "config_utils.dict_module.DictModule",
-                                    "in_keys": [
-                                        [
-                                            "measure",
-                                            "self"
-                                        ],
-                                        "X",
-                                        "Y"
-                                    ],
-                                    "out_keys": [
-                                        "score"
-                                    ]
-                                }
-                            }
-                        }
-                    ]
-                }
-            },
-            "backends": [
-                "netrep",
-                "repsim",
-                "mklabunde",
-                "sim_metric"
-            ],
-            "default_backend": "netrep",
-            "parameters": {
-                "scoring_method": [
-                    "euclidean",
-                    "angular"
-                ]
-            },
             "properties": [
                 "permutation-invariant",
-                "rotation-invariant",
-                "metric"
-            ]
-        },
-        "procrustes-angular": {
-            "name": "Orthogonal Procrustes",
-            "paper": [
-                {
-                    "citation": "Frances Ding, Jean-Stanislas Denain, and Jacob Steinhardt. 2021. Grounding Representation Similarity Through Statistical Testing. In NeurIPS.",
-                    "github": "https://github.com/js-d/sim_metric"
-                },
-                {
-                    "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
-                    "github": "https://github.com/ahwillia/netrep"
-                }
-            ],
-            "_out_": {
-                "_target_": "similarity.measure.Measure",
-                "_partial_": false,
-                "_recursive_": true,
-                "_convert_": "all",
-                "_args_": [],
-                "measure": {
-                    "alpha": 1,
-                    "_target_": "netrep.metrics.LinearMetric",
-                    "_partial_": false,
-                    "_recursive_": true,
-                    "_convert_": "all",
-                    "_args_": [],
-                    "score_method": "angular"
-                },
-                "preprocessing": [
-                    {
-                        "_target_": "similarity.processing.flatten_3d_to_2d",
-                        "_partial_": true,
-                        "_recursive_": true,
-                        "_convert_": "all",
-                        "_args_": [],
-                        "_wrap_": {
-                            "dict_mod": {
-                                "_target_": "config_utils.dict_module.DictModule",
-                                "in_keys": [
-                                    "X",
-                                    "Y"
-                                ],
-                                "out_keys": [
-                                    "X",
-                                    "Y"
-                                ]
-                            }
-                        }
-                    }
-                ],
-                "postprocessing": [],
-                "fit_score": {
-                    "_target_": "config_utils.dict_module.DictSequential",
-                    "_partial_": false,
-                    "_recursive_": true,
-                    "_convert_": "all",
-                    "_args_": [
-                        {
-                            "_target_": "netrep.metrics.LinearMetric.fit_score",
-                            "_partial_": true,
-                            "_recursive_": true,
-                            "_convert_": "all",
-                            "_args_": [],
-                            "_wrap_": {
-                                "dict_mod": {
-                                    "_target_": "config_utils.dict_module.DictModule",
-                                    "in_keys": [
-                                        [
-                                            "measure",
-                                            "self"
-                                        ],
-                                        "X",
-                                        "Y"
-                                    ],
-                                    "out_keys": [
-                                        "score"
-                                    ]
-                                }
-                            }
-                        }
-                    ]
-                }
-            },
-            "backends": [
-                "netrep",
-                "repsim",
-                "mklabunde",
-                "sim_metric"
-            ],
-            "default_backend": "netrep",
-            "parameters": {
-                "scoring_method": [
-                    "euclidean",
-                    "angular"
-                ]
-            },
-            "properties": [
-                "permutation-invariant",
-                "rotation-invariant",
                 "scale-invariant",
-                "metric"
+                "rotation-invariant",
+                "translation-invariant",
+                "score"
             ]
         },
         "procrustes-sq-euclidean": {
@@ -4294,28 +4381,6 @@
                 "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
                 "github": "https://github.com/rsagroup/rsatoolbox"
             },
-            "parameters": {
-                "rdm_method": [
-                    "euclidean",
-                    "correlation",
-                    "mahalanobis",
-                    "crossnobis",
-                    "poisson",
-                    "poisson_cv"
-                ],
-                "compare_method": [
-                    "cosine",
-                    "spearman",
-                    "corr",
-                    "kendall",
-                    "tau_b",
-                    "tau_a",
-                    "rho_a",
-                    "corr_cov",
-                    "cosine_cov",
-                    "neg_riem_dist"
-                ]
-            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -4425,18 +4490,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-euclidean-spearman": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -4458,6 +4517,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-euclidean-spearman": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -4568,18 +4638,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-euclidean-corr": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -4601,6 +4665,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-euclidean-corr": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -4711,18 +4786,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-euclidean-kendall": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -4744,6 +4813,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-euclidean-kendall": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -4854,18 +4934,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-euclidean-tau_b": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -4887,6 +4961,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-euclidean-tau_b": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -4997,18 +5082,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-euclidean-tau_a": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -5030,6 +5109,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-euclidean-tau_a": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -5140,18 +5230,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-euclidean-rho_a": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -5173,6 +5257,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-euclidean-rho_a": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -5283,18 +5378,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-euclidean-corr_cov": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -5316,6 +5405,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-euclidean-corr_cov": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -5426,18 +5526,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-euclidean-cosine_cov": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -5459,6 +5553,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-euclidean-cosine_cov": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -5569,18 +5674,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-correlation-cosine": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -5602,6 +5701,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-correlation-cosine": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -5712,18 +5822,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-correlation-spearman": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -5745,6 +5849,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-correlation-spearman": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -5856,18 +5971,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-correlation-corr": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -5889,6 +5998,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-correlation-corr": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -5999,18 +6119,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-correlation-kendall": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -6032,6 +6146,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-correlation-kendall": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -6142,18 +6267,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-correlation-tau_b": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -6175,6 +6294,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-correlation-tau_b": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -6285,18 +6415,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-correlation-tau_a": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -6318,6 +6442,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-correlation-tau_a": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -6428,18 +6563,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-correlation-rho_a": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -6461,6 +6590,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-correlation-rho_a": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -6571,18 +6711,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-correlation-corr_cov": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -6604,6 +6738,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-correlation-corr_cov": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -6714,18 +6859,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-correlation-cosine_cov": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -6747,6 +6886,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-correlation-cosine_cov": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -6857,18 +7007,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-mahalanobis-cosine": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -6890,6 +7034,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-mahalanobis-cosine": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -7000,18 +7155,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-mahalanobis-spearman": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -7033,6 +7182,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-mahalanobis-spearman": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -7143,18 +7303,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-mahalanobis-corr": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -7176,6 +7330,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-mahalanobis-corr": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -7286,18 +7451,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-mahalanobis-kendall": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -7319,6 +7478,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-mahalanobis-kendall": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -7429,18 +7599,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-mahalanobis-tau_b": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -7462,6 +7626,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-mahalanobis-tau_b": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -7572,18 +7747,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-mahalanobis-tau_a": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -7605,6 +7774,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-mahalanobis-tau_a": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -7715,18 +7895,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-mahalanobis-rho_a": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -7748,6 +7922,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-mahalanobis-rho_a": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -7858,18 +8043,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-mahalanobis-corr_cov": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -7891,6 +8070,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-mahalanobis-corr_cov": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -8001,18 +8191,12 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
-            "defaults": {
-                "rdm_method": "euclidean",
-                "compare_method": "cosine"
-            },
-            "properties": []
-        },
-        "rsa-mahalanobis-cosine_cov": {
-            "name": "Representational Similarity Analysis",
-            "paper": {
-                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
-                "github": "https://github.com/rsagroup/rsatoolbox"
-            },
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
             "parameters": {
                 "rdm_method": [
                     "euclidean",
@@ -8034,6 +8218,17 @@
                     "cosine_cov",
                     "neg_riem_dist"
                 ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "rsa-mahalanobis-cosine_cov": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
             },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
@@ -8144,11 +8339,38 @@
                 "rsatoolbox"
             ],
             "default_backend": "rsatoolbox",
+            "properties": [
+                "permutation-invariant",
+                "scale-invariant",
+                "translation-invariant",
+                "score"
+            ],
+            "parameters": {
+                "rdm_method": [
+                    "euclidean",
+                    "correlation",
+                    "mahalanobis",
+                    "crossnobis",
+                    "poisson",
+                    "poisson_cv"
+                ],
+                "compare_method": [
+                    "cosine",
+                    "spearman",
+                    "corr",
+                    "kendall",
+                    "tau_b",
+                    "tau_a",
+                    "rho_a",
+                    "corr_cov",
+                    "cosine_cov",
+                    "neg_riem_dist"
+                ]
+            },
             "defaults": {
                 "rdm_method": "euclidean",
                 "compare_method": "cosine"
-            },
-            "properties": []
+            }
         }
     },
     "backend": {
@@ -11728,6 +11950,13 @@
         },
         "repsim": {
             "github": "https://github.com/wrongu/repsim/",
+            "paper": [
+                {
+                    "citation": "Richard D. Lange, Devin Kwok, Jordan Matelsky, Xinyue Wang, David S. Rolnick, & Konrad P. Kording. (2022). Neural Networks as Paths through the Space of Representations.",
+                    "bibtex": "@misc{lange2022neural,\n      title={Neural Networks as Paths through the Space of Representations}, \n      author={Richard D. Lange and Devin Kwok and Jordan Matelsky and Xinyue Wang and David S. Rolnick and Konrad P. Kording},\n      year={2022},\n      eprint={2206.10999},\n      archivePrefix={arXiv},\n      primaryClass={cs.LG}\n}",
+                    "github": "https://github.com/wrongu/repsim"
+                }
+            ],
             "measure": {
                 "cka-angular": {
                     "method": "angular_cka",
@@ -13659,6 +13888,16 @@
         },
         "brainscore": {
             "github": "https://github.com/brain-score/brain-score",
+            "paper": [
+                {
+                    "citation": "Martin Schrimpf, Jonas Kubilius, Ha Hong, Najib J. Majaj, Rishi Rajalingham, Elias B. Issa, Kohit\u0133 Kar, Pouya Bashivan, Jonathan Prescott-Roy, Franziska Geiger, Kailyn Schmidt, Daniel L. K. Yamins, & James J. DiCarlo (2018). Brain-Score: Which Artificial Neural Network for Object Recognition is most Brain-Like?. bioRxiv preprint.",
+                    "bibtex": "@article{SchrimpfKubilius2018BrainScore,\n  title={Brain-Score: Which Artificial Neural Network for Object Recognition is most Brain-Like?},\n  author={Martin Schrimpf and Jonas Kubilius and Ha Hong and Najib J. Majaj and Rishi Rajalingham and Elias B. Issa and Kohitij Kar and Pouya Bashivan and Jonathan Prescott-Roy and Franziska Geiger and Kailyn Schmidt and Daniel L. K. Yamins and James J. DiCarlo},\n  journal={bioRxiv preprint},\n  year={2018},\n  url={https://www.biorxiv.org/content/10.1101/407007v2}\n}"
+                },
+                {
+                    "citation": "Schrimpf, M., Kubilius, J., Lee, M., Murty, N., Ajemian, R., & DiCarlo, J. (2020). Integrative Benchmarking to Advance Neurally Mechanistic Models of Human Intelligence. Neuron.",
+                    "bibtex": "@article{Schrimpf2020integrative,\n  title={Integrative Benchmarking to Advance Neurally Mechanistic Models of Human Intelligence},\n  author={Schrimpf, Martin and Kubilius, Jonas and Lee, Michael J and Murty, N Apurva Ratan and Ajemian, Robert and DiCarlo, James J},\n  journal={Neuron},\n  year={2020},\n  url={https://www.cell.com/neuron/fulltext/S0896-6273(20)30605-X}\n}"
+                }
+            ],
             "measure": {
                 "linear_regression": {
                     "regression": null,
@@ -14577,6 +14816,7 @@
             }
         },
         "yuanli2333": {
+            "github": "https://github.com/yuanli2333/CKA-Centered-Kernel-Alignment",
             "measure": {
                 "cka": {
                     "_preprocessing_": [
@@ -14756,6 +14996,13 @@
             }
         },
         "rsatoolbox": {
+            "github": "https://github.com/rsagroup/rsatoolbox",
+            "paper": [
+                {
+                    "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                    "github": "https://github.com/rsagroup/rsatoolbox"
+                }
+            ],
             "measure": {
                 "rsa": {
                     "rdm_method": "euclidean",
@@ -18232,6 +18479,14 @@
             }
         },
         "mklabunde": {
+            "github": "https://github.com/mklabunde/survey_measures",
+            "paper": [
+                {
+                    "citation": "Max Klabunde, Tobias Schumacher, Markus Strohmaier, & Florian Lemmerich. (2023). Similarity of Neural Network Models: A Survey of Functional and Representational Measures.",
+                    "bibtex": "@misc{klabunde2023similarity,\n    title={Similarity of Neural Network Models: A Survey of Functional and Representational Measures}, \n    author={Max Klabunde and Tobias Schumacher and Markus Strohmaier and Florian Lemmerich},\n    year={2023},\n    eprint={2305.06329},\n    archivePrefix={arXiv},\n    primaryClass={cs.LG}\n}",
+                    "github": "https://github.com/mklabunde/survey_measures"
+                }
+            ],
             "measure": {
                 "procrustes-sq-euclidean": {
                     "_preprocessing_": [],
@@ -22174,6 +22429,13 @@
             }
         },
         "imd": {
+            "github": "https://github.com/xgfs/imd",
+            "paper": [
+                {
+                    "citation": "Anton Tsitsulin, Marina Munkhoeva, Davide Mottin, Panagiotis Karras, Alex Bronstein, Ivan Oseledets, and Emmanuel Mueller. 2020. The Shape of Data: Intrinsic Distance for Data Distributions. In ICLR.",
+                    "github": "https://github.com/xgfs/imd"
+                }
+            ],
             "measure": {
                 "imd": {
                     "_preprocessing_": [
@@ -22265,13 +22527,16 @@
                         }
                     }
                 }
-            },
-            "card": {
-                "github": "https://github.com/xgfs/imd"
             }
         },
         "subspacematch": {
             "github": "https://github.com/MeckyWu/subspace-match",
+            "paper": [
+                {
+                    "citation": "Liwei Wang, Lunjia Hu, Jiayuan Gu, Zhiqiang Hu, Yue Wu, Kun He, and John E. Hopcroft. 2018. Towards Understanding Learning Representations: To What Extent Do Different Neural Networks Learn the Same Representation. In NeurIPS.",
+                    "github": "https://github.com/MeckyWu/subspace-match"
+                }
+            ],
             "measure": {
                 "max_match": {
                     "_preprocessing_": [
@@ -22358,6 +22623,16 @@
         }
     },
     "paper": {
+        "klabunde2023": {
+            "citation": "Max Klabunde, Tobias Schumacher, Markus Strohmaier, & Florian Lemmerich. (2023). Similarity of Neural Network Models: A Survey of Functional and Representational Measures.",
+            "bibtex": "@misc{klabunde2023similarity,\n    title={Similarity of Neural Network Models: A Survey of Functional and Representational Measures}, \n    author={Max Klabunde and Tobias Schumacher and Markus Strohmaier and Florian Lemmerich},\n    year={2023},\n    eprint={2305.06329},\n    archivePrefix={arXiv},\n    primaryClass={cs.LG}\n}",
+            "github": "https://github.com/mklabunde/survey_measures"
+        },
+        "lange2023": {
+            "citation": "Richard D. Lange, Devin Kwok, Jordan Matelsky, Xinyue Wang, David S. Rolnick, & Konrad P. Kording. (2022). Neural Networks as Paths through the Space of Representations.",
+            "bibtex": "@misc{lange2022neural,\n      title={Neural Networks as Paths through the Space of Representations}, \n      author={Richard D. Lange and Devin Kwok and Jordan Matelsky and Xinyue Wang and David S. Rolnick and Konrad P. Kording},\n      year={2022},\n      eprint={2206.10999},\n      archivePrefix={arXiv},\n      primaryClass={cs.LG}\n}",
+            "github": "https://github.com/wrongu/repsim"
+        },
         "barannikov2022": {
             "citation": "Serguei Barannikov, Ilya Trofimov, Nikita Balabin, and Evgeny Burnaev. 2022. Representation Topology Divergence: A Method for Comparing Neural Network Representations. In ICML.",
             "github": "https://github.com/IlyaTrofimov/RTD"
@@ -22400,6 +22675,10 @@
         "wang2021": {
             "citation": "Feng Wang and Huaping Liu. 2021. Understanding the Behaviour of Contrastive Loss. In CVPR."
         },
+        "schrimpf2020": {
+            "citation": "Schrimpf, M., Kubilius, J., Lee, M., Murty, N., Ajemian, R., & DiCarlo, J. (2020). Integrative Benchmarking to Advance Neurally Mechanistic Models of Human Intelligence. Neuron.",
+            "bibtex": "@article{Schrimpf2020integrative,\n  title={Integrative Benchmarking to Advance Neurally Mechanistic Models of Human Intelligence},\n  author={Schrimpf, Martin and Kubilius, Jonas and Lee, Michael J and Murty, N Apurva Ratan and Ajemian, Robert and DiCarlo, James J},\n  journal={Neuron},\n  year={2020},\n  url={https://www.cell.com/neuron/fulltext/S0896-6273(20)30605-X}\n}"
+        },
         "hryniowski2020": {
             "citation": "Andrew Hryniowski and Alexander Wong. 2020. Inter-layer Information Similarity Assessment of Deep Neural Networks Via Topological Similarity and Persistence Analysis of Data Neighbour Dynamics. ArXiv preprint (2020)."
         },
@@ -22419,6 +22698,10 @@
         },
         "may2019": {
             "citation": "Avner May, Jian Zhang, Tri Dao, and Christopher R\u00e9. 2019. On the Downstream Performance of Compressed Word Embeddings. In NeurIPS."
+        },
+        "schrimpf2018": {
+            "citation": "Martin Schrimpf, Jonas Kubilius, Ha Hong, Najib J. Majaj, Rishi Rajalingham, Elias B. Issa, Kohit\u0133 Kar, Pouya Bashivan, Jonathan Prescott-Roy, Franziska Geiger, Kailyn Schmidt, Daniel L. K. Yamins, & James J. DiCarlo (2018). Brain-Score: Which Artificial Neural Network for Object Recognition is most Brain-Like?. bioRxiv preprint.",
+            "bibtex": "@article{SchrimpfKubilius2018BrainScore,\n  title={Brain-Score: Which Artificial Neural Network for Object Recognition is most Brain-Like?},\n  author={Martin Schrimpf and Jonas Kubilius and Ha Hong and Najib J. Majaj and Rishi Rajalingham and Elias B. Issa and Kohitij Kar and Pouya Bashivan and Jonathan Prescott-Roy and Franziska Geiger and Kailyn Schmidt and Daniel L. K. Yamins and James J. DiCarlo},\n  journal={bioRxiv preprint},\n  year={2018},\n  url={https://www.biorxiv.org/content/10.1101/407007v2}\n}"
         },
         "morcos2018": {
             "citation": "Ari S. Morcos, Maithra Raghu, and Samy Bengio. 2018. Insights on representational similarity in neural networks with canonical correlation. In NeurIPS.",
@@ -22467,23 +22750,31 @@
         }
     },
     "property": {
-        "permutation-invariant": {},
+        "permutation-invariant": {
+            "name": "Permutation Invariant"
+        },
         "scale-invariant": {
             "name": "Scale Invariant"
         },
         "rotation-invariant": {
             "name": "Rotation Invariant"
         },
-        "invertible-linear-invariant": {},
-        "translation-invariant": {},
-        "affine-invariant": {},
+        "invertible-linear-invariant": {
+            "name": "Invertible Linear Invariant"
+        },
+        "translation-invariant": {
+            "name": "Translation Invariant"
+        },
+        "affine-invariant": {
+            "name": "Affine Invariant"
+        },
         "score": {
             "name": "Score",
             "description": "Measure of similarity. A score of 1 indicates that the representations are identical."
         },
         "metric": {
             "name": "Metric",
-            "description": "Measure of distance."
+            "description": "Measure that satisfies the axioms for a metric: non-negativity, identity, symmetry, and triangle inequality. A metric of 0 indicates that the representations are identical."
         }
     }
 }

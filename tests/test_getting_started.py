@@ -96,8 +96,8 @@ def test_register():
     score = metric2.fit_score(X, Y)
     print(score)
 
-# test_simple_make()
-# test_measure_subgroups()
-# test_choose_backend()
-# test_customize_interface()
-# test_register()
+test_simple_make()
+test_measure_subgroups()
+test_choose_backend()
+test_customize_interface()
+test_register()

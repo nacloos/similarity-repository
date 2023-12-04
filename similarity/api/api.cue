@@ -1,7 +1,7 @@
 package api
 import(
     "github.com/similarity/measure"
-    "github.com/similarity/measure:property"
+    // "github.com/similarity/measure:property"
     "github.com/similarity/backend:backends"
     "github.com/similarity/papers"
 )
@@ -14,16 +14,16 @@ import(
             "default_backend": backends.#default_backend[k]
             // select only implemented measure
             measure.cards[k]
-            if property.measure[k] != _|_ {
-                property.measure[k]
-            }
+            // if property.measure[k] != _|_ {
+            //     property.measure[k]
+            // }
         }
     }
 }
 
 "backend": backends.#backends
 "paper": papers
-"property": property.property
+"property": measure.property
 
 // slow
 // "backend": [string]: measure: backends.#MeasureId
