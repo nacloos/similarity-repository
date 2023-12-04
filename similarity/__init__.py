@@ -161,8 +161,9 @@ def register(obj: object, id: str, **kwargs):
         if "measure" not in registry:
             registry["measure"] = {}
         registry["measure"][id.split(".")[1]] = default_measure_config
-
+    
     dict_set(registry, id, cfg, mkidx=True)
+    # TODO: user registered measures don't have "properties" field
 
 
 def create_object(obj, kwargs):
