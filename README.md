@@ -1,7 +1,5 @@
 Status: Under active development. API subject to change.
 
-Please [share your feedback](https://forms.gle/YxEakx4bLi6D4qQYA)!
-
 
 # Similarity Measures Repository
 
