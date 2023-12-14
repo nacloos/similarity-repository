@@ -95,7 +95,6 @@ _backends: {
                 v
                 #_postprocessing: T.function
             }
-
             // TODO: conflicting list lengths errror
             // (T.out): "_out_": {
             //     for kk, vv in v["_out_"] if kk != "postprocessing" {
@@ -112,14 +111,7 @@ _backends: {
 // TODO: structural cycle if use #backends in for loop
 #backends: {
     for backend_name, backend in _backends {
-    // for backend_name, backend in {"sim_metric": sim_metric} {
         (backend_name): "measure": {
-            // slower
-            // (#derive_measures & {
-            //     measures: backend.measure
-            //     transforms: measure.transforms
-            //     max_depht: 0
-            // }).out
             (#derived_measures & {
                 "backend_name": backend_name
                 "backend": backend
@@ -129,6 +121,7 @@ _backends: {
         (backend_name): backend
     }
 }
+// #backends: _backends
 
 measure_ids: #measure_ids
 
@@ -161,7 +154,10 @@ measures: {
         // TODO: "let" statement seems to terribly slow down the compilation
         // let backend = _backends[_default_backend[name]]
         // (name): backend.measure[name]
-        // much faster than the two lines above!
-        (name): backends[default_backend[name]].measure[name]
+        // (name): backends[default_backend[name]].measure[name]
+
+        if backends[default_backend[name]].measure[name] != _|_ {
+            (name): backends[default_backend[name]].measure[name]
+        } 
     }
 }
