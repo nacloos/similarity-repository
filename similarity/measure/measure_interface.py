@@ -120,8 +120,8 @@ class Measure:
     def __repr__(self):
 
         s = ""
-        # s += "Metric:\n"
-        s += "Metric["
+        # s += "Measure:\n"
+        s += "Measure["
         for k, v in self.interface.items():
             # s += f"  {v}(X, Y)\n"
             s += f"{v}(X, Y), "

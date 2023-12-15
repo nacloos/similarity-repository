@@ -37,7 +37,7 @@ score = measure.fit_score(X, Y)
 * `score(X, Y) -> float`: evaluate the measure on the data
 * `fit_score(X, Y) -> float`: fit and evaluate the measure on the data at the same time
 
-where the inputs `X` and `Y` are 2-dimensional **numpy arrays** of shape **(sample, neuron)**.
+where the inputs `X` and `Y` are 2-dimensional **numpy arrays** of shape **(condition, neuron)**.
 
 
 Each measure has a unique identifier, where the hyphen `-` symbol is used to specify parameter values for a family of measures. For example, `measure.procrustes-sq-euclidean` refers to the squared Euclidean version of the Procrustes metric.
