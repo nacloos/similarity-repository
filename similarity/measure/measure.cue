@@ -36,22 +36,22 @@ property: [string]: {
     description?: string
 }
 property: {
-    "permutation-invariant": {
+    "permutation_invariant": {
         name: "Permutation Invariant"
     },
-    "scale-invariant": {
+    "scale_invariant": {
         name: "Scale Invariant"
     }
-    "rotation-invariant": {
+    "rotation_invariant": {
         name: "Rotation Invariant"
     }
-    "invertible-linear-invariant": {
+    "invertible_linear_invariant": {
         name: "Invertible Linear Invariant"
     }
-    "translation-invariant": {
+    "translation_invariant": {
         name: "Translation Invariant"
     }
-    "affine-invariant": {
+    "affine_invariant": {
         name: "Affine Invariant"
     }
     score: {
@@ -67,13 +67,14 @@ property: {
 _cards: [string]: #MeasureCard
 _cards: {
     ...
+    euclidean: {}  // TODO: temp
     permutation: {
         name: "Permutation"
         parameters: {
             score_method: ["euclidean", "angular"]
         }
         properties: [
-            "permutation-invariant",
+            "permutation_invariant",
             "metric"
         ]
     }
@@ -89,12 +90,12 @@ _cards: {
             scoring_method: ["euclidean", "angular"]
         }
         properties: [
-            "permutation-invariant",
-            "scale-invariant",
-            "rotation-invariant",
-            "invertible-linear-invariant",
-            "translation-invariant",
-            "affine-invariant",
+            "permutation_invariant",
+            "scale_invariant",
+            "rotation_invariant",
+            "invertible_linear_invariant",
+            "translation_invariant",
+            "affine_invariant",
             "score",
         ]
     }
@@ -112,10 +113,10 @@ _cards: {
             variance_fraction: ["var95", "var99"]
         }
         properties: [
-            "permutation-invariant",
-            "scale-invariant",
-            "rotation-invariant",
-            "translation-invariant",
+            "permutation_invariant",
+            "scale_invariant",
+            "rotation_invariant",
+            "translation_invariant",
             "score",
         ]
     }
@@ -123,8 +124,8 @@ _cards: {
         name: "Projection-Weighted Canonical Correlation Analysis"
         paper: papers.morcos2018
         properties: [
-            "scale-invariant",
-            "translation-invariant",
+            "scale_invariant",
+            "translation_invariant",
             "score",
         ]
     }
@@ -132,6 +133,9 @@ _cards: {
     "riemannian_metric": {
         name: "Riemannian Metric"
         paper: papers.shahbazi2021
+        properties: [
+            "metric"
+        ]
     }
 
     procrustes: {
@@ -142,20 +146,20 @@ _cards: {
         }
         // properties: [
         //     "metric",
-        //     "permutation-invariant",
-        //     "scale-invariant",
-        //     "rotation-invariant"
+        //     "permutation_invariant",
+        //     "scale_invariant",
+        //     "rotation_invariant"
         // ]
     }
     "procrustes-euclidean": properties: [
-        "permutation-invariant",
-        "rotation-invariant",
+        "permutation_invariant",
+        "rotation_invariant",
         "metric",
     ]
     "procrustes-angular": properties: [
-        "permutation-invariant",
-        "rotation-invariant",
-        "scale-invariant",
+        "permutation_invariant",
+        "rotation_invariant",
+        "scale_invariant",
         "metric",
     ]
     // TODO: use argument? e.g. squared_or_not: ["sq", null]
@@ -164,9 +168,9 @@ _cards: {
     "procrustes-score": {
         name: "Procrustes Score"
         properties: [
-            "permutation-invariant",
-            "rotation-invariant",
-            "scale-invariant",
+            "permutation_invariant",
+            "rotation_invariant",
+            "scale_invariant",
             "score"
         ]
     }
@@ -194,11 +198,17 @@ _cards: {
     // TODO
     pls: {
         name: "Partial Least Squares"
+        properties: [
+            "score"
+        ]
         // paper: TODO
     }
     linear_regression: {
         name: "Linear Regression"
         paper: [papers.li2016, papers.kornblith2019]
+        properties: [
+            "score"
+        ]
     }
     aligned_cosine: {
         name: "Aligned Cosine Similarity"
@@ -223,9 +233,9 @@ _cards: {
         name: "Representational Similarity Analysis"
         paper: papers.kriegeskorte2008
         properties: [
-            "permutation-invariant",
-            "scale-invariant",
-            "translation-invariant",
+            "permutation_invariant",
+            "scale_invariant",
+            "translation_invariant",
             "score"
         ]
         parameters: {
@@ -262,10 +272,10 @@ _cards: {
         name: "Centered Kernel Alignment"
         paper: papers.kornblith2019
         properties: [
-            "permutation-invariant",
-            "rotation-invariant",
-            "scale-invariant",
-            "translation-invariant",
+            "permutation_invariant",
+            "rotation_invariant",
+            "scale_invariant",
+            "translation_invariant",
             "score"
         ]
     }
@@ -273,10 +283,10 @@ _cards: {
         name: "Angular CKA"
         paper: [papers.williams2021, papers.lange2022]
         properties: [
-            "permutation-invariant",
-            "rotation-invariant",
-            "scale-invariant",
-            "translation-invariant",
+            "permutation_invariant",
+            "rotation_invariant",
+            "scale_invariant",
+            "translation_invariant",
             "metric"
         ]
     }
@@ -327,30 +337,30 @@ _cards: {
         name: "Geometry Score"
         paper: papers.khrulkov2018
         properties: [
-            "permutation-invariant",
-            "rotation-invariant",
-            "scale-invariant",
-            "translation-invariant",
+            "permutation_invariant",
+            "rotation_invariant",
+            "scale_invariant",
+            "translation_invariant",
         ]
     }
     imd: {
         name: "Multi-scale Intrinsic Distance"
         paper: papers.tsitsulin2020
         properties: [
-            "permutation-invariant",
-            "rotation-invariant",
-            "scale-invariant",
-            "translation-invariant",
+            "permutation_invariant",
+            "rotation_invariant",
+            "scale_invariant",
+            "translation_invariant",
         ]
     }
     rtd: {
         name: "Representation Topology Divergence"
         paper: papers.barannikov2022
         properties: [
-            "permutation-invariant",
-            "rotation-invariant",
-            "scale-invariant",
-            "translation-invariant",
+            "permutation_invariant",
+            "rotation_invariant",
+            "scale_invariant",
+            "translation_invariant",
         ]
     }
 

@@ -81,7 +81,7 @@
             ],
             "default_backend": "netrep",
             "properties": [
-                "permutation-invariant",
+                "permutation_invariant",
                 "metric"
             ]
         },
@@ -323,12 +323,12 @@
             ],
             "default_backend": "netrep",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "rotation-invariant",
-                "invertible-linear-invariant",
-                "translation-invariant",
-                "affine-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "rotation_invariant",
+                "invertible_linear_invariant",
+                "translation_invariant",
+                "affine_invariant",
                 "score"
             ]
         },
@@ -537,10 +537,10 @@
             ],
             "default_backend": "netrep",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "rotation-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "rotation_invariant",
+                "translation_invariant",
                 "score"
             ]
         },
@@ -647,13 +647,17 @@
             ],
             "default_backend": "sim_metric",
             "properties": [
-                "scale-invariant",
-                "translation-invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ]
         },
         "riemannian_metric": {
             "name": "Riemannian Metric",
+            "paper": {
+                "citation": "Mahdiyar Shahbazi, Ali Shirali, Hamid Aghajan, and Hamed Nili. 2021. Using distance on the Riemannian manifold to compare representations in brain and in models. NeuroImage 239 (2021).",
+                "github": "https://github.com/mshahbazi1997/riemRSA"
+            },
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -749,11 +753,9 @@
                 "repsim"
             ],
             "default_backend": "repsim",
-            "paper": {
-                "citation": "Mahdiyar Shahbazi, Ali Shirali, Hamid Aghajan, and Hamed Nili. 2021. Using distance on the Riemannian manifold to compare representations in brain and in models. NeuroImage 239 (2021).",
-                "github": "https://github.com/mshahbazi1997/riemRSA"
-            },
-            "properties": []
+            "properties": [
+                "metric"
+            ]
         },
         "procrustes": {
             "name": "Orthogonal Procrustes",
@@ -941,8 +943,8 @@
             ],
             "default_backend": "netrep",
             "properties": [
-                "permutation-invariant",
-                "rotation-invariant",
+                "permutation_invariant",
+                "rotation_invariant",
                 "metric"
             ],
             "parameters": {
@@ -1042,9 +1044,9 @@
             ],
             "default_backend": "netrep",
             "properties": [
-                "permutation-invariant",
-                "rotation-invariant",
-                "scale-invariant",
+                "permutation_invariant",
+                "rotation_invariant",
+                "scale_invariant",
                 "metric"
             ],
             "parameters": {
@@ -1056,7 +1058,6 @@
         },
         "pls": {
             "name": "Partial Least Squares",
-            "properties": [],
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -1153,10 +1154,22 @@
             "backends": [
                 "svcca"
             ],
-            "default_backend": "svcca"
+            "default_backend": "svcca",
+            "properties": [
+                "score"
+            ]
         },
         "linear_regression": {
             "name": "Linear Regression",
+            "paper": [
+                {
+                    "citation": "Yixuan Li, Jason Yosinski, Jeff Clune, Hod Lipson, and John E. Hopcroft. 2016. Convergent Learning: Do different neural networks learn the same representations?. In ICLR.",
+                    "github": "https://github.com/yixuanli/convergent_learning"
+                },
+                {
+                    "citation": "Simon Kornblith, Mohammad Norouzi, Honglak Lee, and Geoffrey E. Hinton. 2019. Similarity of Neural Network Representations Revisited. In ICML."
+                }
+            ],
             "_out_": {
                 "_target_": "similarity.measure.Measure",
                 "_partial_": false,
@@ -1282,16 +1295,9 @@
                 "brainscore"
             ],
             "default_backend": "brainscore",
-            "paper": [
-                {
-                    "citation": "Yixuan Li, Jason Yosinski, Jeff Clune, Hod Lipson, and John E. Hopcroft. 2016. Convergent Learning: Do different neural networks learn the same representations?. In ICLR.",
-                    "github": "https://github.com/yixuanli/convergent_learning"
-                },
-                {
-                    "citation": "Simon Kornblith, Mohammad Norouzi, Honglak Lee, and Geoffrey E. Hinton. 2019. Similarity of Neural Network Representations Revisited. In ICML."
-                }
-            ],
-            "properties": []
+            "properties": [
+                "score"
+            ]
         },
         "max_match": {
             "name": "Maximum Match",
@@ -1487,9 +1493,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -1593,14 +1599,15 @@
                 "repsim",
                 "brainscore",
                 "yuanli2333",
-                "sim_metric"
+                "sim_metric",
+                "nn_similarity_index"
             ],
             "default_backend": "yuanli2333",
             "properties": [
-                "permutation-invariant",
-                "rotation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "rotation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ]
         },
@@ -1689,16 +1696,119 @@
                 "repsim",
                 "brainscore",
                 "yuanli2333",
-                "sim_metric"
+                "sim_metric",
+                "nn_similarity_index"
             ],
             "default_backend": "netrep",
             "properties": [
-                "permutation-invariant",
-                "rotation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "rotation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "metric"
             ]
+        },
+        "nbs": {
+            "name": "Normalized Bures Similarity",
+            "_out_": {
+                "_target_": "similarity.measure.Measure",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "measure": {
+                    "_target_": "similarity.backend.nn_similarity_index.utils.nbs",
+                    "_partial_": true,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": []
+                },
+                "preprocessing": [
+                    {
+                        "_target_": "similarity.processing.flatten_3d_to_2d",
+                        "_partial_": true,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "_wrap_": {
+                            "dict_mod": {
+                                "_target_": "config_utils.dict_module.DictModule",
+                                "in_keys": [
+                                    "X",
+                                    "Y"
+                                ],
+                                "out_keys": [
+                                    "X",
+                                    "Y"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "_target_": "similarity.backend.nn_similarity_index.utils.compute_kernels",
+                        "_partial_": true,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "_wrap_": {
+                            "dict_mod": {
+                                "_target_": "config_utils.dict_module.DictModule",
+                                "in_keys": [
+                                    "X",
+                                    "Y"
+                                ],
+                                "out_keys": [
+                                    "X",
+                                    "Y"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "postprocessing": [],
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "similarity.backend.nn_similarity_index.utils.nbs",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "X",
+                                            "kmat_1"
+                                        ],
+                                        [
+                                            "Y",
+                                            "kmat_2"
+                                        ]
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "backends": [
+                "nn_similarity_index"
+            ],
+            "default_backend": "nn_similarity_index",
+            "paper": {
+                "citation": "Shuai Tang, Wesley J. Maddox, Charlie Dickens, Tom Diethe, and Andreas Damianou. 2020. Similarity of Neural Networks with Gradients. ArXiv preprint (2020).",
+                "github": "https://github.com/amzn/xfer/tree/master/nn_similarity_index"
+            },
+            "properties": []
         },
         "imd": {
             "name": "Multi-scale Intrinsic Distance",
@@ -1781,10 +1891,10 @@
             ],
             "default_backend": "imd",
             "properties": [
-                "permutation-invariant",
-                "rotation-invariant",
-                "scale-invariant",
-                "translation-invariant"
+                "permutation_invariant",
+                "rotation_invariant",
+                "scale_invariant",
+                "translation_invariant"
             ]
         },
         "shape_metric-angular-alpha0e-1": {
@@ -3726,7 +3836,7 @@
             ],
             "default_backend": "netrep",
             "properties": [
-                "permutation-invariant",
+                "permutation_invariant",
                 "metric"
             ]
         },
@@ -3812,7 +3922,7 @@
             ],
             "default_backend": "netrep",
             "properties": [
-                "permutation-invariant",
+                "permutation_invariant",
                 "metric"
             ]
         },
@@ -3914,12 +4024,12 @@
             ],
             "default_backend": "netrep",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "rotation-invariant",
-                "invertible-linear-invariant",
-                "translation-invariant",
-                "affine-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "rotation_invariant",
+                "invertible_linear_invariant",
+                "translation_invariant",
+                "affine_invariant",
                 "score"
             ]
         },
@@ -4021,12 +4131,12 @@
             ],
             "default_backend": "netrep",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "rotation-invariant",
-                "invertible-linear-invariant",
-                "translation-invariant",
-                "affine-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "rotation_invariant",
+                "invertible_linear_invariant",
+                "translation_invariant",
+                "affine_invariant",
                 "score"
             ]
         },
@@ -4137,10 +4247,10 @@
             ],
             "default_backend": "netrep",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "rotation-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "rotation_invariant",
+                "translation_invariant",
                 "score"
             ]
         },
@@ -4251,10 +4361,10 @@
             ],
             "default_backend": "netrep",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "rotation-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "rotation_invariant",
+                "translation_invariant",
                 "score"
             ]
         },
@@ -4491,9 +4601,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -4639,9 +4749,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -4787,9 +4897,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -4935,9 +5045,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -5083,9 +5193,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -5231,9 +5341,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -5379,9 +5489,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -5527,9 +5637,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -5675,9 +5785,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -5823,9 +5933,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -5972,9 +6082,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -6120,9 +6230,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -6268,9 +6378,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -6416,9 +6526,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -6564,9 +6674,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -6712,9 +6822,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -6860,9 +6970,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -7008,9 +7118,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -7156,9 +7266,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -7304,9 +7414,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -7452,9 +7562,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -7600,9 +7710,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -7748,9 +7858,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -7896,9 +8006,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -8044,9 +8154,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -8192,9 +8302,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -8340,9 +8450,9 @@
             ],
             "default_backend": "rsatoolbox",
             "properties": [
-                "permutation-invariant",
-                "scale-invariant",
-                "translation-invariant",
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
                 "score"
             ],
             "parameters": {
@@ -8371,6 +8481,863 @@
                 "rdm_method": "euclidean",
                 "compare_method": "cosine"
             }
+        }
+    },
+    "metric": {
+        "permutation": {
+            "name": "Permutation",
+            "parameters": {
+                "score_method": [
+                    "euclidean",
+                    "angular"
+                ]
+            },
+            "_out_": {
+                "_target_": "similarity.measure.Measure",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "measure": {
+                    "score_method": "angular",
+                    "_target_": "netrep.metrics.PermutationMetric",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": []
+                },
+                "preprocessing": [
+                    {
+                        "_target_": "similarity.processing.flatten_3d_to_2d",
+                        "_partial_": true,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "_wrap_": {
+                            "dict_mod": {
+                                "_target_": "config_utils.dict_module.DictModule",
+                                "in_keys": [
+                                    "X",
+                                    "Y"
+                                ],
+                                "out_keys": [
+                                    "X",
+                                    "Y"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "postprocessing": [],
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "netrep.metrics.PermutationMetric.fit_score",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "measure",
+                                            "self"
+                                        ],
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "backends": [
+                "netrep"
+            ],
+            "default_backend": "netrep",
+            "properties": [
+                "permutation_invariant",
+                "metric"
+            ]
+        },
+        "procrustes": {
+            "name": "Orthogonal Procrustes",
+            "paper": [
+                {
+                    "citation": "Frances Ding, Jean-Stanislas Denain, and Jacob Steinhardt. 2021. Grounding Representation Similarity Through Statistical Testing. In NeurIPS.",
+                    "github": "https://github.com/js-d/sim_metric"
+                },
+                {
+                    "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                    "github": "https://github.com/ahwillia/netrep"
+                }
+            ],
+            "_out_": {
+                "_target_": "similarity.measure.Measure",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "measure": {
+                    "alpha": 1,
+                    "_target_": "netrep.metrics.LinearMetric",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [],
+                    "score_method": "angular"
+                },
+                "preprocessing": [
+                    {
+                        "_target_": "similarity.processing.flatten_3d_to_2d",
+                        "_partial_": true,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "_wrap_": {
+                            "dict_mod": {
+                                "_target_": "config_utils.dict_module.DictModule",
+                                "in_keys": [
+                                    "X",
+                                    "Y"
+                                ],
+                                "out_keys": [
+                                    "X",
+                                    "Y"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "postprocessing": [],
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "netrep.metrics.LinearMetric.fit_score",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "measure",
+                                            "self"
+                                        ],
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "backends": [
+                "netrep",
+                "repsim",
+                "mklabunde",
+                "sim_metric"
+            ],
+            "default_backend": "netrep",
+            "properties": [
+                "permutation_invariant",
+                "rotation_invariant",
+                "scale_invariant",
+                "metric"
+            ],
+            "parameters": {
+                "scoring_method": [
+                    "euclidean",
+                    "angular"
+                ]
+            }
+        },
+        "cka": {
+            "name": "Orthogonal Procrustes",
+            "paper": [
+                {
+                    "citation": "Frances Ding, Jean-Stanislas Denain, and Jacob Steinhardt. 2021. Grounding Representation Similarity Through Statistical Testing. In NeurIPS.",
+                    "github": "https://github.com/js-d/sim_metric"
+                },
+                {
+                    "citation": "Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.",
+                    "github": "https://github.com/ahwillia/netrep"
+                }
+            ],
+            "_out_": {
+                "_target_": "similarity.measure.Measure",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "measure": {
+                    "alpha": 1,
+                    "_target_": "netrep.metrics.LinearMetric",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [],
+                    "score_method": "angular"
+                },
+                "preprocessing": [
+                    {
+                        "_target_": "similarity.processing.flatten_3d_to_2d",
+                        "_partial_": true,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "_wrap_": {
+                            "dict_mod": {
+                                "_target_": "config_utils.dict_module.DictModule",
+                                "in_keys": [
+                                    "X",
+                                    "Y"
+                                ],
+                                "out_keys": [
+                                    "X",
+                                    "Y"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "postprocessing": [],
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "netrep.metrics.LinearMetric.fit_score",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "measure",
+                                            "self"
+                                        ],
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "backends": [
+                "netrep",
+                "repsim",
+                "mklabunde",
+                "sim_metric"
+            ],
+            "default_backend": "netrep",
+            "properties": [
+                "permutation_invariant",
+                "rotation_invariant",
+                "scale_invariant",
+                "metric"
+            ],
+            "parameters": {
+                "scoring_method": [
+                    "euclidean",
+                    "angular"
+                ]
+            }
+        },
+        "cca": {
+            "name": "Mean Canonical Correlation",
+            "paper": [
+                {
+                    "citation": "Haruo Yanai. 1974. Unification of Various Techniques of Multivariate Analysis by Means of Generalized Coefficient of Determination. Kodo Keiryogaku (The Japanese Journal of Behaviormetrics) 1 (1974)."
+                },
+                {
+                    "citation": "Maithra Raghu, Justin Gilmer, Jason Yosinski, and Jascha Sohl-Dickstein. 2017. SVCCA: Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics and Interpretability. In NeurIPS.",
+                    "bibtex": "@incollection{NIPS2017_7188,\ntitle = {SVCCA: Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics and Interpretability},\nauthor = {Raghu, Maithra and Gilmer, Justin and Yosinski, Jason and Sohl-Dickstein, Jascha},\nbooktitle = {Advances in Neural Information Processing Systems 30},\neditor = {I. Guyon and U. V. Luxburg and S. Bengio and H. Wallach and R. Fergus and S. Vishwanathan and R. Garnett},\npages = {6076--6085},\nyear = {2017},\npublisher = {Curran Associates, Inc.},\nurl = {http://papers.nips.cc/paper/7188-svcca-singular-vector-canonical-correlation-analysis-for-deep-learning-dynamics-and-interpretability.pdf}\n}"
+                },
+                {
+                    "citation": "Simon Kornblith, Mohammad Norouzi, Honglak Lee, and Geoffrey E. Hinton. 2019. Similarity of Neural Network Representations Revisited. In ICML."
+                }
+            ],
+            "parameters": {
+                "scoring_method": [
+                    "euclidean",
+                    "angular"
+                ]
+            },
+            "_out_": {
+                "_target_": "similarity.measure.Measure",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "measure": {
+                    "alpha": 0,
+                    "_target_": "netrep.metrics.LinearMetric",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [],
+                    "score_method": "angular"
+                },
+                "preprocessing": [
+                    {
+                        "_target_": "similarity.processing.flatten_3d_to_2d",
+                        "_partial_": true,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "_wrap_": {
+                            "dict_mod": {
+                                "_target_": "config_utils.dict_module.DictModule",
+                                "in_keys": [
+                                    "X",
+                                    "Y"
+                                ],
+                                "out_keys": [
+                                    "X",
+                                    "Y"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "postprocessing": [],
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "netrep.metrics.LinearMetric.fit_score",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "measure",
+                                            "self"
+                                        ],
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "backends": [
+                "netrep",
+                "repsim",
+                "sim_metric",
+                "svcca"
+            ],
+            "default_backend": "netrep",
+            "properties": [
+                "permutation_invariant",
+                "scale_invariant",
+                "rotation_invariant",
+                "invertible_linear_invariant",
+                "translation_invariant",
+                "affine_invariant",
+                "score"
+            ]
+        }
+    },
+    "score": {
+        "svcca": {
+            "name": "Singular Vector Canonical Correlation Analysis",
+            "paper": {
+                "citation": "Maithra Raghu, Justin Gilmer, Jason Yosinski, and Jascha Sohl-Dickstein. 2017. SVCCA: Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics and Interpretability. In NeurIPS.",
+                "bibtex": "@incollection{NIPS2017_7188,\ntitle = {SVCCA: Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics and Interpretability},\nauthor = {Raghu, Maithra and Gilmer, Justin and Yosinski, Jason and Sohl-Dickstein, Jascha},\nbooktitle = {Advances in Neural Information Processing Systems 30},\neditor = {I. Guyon and U. V. Luxburg and S. Bengio and H. Wallach and R. Fergus and S. Vishwanathan and R. Garnett},\npages = {6076--6085},\nyear = {2017},\npublisher = {Curran Associates, Inc.},\nurl = {http://papers.nips.cc/paper/7188-svcca-singular-vector-canonical-correlation-analysis-for-deep-learning-dynamics-and-interpretability.pdf}\n}"
+            },
+            "parameters": {
+                "variance_fraction": [
+                    "var95",
+                    "var99"
+                ]
+            },
+            "_out_": {
+                "_target_": "similarity.measure.Measure",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "measure": {
+                    "alpha": 0,
+                    "_target_": "netrep.metrics.LinearMetric",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": []
+                },
+                "preprocessing": [
+                    {
+                        "_target_": "similarity.processing.flatten_3d_to_2d",
+                        "_partial_": true,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "_wrap_": {
+                            "dict_mod": {
+                                "_target_": "config_utils.dict_module.DictModule",
+                                "in_keys": [
+                                    "X",
+                                    "Y"
+                                ],
+                                "out_keys": [
+                                    "X",
+                                    "Y"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "_target_": "similarity.processing.pca_preprocessing",
+                        "_partial_": true,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "_wrap_": {
+                            "dict_mod": {
+                                "_target_": "config_utils.dict_module.DictModule",
+                                "in_keys": [
+                                    "X",
+                                    "Y"
+                                ],
+                                "out_keys": [
+                                    "X",
+                                    "Y"
+                                ]
+                            }
+                        },
+                        "n_components": 0.95
+                    }
+                ],
+                "postprocessing": [],
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "netrep.metrics.LinearMetric.fit_score",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "measure",
+                                            "self"
+                                        ],
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "backends": [
+                "netrep"
+            ],
+            "default_backend": "netrep",
+            "properties": [
+                "permutation_invariant",
+                "scale_invariant",
+                "rotation_invariant",
+                "translation_invariant",
+                "score"
+            ]
+        },
+        "pwcca": {
+            "name": "Projection-Weighted Canonical Correlation Analysis",
+            "paper": {
+                "citation": "Ari S. Morcos, Maithra Raghu, and Samy Bengio. 2018. Insights on representational similarity in neural networks with canonical correlation. In NeurIPS.",
+                "github": "https://github.com/google/svcca",
+                "bibtex": "@incollection{NIPS2018_7815,\ntitle = {Insights on representational similarity in neural networks with canonical correlation},\nauthor = {Morcos, Ari and Raghu, Maithra and Bengio, Samy},\nbooktitle = {Advances in Neural Information Processing Systems 31},\neditor = {S. Bengio and H. Wallach and H. Larochelle and K. Grauman and N. Cesa-Bianchi and R. Garnett},\npages = {5732--5741},\nyear = {2018},\npublisher = {Curran Associates, Inc.},\nurl = {http://papers.nips.cc/paper/7815-insights-on-representational-similarity-in-neural-networks-with-canonical-correlation.pdf}\n}"
+            },
+            "_out_": {
+                "_target_": "similarity.measure.Measure",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "measure": {
+                    "_target_": "similarity.backend.sim_metric.utils.pwcca_dist",
+                    "_partial_": true,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": []
+                },
+                "preprocessing": [
+                    {
+                        "_target_": "similarity.processing.flatten_3d_to_2d",
+                        "_partial_": true,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "_wrap_": {
+                            "dict_mod": {
+                                "_target_": "config_utils.dict_module.DictModule",
+                                "in_keys": [
+                                    "X",
+                                    "Y"
+                                ],
+                                "out_keys": [
+                                    "X",
+                                    "Y"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "_target_": "similarity.processing.transpose",
+                        "_partial_": true,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "_wrap_": {
+                            "dict_mod": {
+                                "_target_": "config_utils.dict_module.DictModule",
+                                "in_keys": [
+                                    "X",
+                                    "Y"
+                                ],
+                                "out_keys": [
+                                    "X",
+                                    "Y"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "postprocessing": [],
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "similarity.backend.sim_metric.utils.pwcca_dist",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        [
+                                            "X",
+                                            "rep1"
+                                        ],
+                                        [
+                                            "Y",
+                                            "rep2"
+                                        ]
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "backends": [
+                "sim_metric",
+                "svcca"
+            ],
+            "default_backend": "sim_metric",
+            "properties": [
+                "scale_invariant",
+                "translation_invariant",
+                "score"
+            ]
+        },
+        "rsa": {
+            "name": "Representational Similarity Analysis",
+            "paper": {
+                "citation": "Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).",
+                "github": "https://github.com/rsagroup/rsatoolbox"
+            },
+            "_out_": {
+                "_target_": "similarity.measure.Measure",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "measure": {
+                    "compare_method": "cosine",
+                    "_target_": "similarity.backend.rsatoolbox.rsa.compute_rsa",
+                    "_partial_": true,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [],
+                    "rdm_method": "euclidean"
+                },
+                "preprocessing": [
+                    {
+                        "_target_": "similarity.processing.flatten_3d_to_2d",
+                        "_partial_": true,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "_wrap_": {
+                            "dict_mod": {
+                                "_target_": "config_utils.dict_module.DictModule",
+                                "in_keys": [
+                                    "X",
+                                    "Y"
+                                ],
+                                "out_keys": [
+                                    "X",
+                                    "Y"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "postprocessing": [
+                    {
+                        "_target_": "similarity.processing.angular_dist",
+                        "_partial_": true,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "_wrap_": {
+                            "dict_mod": {
+                                "_target_": "config_utils.dict_module.DictModule",
+                                "in_keys": [
+                                    "score"
+                                ],
+                                "out_keys": [
+                                    "score"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "_target_": "similarity.processing.angular_dist_to_score",
+                        "_partial_": true,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "_wrap_": {
+                            "dict_mod": {
+                                "_target_": "config_utils.dict_module.DictModule",
+                                "in_keys": [
+                                    "score"
+                                ],
+                                "out_keys": [
+                                    "score"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "compare_method": "cosine",
+                            "_target_": "similarity.backend.rsatoolbox.rsa.compute_rsa",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            },
+                            "rdm_method": "euclidean"
+                        }
+                    ]
+                }
+            },
+            "backends": [
+                "rsatoolbox"
+            ],
+            "default_backend": "rsatoolbox",
+            "properties": [
+                "permutation_invariant",
+                "scale_invariant",
+                "translation_invariant",
+                "score"
+            ],
+            "parameters": {
+                "rdm_method": [
+                    "euclidean",
+                    "correlation",
+                    "mahalanobis",
+                    "crossnobis",
+                    "poisson",
+                    "poisson_cv"
+                ],
+                "compare_method": [
+                    "cosine",
+                    "spearman",
+                    "corr",
+                    "kendall",
+                    "tau_b",
+                    "tau_a",
+                    "rho_a",
+                    "corr_cov",
+                    "cosine_cov",
+                    "neg_riem_dist"
+                ]
+            },
+            "defaults": {
+                "rdm_method": "euclidean",
+                "compare_method": "cosine"
+            }
+        },
+        "cka": {
+            "name": "Centered Kernel Alignment",
+            "paper": {
+                "citation": "Simon Kornblith, Mohammad Norouzi, Honglak Lee, and Geoffrey E. Hinton. 2019. Similarity of Neural Network Representations Revisited. In ICML."
+            },
+            "_out_": {
+                "_target_": "similarity.measure.Measure",
+                "_partial_": false,
+                "_recursive_": true,
+                "_convert_": "all",
+                "_args_": [],
+                "measure": {
+                    "_target_": "similarity.backend.yuanli2333.CKA.linear_CKA",
+                    "_partial_": true,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": []
+                },
+                "preprocessing": [
+                    {
+                        "_target_": "similarity.processing.flatten_3d_to_2d",
+                        "_partial_": true,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "_wrap_": {
+                            "dict_mod": {
+                                "_target_": "config_utils.dict_module.DictModule",
+                                "in_keys": [
+                                    "X",
+                                    "Y"
+                                ],
+                                "out_keys": [
+                                    "X",
+                                    "Y"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "postprocessing": [],
+                "fit_score": {
+                    "_target_": "config_utils.dict_module.DictSequential",
+                    "_partial_": false,
+                    "_recursive_": true,
+                    "_convert_": "all",
+                    "_args_": [
+                        {
+                            "_target_": "similarity.backend.yuanli2333.CKA.linear_CKA",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "score"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "backends": [
+                "netrep",
+                "repsim",
+                "brainscore",
+                "yuanli2333",
+                "sim_metric",
+                "nn_similarity_index"
+            ],
+            "default_backend": "yuanli2333",
+            "properties": [
+                "permutation_invariant",
+                "rotation_invariant",
+                "scale_invariant",
+                "translation_invariant",
+                "score"
+            ]
         }
     },
     "backend": {
@@ -22620,6 +23587,556 @@
                     "epsilon": 0.25
                 }
             }
+        },
+        "nn_similarity_index": {
+            "github": "https://github.com/amzn/xfer/blob/master/nn_similarity_index",
+            "paper": [
+                {
+                    "citation": "Shuai Tang, Wesley J. Maddox, Charlie Dickens, Tom Diethe, and Andreas Damianou. 2020. Similarity of Neural Networks with Gradients. ArXiv preprint (2020).",
+                    "github": "https://github.com/amzn/xfer/tree/master/nn_similarity_index"
+                }
+            ],
+            "measure": {
+                "euclidean": {
+                    "_preprocessing_": [
+                        {},
+                        {
+                            "_target_": "similarity.backend.nn_similarity_index.utils.compute_kernels",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "_postprocessing_": [],
+                    "_fit_score_in_keys_": [
+                        [
+                            "X",
+                            "kmat_1"
+                        ],
+                        [
+                            "Y",
+                            "kmat_2"
+                        ]
+                    ],
+                    "_fit_score_outputs_": [
+                        "score"
+                    ],
+                    "_call_key_": null,
+                    "_out_": {
+                        "_target_": "similarity.measure.Measure",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "measure": {
+                            "_target_": "similarity.backend.nn_similarity_index.utils.euclidean",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "preprocessing": [
+                            {
+                                "_target_": "similarity.processing.flatten_3d_to_2d",
+                                "_partial_": true,
+                                "_recursive_": true,
+                                "_convert_": "all",
+                                "_args_": [],
+                                "_wrap_": {
+                                    "dict_mod": {
+                                        "_target_": "config_utils.dict_module.DictModule",
+                                        "in_keys": [
+                                            "X",
+                                            "Y"
+                                        ],
+                                        "out_keys": [
+                                            "X",
+                                            "Y"
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "_target_": "similarity.backend.nn_similarity_index.utils.compute_kernels",
+                                "_partial_": true,
+                                "_recursive_": true,
+                                "_convert_": "all",
+                                "_args_": [],
+                                "_wrap_": {
+                                    "dict_mod": {
+                                        "_target_": "config_utils.dict_module.DictModule",
+                                        "in_keys": [
+                                            "X",
+                                            "Y"
+                                        ],
+                                        "out_keys": [
+                                            "X",
+                                            "Y"
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "postprocessing": [],
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.backend.nn_similarity_index.utils.euclidean",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "X",
+                                                    "kmat_1"
+                                                ],
+                                                [
+                                                    "Y",
+                                                    "kmat_2"
+                                                ]
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                "cka": {
+                    "_preprocessing_": [
+                        {},
+                        {
+                            "_target_": "similarity.backend.nn_similarity_index.utils.compute_kernels",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "_postprocessing_": [],
+                    "_fit_score_in_keys_": [
+                        [
+                            "X",
+                            "kmat_1"
+                        ],
+                        [
+                            "Y",
+                            "kmat_2"
+                        ]
+                    ],
+                    "_fit_score_outputs_": [
+                        "score"
+                    ],
+                    "_call_key_": null,
+                    "_out_": {
+                        "_target_": "similarity.measure.Measure",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "measure": {
+                            "_target_": "similarity.backend.nn_similarity_index.utils.cka",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "preprocessing": [
+                            {
+                                "_target_": "similarity.processing.flatten_3d_to_2d",
+                                "_partial_": true,
+                                "_recursive_": true,
+                                "_convert_": "all",
+                                "_args_": [],
+                                "_wrap_": {
+                                    "dict_mod": {
+                                        "_target_": "config_utils.dict_module.DictModule",
+                                        "in_keys": [
+                                            "X",
+                                            "Y"
+                                        ],
+                                        "out_keys": [
+                                            "X",
+                                            "Y"
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "_target_": "similarity.backend.nn_similarity_index.utils.compute_kernels",
+                                "_partial_": true,
+                                "_recursive_": true,
+                                "_convert_": "all",
+                                "_args_": [],
+                                "_wrap_": {
+                                    "dict_mod": {
+                                        "_target_": "config_utils.dict_module.DictModule",
+                                        "in_keys": [
+                                            "X",
+                                            "Y"
+                                        ],
+                                        "out_keys": [
+                                            "X",
+                                            "Y"
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "postprocessing": [],
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.backend.nn_similarity_index.utils.cka",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "X",
+                                                    "kmat_1"
+                                                ],
+                                                [
+                                                    "Y",
+                                                    "kmat_2"
+                                                ]
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                "cka-angular": {
+                    "_preprocessing_": [
+                        {},
+                        {
+                            "_target_": "similarity.backend.nn_similarity_index.utils.compute_kernels",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "_postprocessing_": [],
+                    "_fit_score_in_keys_": [
+                        [
+                            "X",
+                            "kmat_1"
+                        ],
+                        [
+                            "Y",
+                            "kmat_2"
+                        ]
+                    ],
+                    "_fit_score_outputs_": [
+                        "score"
+                    ],
+                    "_call_key_": null,
+                    "_out_": {
+                        "_target_": "similarity.measure.Measure",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "measure": {
+                            "_target_": "similarity.backend.nn_similarity_index.utils.cka",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "preprocessing": [
+                            {
+                                "_target_": "similarity.processing.flatten_3d_to_2d",
+                                "_partial_": true,
+                                "_recursive_": true,
+                                "_convert_": "all",
+                                "_args_": [],
+                                "_wrap_": {
+                                    "dict_mod": {
+                                        "_target_": "config_utils.dict_module.DictModule",
+                                        "in_keys": [
+                                            "X",
+                                            "Y"
+                                        ],
+                                        "out_keys": [
+                                            "X",
+                                            "Y"
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "_target_": "similarity.backend.nn_similarity_index.utils.compute_kernels",
+                                "_partial_": true,
+                                "_recursive_": true,
+                                "_convert_": "all",
+                                "_args_": [],
+                                "_wrap_": {
+                                    "dict_mod": {
+                                        "_target_": "config_utils.dict_module.DictModule",
+                                        "in_keys": [
+                                            "X",
+                                            "Y"
+                                        ],
+                                        "out_keys": [
+                                            "X",
+                                            "Y"
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "postprocessing": [
+                            {
+                                "_target_": "similarity.processing.arccos_score",
+                                "_partial_": true,
+                                "_recursive_": true,
+                                "_convert_": "all",
+                                "_args_": [],
+                                "_wrap_": {
+                                    "dict_mod": {
+                                        "_target_": "config_utils.dict_module.DictModule",
+                                        "in_keys": [
+                                            "score"
+                                        ],
+                                        "out_keys": [
+                                            "score"
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.backend.nn_similarity_index.utils.cka",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "X",
+                                                    "kmat_1"
+                                                ],
+                                                [
+                                                    "Y",
+                                                    "kmat_2"
+                                                ]
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                },
+                "nbs": {
+                    "_preprocessing_": [
+                        {},
+                        {
+                            "_target_": "similarity.backend.nn_similarity_index.utils.compute_kernels",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [],
+                            "_wrap_": {
+                                "dict_mod": {
+                                    "_target_": "config_utils.dict_module.DictModule",
+                                    "in_keys": [
+                                        "X",
+                                        "Y"
+                                    ],
+                                    "out_keys": [
+                                        "X",
+                                        "Y"
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    "_postprocessing_": [],
+                    "_fit_score_in_keys_": [
+                        [
+                            "X",
+                            "kmat_1"
+                        ],
+                        [
+                            "Y",
+                            "kmat_2"
+                        ]
+                    ],
+                    "_fit_score_outputs_": [
+                        "score"
+                    ],
+                    "_call_key_": null,
+                    "_out_": {
+                        "_target_": "similarity.measure.Measure",
+                        "_partial_": false,
+                        "_recursive_": true,
+                        "_convert_": "all",
+                        "_args_": [],
+                        "measure": {
+                            "_target_": "similarity.backend.nn_similarity_index.utils.nbs",
+                            "_partial_": true,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": []
+                        },
+                        "preprocessing": [
+                            {
+                                "_target_": "similarity.processing.flatten_3d_to_2d",
+                                "_partial_": true,
+                                "_recursive_": true,
+                                "_convert_": "all",
+                                "_args_": [],
+                                "_wrap_": {
+                                    "dict_mod": {
+                                        "_target_": "config_utils.dict_module.DictModule",
+                                        "in_keys": [
+                                            "X",
+                                            "Y"
+                                        ],
+                                        "out_keys": [
+                                            "X",
+                                            "Y"
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "_target_": "similarity.backend.nn_similarity_index.utils.compute_kernels",
+                                "_partial_": true,
+                                "_recursive_": true,
+                                "_convert_": "all",
+                                "_args_": [],
+                                "_wrap_": {
+                                    "dict_mod": {
+                                        "_target_": "config_utils.dict_module.DictModule",
+                                        "in_keys": [
+                                            "X",
+                                            "Y"
+                                        ],
+                                        "out_keys": [
+                                            "X",
+                                            "Y"
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "postprocessing": [],
+                        "fit_score": {
+                            "_target_": "config_utils.dict_module.DictSequential",
+                            "_partial_": false,
+                            "_recursive_": true,
+                            "_convert_": "all",
+                            "_args_": [
+                                {
+                                    "_target_": "similarity.backend.nn_similarity_index.utils.nbs",
+                                    "_partial_": true,
+                                    "_recursive_": true,
+                                    "_convert_": "all",
+                                    "_args_": [],
+                                    "_wrap_": {
+                                        "dict_mod": {
+                                            "_target_": "config_utils.dict_module.DictModule",
+                                            "in_keys": [
+                                                [
+                                                    "X",
+                                                    "kmat_1"
+                                                ],
+                                                [
+                                                    "Y",
+                                                    "kmat_2"
+                                                ]
+                                            ],
+                                            "out_keys": [
+                                                "score"
+                                            ]
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
         }
     },
     "paper": {
@@ -22750,22 +24267,22 @@
         }
     },
     "property": {
-        "permutation-invariant": {
+        "permutation_invariant": {
             "name": "Permutation Invariant"
         },
-        "scale-invariant": {
+        "scale_invariant": {
             "name": "Scale Invariant"
         },
-        "rotation-invariant": {
+        "rotation_invariant": {
             "name": "Rotation Invariant"
         },
-        "invertible-linear-invariant": {
+        "invertible_linear_invariant": {
             "name": "Invertible Linear Invariant"
         },
-        "translation-invariant": {
+        "translation_invariant": {
             "name": "Translation Invariant"
         },
-        "affine-invariant": {
+        "affine_invariant": {
             "name": "Affine Invariant"
         },
         "score": {

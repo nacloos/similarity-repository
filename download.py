@@ -25,6 +25,11 @@ download_list = [
         "github_repo_url": "https://github.com/yuanli2333/CKA-Centered-Kernel-Alignment",
         "github_path": "CKA.py",
         "local_save_dir": "./similarity/backend/yuanli2333"
+    },
+    {
+        "github_repo_url": "https://github.com/amzn/xfer",
+        "github_path": "nn_similarity_index/sim_indices.py",
+        "local_save_dir": "./similarity/backend/nn_similarity_index"
     }
 ]
 

@@ -3,16 +3,17 @@ import(
     "list"
     "github.com/similarity/measure"
 
-    netrep          "github.com/similarity/backend/netrep:backend"
-    repsim          "github.com/similarity/backend/repsim:backend"
-    brainscore      "github.com/similarity/backend/brainscore:backend"
-    yuanli2333      "github.com/similarity/backend/yuanli2333:backend"
-    rsatoolbox      "github.com/similarity/backend/rsatoolbox:backend"
-    mklabunde       "github.com/similarity/backend/mklabunde:backend"
-    sim_metric      "github.com/similarity/backend/sim_metric:backend"
-    svcca           "github.com/similarity/backend/svcca:backend"
-    imd             "github.com/similarity/backend/imd:backend"
-    subspacematch   "github.com/similarity/backend/subspacematch:backend"
+    netrep              "github.com/similarity/backend/netrep:backend"
+    repsim              "github.com/similarity/backend/repsim:backend"
+    brainscore          "github.com/similarity/backend/brainscore:backend"
+    yuanli2333          "github.com/similarity/backend/yuanli2333:backend"
+    rsatoolbox          "github.com/similarity/backend/rsatoolbox:backend"
+    mklabunde           "github.com/similarity/backend/mklabunde:backend"
+    sim_metric          "github.com/similarity/backend/sim_metric:backend"
+    svcca               "github.com/similarity/backend/svcca:backend"
+    imd                 "github.com/similarity/backend/imd:backend"
+    subspacematch       "github.com/similarity/backend/subspacematch:backend"
+    nn_similarity_index "github.com/similarity/backend/nn_similarity_index:backend"
 )
 #measure_ids: measure.#measure_ids
 #MeasureId: measure.#MeasureId
@@ -20,16 +21,17 @@ import(
 _backends: [string]: _
 _backends: {
     // will validate the backends
-    "netrep":           netrep
-    "repsim":           repsim
-    "brainscore":       brainscore
-    "yuanli2333":       yuanli2333
-    "rsatoolbox":       rsatoolbox
-    "mklabunde":        mklabunde
-    "sim_metric":       sim_metric
-    "svcca":            svcca
-    "imd":              imd
-    "subspacematch":    subspacematch
+    "netrep":               netrep
+    "repsim":               repsim
+    "brainscore":           brainscore
+    "yuanli2333":           yuanli2333
+    "rsatoolbox":           rsatoolbox
+    "mklabunde":            mklabunde
+    "sim_metric":           sim_metric
+    "svcca":                svcca
+    "imd":                  imd
+    "subspacematch":        subspacematch
+    "nn_similarity_index": nn_similarity_index
 }
 
 // define the backend id type based on the given backends
@@ -57,7 +59,7 @@ _backends: {
     "procrustes-sq-euclidean": "sim_metric"
 
     cka:                "yuanli2333"
-
+    nbs:                "nn_similarity_index"
 
     "riemannian_metric": "repsim"
     
