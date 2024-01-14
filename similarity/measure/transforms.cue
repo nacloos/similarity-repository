@@ -92,5 +92,11 @@ transforms: [
     {inp: "shape_metric-angular-alpha0e-1", out: "cca-angular", function: []},
     // {out: "shape_metric-angular-alpha1", inp: "procrustes-angular"},
     // {out: "shape_metric-angular-alpha0", inp: "cca-angular"},
+
+    // Duality of Bures and Shape Distances with Implications for Comparing Neural Representations
+    {inp: "nbs", out: "procrustes-angular", function: [#arccos]},
+    {inp: "procrustes-angular", out: "nbs", function: [#cos]},
+    {inp: "bures_distance", out:"procrustes-euclidean", function: []},
+    {inp: "procrustes-euclidean", out:"bures_distance", function: []},
 ]
 // transforms: [...{inp: #MetricName, out: #MetricName, function?: [...]}]

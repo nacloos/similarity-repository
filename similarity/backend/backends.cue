@@ -60,6 +60,7 @@ _backends: {
 
     cka:                "yuanli2333"
     nbs:                "nn_similarity_index"
+    bures_distance:     "nn_similarity_index"
 
     "riemannian_metric": "repsim"
     
@@ -83,31 +84,31 @@ _backends: {
 
 // automaticallly add derived measures to each backend if it is not already defined
 // e.g. if a backend implements cka it also automatically implements cka-angular (just take the cos of cka)
-#derived_measures: {
-    backend_name: #BackendId
-    backend: _
-    transforms: [...]
+// #derived_measures: {
+//     backend_name: #BackendId
+//     backend: _
+//     transforms: [...]
 
-    out: {
-        for k, v in backend.measure
-        for T in transforms 
-        if T.inp == k && backend.measure[T.out] == _|_ {
-        // && out[T.out] == _|_ {
-            (T.out): {
-                v
-                #_postprocessing: T.function
-            }
-            // TODO: conflicting list lengths errror
-            // (T.out): "_out_": {
-            //     for kk, vv in v["_out_"] if kk != "postprocessing" {
-            //         (kk): vv
-            //     }
-            //     // append tsf to postprocessing
-            //     "postprocessing": v["_out_"]["postprocessing"] + T.function
-            // }
-        }
-    }
-}
+//     out: {
+//         for k, v in backend.measure
+//         for T in transforms 
+//         if T.inp == k && backend.measure[T.out] == _|_ {
+//         // && out[T.out] == _|_ {
+//             (T.out): {
+//                 v
+//                 #_postprocessing: T.function
+//             }
+//             // TODO: conflicting list lengths errror
+//             // (T.out): "_out_": {
+//             //     for kk, vv in v["_out_"] if kk != "postprocessing" {
+//             //         (kk): vv
+//             //     }
+//             //     // append tsf to postprocessing
+//             //     "postprocessing": v["_out_"]["postprocessing"] + T.function
+//             // }
+//         }
+//     }
+// }
 
 // #derive_measures: test_transforms.#derive_measures
 // TODO: structural cycle if use #backends in for loop
@@ -123,6 +124,9 @@ _backends: {
         (backend_name): backend
     }
 }
+// TODO: error incompatible list lengths (transform functions)
+// TODO: why this is slower than the lines above?
+// #backends: (#derive_measures_in_backends & {backends: _backends}).out
 // #backends: _backends
 
 measure_ids: #measure_ids

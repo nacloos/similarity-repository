@@ -298,6 +298,10 @@ _cards: {
         name: "Normalized Bures Similarity"
         paper: papers.tang2020
     }
+    bures_distance: {
+        name: "Bures Distance"
+        paper: papers.bhatia2017
+    }
     eos: {
         name: "Eigenspace Overlap Score"
         paper: papers.may2019

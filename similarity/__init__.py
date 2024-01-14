@@ -12,20 +12,20 @@ from similarity.measure import Measure
 from similarity.api import KeyId
 
 
+# TODO: probably don't need caching now that configs are compiled
+
+# path to config directory
 CONFIG_DIR = os.path.join(os.path.dirname(__file__), './')
+# path to build directory
 BUILD_DIR = os.path.join(os.path.dirname(__file__), "./api")
 
+# cue package where the configs to instantiate are stored
+API_PKG = "api"
 
-PackageId = Literal[
-    "api",
-    "backend",
-    "measure",
-]
-
-# cache package configs
+# cache for package configs
 cached_configs = {}
 
-
+# default config for user registered configs
 default_measure_config = {
     "_target_": "similarity.Measure",
     "measure": None,
@@ -35,22 +35,27 @@ default_measure_config = {
     # "call_key": None
 }
 
-# store user defined configs
+# store for user defined configs
 registry = {}
 
 
 def make(
         key: KeyId,
-        package: PackageId = "api",
-        use_cache=True,
+        package: str = API_PKG,
+        variants: bool = True,
+        use_cache: bool = True,
         cached_package=None,
+        return_config=False,
         _convert_="all",
         **kwargs) -> Measure:
     """
     Instantiate a python object from a config.
+    When the result is a dict, by default don't output keys for variants. A key indicates a variant by specifying
+    the variations from the default in the name, separated by a hypen '-'.
     Args:
         key: dot path to config
         package: package to use
+        variants: if true, output all the keys, even keys containing a hypen '-' char (indicating a variant of a base method)
         use_cache: whether to use cached config
         cached_package: cached config
         _convert_: by default convert all omegaconf configs to python objects
@@ -77,16 +82,52 @@ def make(
     if package == "api":
         dict_update(cached_package, registry)
 
+    # TODO: keep this?
+    # potentially don't return variants
+    # assume keys have the format: '{category}.{name}-{variation}'
+    if variants is False and "." not in key:
+        # the result is a dict of all the keys in the category
+        # get all the keys without instantiating objects
+        res = config_utils.make(
+            id=None,
+            package=package,
+            key=key,
+            config_dir=CONFIG_DIR,
+            cached_config=cached_package,
+            _convert_=_convert_,
+            return_config=True,
+            **kwargs
+        )
+        # filter out keys with a hypen
+        non_variant_keys = {k: v for k, v in res.items() if "-" not in k}
+        # instantiate objects
+        res = {
+            k: config_utils.make(
+                id=None,
+                package=package,
+                key=key + "." + k,
+                config_dir=CONFIG_DIR,
+                cached_config=cached_package,
+                return_config=return_config,
+                _convert_=_convert_,
+                **kwargs
+            ) for k in non_variant_keys
+        }
+        return res
+
     # use cached config
-    return config_utils.make(
+    res = config_utils.make(
         id=None,
         package=package,
         key=key,
         config_dir=CONFIG_DIR,
         cached_config=cached_package,
+        return_config=return_config,
         _convert_=_convert_,
         **kwargs
     )
+    return res
+
 
 
 def register(obj: object, id: str, **kwargs):
@@ -111,7 +152,8 @@ def register(obj: object, id: str, **kwargs):
         fun = DictModule(
             module=obj,
             in_keys=in_keys,
-            out_keys=["score"]
+            # out_keys=["score"]  # TODO: with that, the output is {"score": score} instead of just score
+            out_keys=None
         )
         cfg = fun
 
@@ -161,12 +203,13 @@ def register(obj: object, id: str, **kwargs):
         if "measure" not in registry:
             registry["measure"] = {}
         registry["measure"][id.split(".")[1]] = default_measure_config
-    
+
     dict_set(registry, id, cfg, mkidx=True)
     # TODO: user registered measures don't have "properties" field
 
 
 def create_object(obj, kwargs):
+    """Just a utility function to create an object with kwargs (for use in config))"""
     return obj(**kwargs)
 
 
@@ -217,6 +260,16 @@ def build(build_dir=BUILD_DIR):
 
     with open(build_dir + "/__init__.py", "w") as f:
         f.write(code)
+
+
+class Measure:
+    def __new__(cls, id, **kwargs):
+        return make(f"measure.{id}", **kwargs)
+
+
+class Metric:
+    def __new__(cls, id, **kwargs):
+        return make(f"metric.{id}", **kwargs)
 
 
 if __name__ == "__main__":

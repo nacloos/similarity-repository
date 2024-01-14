@@ -150,6 +150,10 @@ metric2 = similarity.make("measure.my_metric2")
 score = metric2.fit_score(X, Y)
 ```
 
+## Contributing
+
+We use CUE to write typed configurations. CUE can be easily transformed to or from YAML configs (CUE is a superset of YAML and JSON).
+
 <!-- 
 ## Organization of the Repository
 Here is an overview of the files and directories:

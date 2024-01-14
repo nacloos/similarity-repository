@@ -26,7 +26,7 @@ measure: {
 metric: {
     permutation:    measure["permutation-angular"]
     procrustes:     measure["procrustes-angular"]
-    cka:            measure["procrustes-angular"]
+    cka:            measure["cka-angular"]
     cca:            measure["cca-angular"]
 }
 

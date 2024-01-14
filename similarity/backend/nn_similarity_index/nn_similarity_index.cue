@@ -23,4 +23,6 @@ measure: {
     euclidean: #path: "similarity.backend.nn_similarity_index.utils.euclidean"
     cka: #path: "similarity.backend.nn_similarity_index.utils.cka"
     nbs: #path: "similarity.backend.nn_similarity_index.utils.nbs"
+    // not in the original code but was simply implemented by rearranging the terms in SimIndex.nbs
+    bures_distance: #path: "similarity.backend.nn_similarity_index.utils.bures_distance"
 }

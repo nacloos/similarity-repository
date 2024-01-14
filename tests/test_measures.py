@@ -5,7 +5,7 @@ import similarity
 
 seeds = np.arange(10)
 
-names = similarity.make("measure").keys()
+names = similarity.make("measure", variants=True, return_config=True).keys()
 measures = [similarity.make(f"measure.{name}") for name in names]
 test_inputs = [
     (measure, seed) for measure in measures for seed in seeds
