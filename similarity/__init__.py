@@ -219,5 +219,15 @@ def build(build_dir=BUILD_DIR):
         f.write(code)
 
 
+class Measure:
+    def __new__(cls, id, **kwargs):
+        return make(f"measure.{id}", **kwargs)
+
+
+class Metric:
+    def __new__(cls, id, **kwargs):
+        return make(f"metric.{id}", **kwargs)
+
+
 if __name__ == "__main__":
     build()
