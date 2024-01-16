@@ -38,8 +38,16 @@ class Measure:
             assert isinstance(interface, dict), type(interface)
         self.interface = interface
 
-        _preprocess = create_module_seq(preprocessing, self.default_preprocessing_inputs, self.default_preprocessing_outputs)
-        _postprocess = create_module_seq(postprocessing, self.default_postprocessing_inputs, self.default_postprocessing_outputs)
+        _preprocess = create_module_seq(
+            preprocessing,
+            self.default_preprocessing_inputs,
+            self.default_preprocessing_outputs
+        )
+        _postprocess = create_module_seq(
+            postprocessing,
+            self.default_postprocessing_inputs,
+            self.default_postprocessing_outputs
+        )
 
         # compose modules
         self._fit = DictModule(
@@ -120,8 +128,8 @@ class Measure:
     def __repr__(self):
 
         s = ""
-        # s += "Metric:\n"
-        s += "Metric["
+        # s += "Measure:\n"
+        s += "Measure["
         for k, v in self.interface.items():
             # s += f"  {v}(X, Y)\n"
             s += f"{v}(X, Y), "

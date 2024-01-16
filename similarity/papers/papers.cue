@@ -145,6 +145,17 @@ yin2018: {
     citation: "Zi Yin and Yuanyuan Shen. 2018. On the Dimensionality of Word Embedding. In NeurIPS."
     github: "https://github.com/ziyin-dl/word-embedding-dimensionality-selection"
 }
+bhatia2017: {
+    bibtex: """
+@misc{bhatia2017bureswasserstein,
+      title={On the Bures-Wasserstein distance between positive definite matrices}, 
+      author={Rajendra Bhatia and Tanvi Jain and Yongdo Lim},
+      year={2017},
+      eprint={1712.01504},
+      archivePrefix={arXiv},
+      primaryClass={math.FA}
+}"""
+}
 raghu2017: {
     citation: "Maithra Raghu, Justin Gilmer, Jason Yosinski, and Jascha Sohl-Dickstein. 2017. SVCCA: Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics and Interpretability. In NeurIPS."
     bibtex: """

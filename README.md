@@ -37,7 +37,7 @@ score = measure.fit_score(X, Y)
 * `score(X, Y) -> float`: evaluate the measure on the data
 * `fit_score(X, Y) -> float`: fit and evaluate the measure on the data at the same time
 
-where the inputs `X` and `Y` are 2-dimensional **numpy arrays** of shape **(sample, neuron)**.
+where the inputs `X` and `Y` are 2-dimensional **numpy arrays** of shape **(condition, neuron)**.
 
 
 Each measure has a unique identifier, where the hyphen `-` symbol is used to specify parameter values for a family of measures. For example, `measure.procrustes-sq-euclidean` refers to the squared Euclidean version of the Procrustes metric.
@@ -149,6 +149,10 @@ similarity.register(MyMetric, "measure.my_metric2")
 metric2 = similarity.make("measure.my_metric2")
 score = metric2.fit_score(X, Y)
 ```
+
+## Contributing
+
+We use CUE to write typed configurations. CUE can be easily transformed to or from YAML configs (CUE is a superset of YAML and JSON).
 
 <!-- 
 ## Organization of the Repository

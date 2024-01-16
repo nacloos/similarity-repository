@@ -41,7 +41,7 @@ def one_minus_score(score):
     return 1 - score
 
 
-def flatten_3d_to_2d(X, Y):
+def flatten_3d_to_2d(X, Y=None):
     """
     reshape X with 3 dimensions (n_timesteps x n_trials x n_neurons) to 2 dimensions
     """
@@ -54,7 +54,10 @@ def flatten_3d_to_2d(X, Y):
             return X
         else:
             raise ValueError("shape of X should be 2 or 3, but found {}".format(len(X.shape)))
-    return _flatten(X), _flatten(Y)
+    if Y is None:
+        return _flatten(X)
+    else:
+        return _flatten(X), _flatten(Y)
 
 
 def pca_preprocessing(X, Y, **kwargs):

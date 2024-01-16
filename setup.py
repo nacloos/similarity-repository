@@ -34,6 +34,9 @@ requirements = {
         "pillow",
         "psycopg2-binary"
     ],
+    "dsa": [
+        "dsa @ git+https://github.com/mitchellostrow/DSA.git"
+    ],
     "imd": [
         "msid @ git+https://github.com/xgfs/imd.git"
     ],

@@ -3,16 +3,17 @@ import(
     "list"
     "github.com/similarity/measure"
 
-    netrep          "github.com/similarity/backend/netrep:backend"
-    repsim          "github.com/similarity/backend/repsim:backend"
-    brainscore      "github.com/similarity/backend/brainscore:backend"
-    yuanli2333      "github.com/similarity/backend/yuanli2333:backend"
-    rsatoolbox      "github.com/similarity/backend/rsatoolbox:backend"
-    mklabunde       "github.com/similarity/backend/mklabunde:backend"
-    sim_metric      "github.com/similarity/backend/sim_metric:backend"
-    svcca           "github.com/similarity/backend/svcca:backend"
-    imd             "github.com/similarity/backend/imd:backend"
-    subspacematch   "github.com/similarity/backend/subspacematch:backend"
+    netrep              "github.com/similarity/backend/netrep:backend"
+    repsim              "github.com/similarity/backend/repsim:backend"
+    brainscore          "github.com/similarity/backend/brainscore:backend"
+    yuanli2333          "github.com/similarity/backend/yuanli2333:backend"
+    rsatoolbox          "github.com/similarity/backend/rsatoolbox:backend"
+    mklabunde           "github.com/similarity/backend/mklabunde:backend"
+    sim_metric          "github.com/similarity/backend/sim_metric:backend"
+    svcca               "github.com/similarity/backend/svcca:backend"
+    imd                 "github.com/similarity/backend/imd:backend"
+    subspacematch       "github.com/similarity/backend/subspacematch:backend"
+    nn_similarity_index "github.com/similarity/backend/nn_similarity_index:backend"
 )
 #measure_ids: measure.#measure_ids
 #MeasureId: measure.#MeasureId
@@ -20,16 +21,17 @@ import(
 _backends: [string]: _
 _backends: {
     // will validate the backends
-    "netrep":           netrep
-    "repsim":           repsim
-    "brainscore":       brainscore
-    "yuanli2333":       yuanli2333
-    "rsatoolbox":       rsatoolbox
-    "mklabunde":        mklabunde
-    "sim_metric":       sim_metric
-    "svcca":            svcca
-    "imd":              imd
-    "subspacematch":    subspacematch
+    "netrep":               netrep
+    "repsim":               repsim
+    "brainscore":           brainscore
+    "yuanli2333":           yuanli2333
+    "rsatoolbox":           rsatoolbox
+    "mklabunde":            mklabunde
+    "sim_metric":           sim_metric
+    "svcca":                svcca
+    "imd":                  imd
+    "subspacematch":        subspacematch
+    "nn_similarity_index": nn_similarity_index
 }
 
 // define the backend id type based on the given backends
@@ -57,7 +59,8 @@ _backends: {
     "procrustes-sq-euclidean": "sim_metric"
 
     cka:                "yuanli2333"
-
+    nbs:                "nn_similarity_index"
+    bures_distance:     "nn_similarity_index"
 
     "riemannian_metric": "repsim"
     
@@ -81,31 +84,31 @@ _backends: {
 
 // automaticallly add derived measures to each backend if it is not already defined
 // e.g. if a backend implements cka it also automatically implements cka-angular (just take the cos of cka)
-#derived_measures: {
-    backend_name: #BackendId
-    backend: _
-    transforms: [...]
+// #derived_measures: {
+//     backend_name: #BackendId
+//     backend: _
+//     transforms: [...]
 
-    out: {
-        for k, v in backend.measure
-        for T in transforms 
-        if T.inp == k && backend.measure[T.out] == _|_ {
-        // && out[T.out] == _|_ {
-            (T.out): {
-                v
-                #_postprocessing: T.function
-            }
-            // TODO: conflicting list lengths errror
-            // (T.out): "_out_": {
-            //     for kk, vv in v["_out_"] if kk != "postprocessing" {
-            //         (kk): vv
-            //     }
-            //     // append tsf to postprocessing
-            //     "postprocessing": v["_out_"]["postprocessing"] + T.function
-            // }
-        }
-    }
-}
+//     out: {
+//         for k, v in backend.measure
+//         for T in transforms 
+//         if T.inp == k && backend.measure[T.out] == _|_ {
+//         // && out[T.out] == _|_ {
+//             (T.out): {
+//                 v
+//                 #_postprocessing: T.function
+//             }
+//             // TODO: conflicting list lengths errror
+//             // (T.out): "_out_": {
+//             //     for kk, vv in v["_out_"] if kk != "postprocessing" {
+//             //         (kk): vv
+//             //     }
+//             //     // append tsf to postprocessing
+//             //     "postprocessing": v["_out_"]["postprocessing"] + T.function
+//             // }
+//         }
+//     }
+// }
 
 // #derive_measures: test_transforms.#derive_measures
 // TODO: structural cycle if use #backends in for loop
@@ -121,6 +124,9 @@ _backends: {
         (backend_name): backend
     }
 }
+// TODO: error incompatible list lengths (transform functions)
+// TODO: why this is slower than the lines above?
+// #backends: (#derive_measures_in_backends & {backends: _backends}).out
 // #backends: _backends
 
 measure_ids: #measure_ids
