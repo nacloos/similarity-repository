@@ -123,7 +123,9 @@ class Measure:
         if "__call__" in self.impls:
             return self.impls["__call__"](X, Y)
         else:
-            raise TypeError(f"'{self.__class__.__name__}' object is not callable")
+            # call fit_score by default
+            return self.fit_score(X, Y)
+            # raise TypeError(f"'{self.__class__.__name__}' object is not callable")
 
     def __repr__(self):
 

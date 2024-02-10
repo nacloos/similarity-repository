@@ -2,6 +2,7 @@ from collections import defaultdict
 from functools import partial
 import inspect
 import os
+from pathlib import Path
 from typing import Literal
 from omegaconf import OmegaConf
 import json
@@ -38,8 +39,66 @@ default_measure_config = {
 # store for user defined configs
 registry = {}
 
+# register backends
+if (Path(BUILD_DIR) / "api.json").exists():
+    with open(Path(BUILD_DIR) / "api.json", "r") as f:
+        configs = json.load(f)
 
-def make(
+    # TODO: assume to levels
+    for k, v in configs.items():
+        for k2, v2 in v.items():
+            registry[k + "." + k2] = v2
+
+
+def make(id, return_config=False, **kwargs):
+    """
+    Instantiate a config into a python object.
+    Args:
+        id: id of the config to instantiate.
+        return_config: if True, return the config instead of the instantiated object.
+        **kwargs: keyword arguments to pass to the python target.
+    Returns:
+        Instantiated python object.
+    """
+    if id not in registry:
+        raise ValueError(f"Config '{id}' not found. Use similarity.register to register a new config.")
+
+    if return_config is True:
+        return {"id": id, **kwargs}
+
+    obj = registry[id]
+    if isinstance(obj, dict):
+        # instantiate config
+        return config_utils.make(
+            id=None,
+            package=None,
+            key=None,
+            config_dir=CONFIG_DIR,
+            cached_config=obj,
+            return_config=False,
+            **kwargs
+        )
+    else:
+        return registry[id](**kwargs)
+
+
+def register(id, obj=None, override=False):
+    def _register(id, obj):
+        if not override:
+            assert id not in registry, f"{id} already registered. Use override=True to force override."
+        registry[id] = obj
+
+    # if obj is None, register can be used as a decorator
+    if obj is None:
+        def decorator(obj):
+            _register(id, obj)
+            return obj
+        return decorator
+    else:
+        _register(id, obj)
+
+
+def make_old(
         key: KeyId,
         package: str = API_PKG,
         variants: bool = True,
@@ -129,8 +188,7 @@ def make(
     return res
 
 
-
-def register(obj: object, id: str, **kwargs):
+def register_old(obj: object, id: str, **kwargs):
     global registry
 
     if isinstance(obj, dict):

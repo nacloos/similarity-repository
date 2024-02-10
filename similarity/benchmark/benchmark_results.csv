@@ -1,0 +1,6 @@
+,metric-equality,metric-symmetry,metric-triangle_inequality,invariance-isotropic_scaling,invariance-invertible_linear,invariance-orthogonal
+cca,1.0,1.0,1.0,1.0,1.0,1.0
+rsa,1.0,1.0,1.0,0.5,1.0,0.7
+procrustes-angular-score,1.0,1.0,1.0,1.0,1.0,1.0
+cka,1.0,1.0,1.0,1.0,1.0,1.0
+cka-angular-score,1.0,1.0,1.0,1.0,1.0,1.0
