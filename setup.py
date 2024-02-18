@@ -73,7 +73,7 @@ for k, v in requirements.items():
 
 
 setup(
-    name='similarity',
+    name='similarity-measures',
     version="0.0.1",
     packages=[
         package for package in find_packages()

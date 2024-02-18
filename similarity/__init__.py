@@ -1,4 +1,5 @@
 from collections import defaultdict
+import fnmatch
 from functools import partial
 import inspect
 import os
@@ -11,6 +12,11 @@ import config_utils
 from config_utils import DictModule, dict_set, dict_in, dict_get, dict_update
 from similarity.measure import Measure
 from similarity.api import KeyId
+
+
+def _register_imports():
+    import similarity.backend
+    import similarity.processing.processing2
 
 
 # TODO: probably don't need caching now that configs are compiled
@@ -50,24 +56,42 @@ if (Path(BUILD_DIR) / "api.json").exists():
             registry[k + "." + k2] = v2
 
 
-def make(id, return_config=False, **kwargs):
+def make(id, *args, **kwargs):
     """
     Instantiate a config into a python object.
     Args:
         id: id of the config to instantiate.
-        return_config: if True, return the config instead of the instantiated object.
+        *args: positional arguments to pass to the python target.
         **kwargs: keyword arguments to pass to the python target.
     Returns:
         Instantiated python object.
     """
+    _register_imports()  # import after modules have been initialized to prevent circular imports
+
+    # TODO: needed?
+    # if '_args_' in kwargs:
+    #     args = args + kwargs['_args_']
+
     if id not in registry:
+        matches = {k: v for k, v in registry.items() if fnmatch.fnmatch(k, id)}
+        if len(matches) > 0:
+            return {k: make(k, *args, **kwargs) for k in matches}
+
         raise ValueError(f"Config '{id}' not found. Use similarity.register to register a new config.")
 
-    if return_config is True:
-        return {"id": id, **kwargs}
-
     obj = registry[id]
+
+    # TODO: intuitive?
+    # if obj is a class, instantiate it
+    # otherwise, return a partial function
+    # base_obj = obj.func if isinstance(obj, partial) else obj
+    # if inspect.isclass(base_obj):
+    #     return obj(*args, **kwargs)
+    # else:
+    #     return partial(obj, *args, **kwargs)
+
     if isinstance(obj, dict):
+        # TODO: temp
         # instantiate config
         return config_utils.make(
             id=None,
@@ -79,14 +103,116 @@ def make(id, return_config=False, **kwargs):
             **kwargs
         )
     else:
-        return registry[id](**kwargs)
+        return registry[id](*args, **kwargs)
 
 
-def register(id, obj=None, override=False):
+class MeasureInteface:
+    def __init__(
+            self,
+            measure,
+            interface: dict = None,
+            preprocessing: list = None,
+            postprocessing: list = None
+    ):
+        interface = {} if interface is None else interface
+        preprocessing = [] if preprocessing is None else preprocessing
+        postprocessing = [] if postprocessing is None else postprocessing
+
+        assert isinstance(interface, dict), f"Expected type dict, got {type(interface)}"
+        assert isinstance(preprocessing, list), f"Expected type list, got {type(preprocessing)}"
+        assert isinstance(postprocessing, list), f"Expected type list, got {type(postprocessing)}"
+
+        self.measure = measure
+        self.interface = interface
+        self.preprocessing = preprocessing
+        self.postprocessing = postprocessing
+
+    def _preprocess(self, X):
+        for p in self.preprocessing:
+            # X = make(f"preprocessing.{p}")(X)
+            X = make(f"preprocessing.{p}", X)
+        return X
+
+    def _postprocess(self, score):
+        for p in self.postprocessing:
+            # score = make(f"postprocessing.{p}")(score)
+            score = make(f"postprocessing.{p}", score)
+        return score
+
+    def fit(self, X, Y):
+        X = self._preprocess(X)
+        Y = self._preprocess(Y)
+        getattr(self.measure, self.interface.get("fit", "fit"))(X, Y)
+
+    def fit_score(self, X, Y):
+        X = self._preprocess(X)
+        Y = self._preprocess(Y)
+        score = getattr(
+            self.measure,
+            self.interface.get("fit_score", "fit_score")
+        )(X, Y)
+        score = self._postprocess(score)
+        return score
+
+    def score(self, X, Y):
+        X = self._preprocess(X)
+        Y = self._preprocess(Y)
+        score = getattr(self.measure, self.interface.get("score", "score"))(X, Y)
+        score = self._postprocess(score)
+        return score
+
+    def __call__(self, X, Y):
+        X = self._preprocess(X)
+        Y = self._preprocess(Y)
+        score = getattr(self.measure, self.interface.get("__call__", "__call__"))(X, Y)
+        score = self._postprocess(score)
+        return score
+
+
+def register(id, obj=None, function=False, interface=None, preprocessing=None, postprocessing=None, override=False):
+    _register_imports()  # import after modules have been initialized to prevent circular imports
+
     def _register(id, obj):
         if not override:
             assert id not in registry, f"{id} already registered. Use override=True to force override."
-        registry[id] = obj
+
+        if isinstance(obj, partial):
+            base_obj = obj.func
+        else:
+            base_obj = obj
+        make_obj = obj
+
+        category = id.split(".")[0]
+        if category == "measure":
+
+            # TODO: clean implementation
+            if function:
+                assert inspect.isfunction(base_obj) or inspect.ismethod(base_obj), f"Expected type function or method for {obj}, got {type(obj)}"
+                # encapsulate in a function so that make(id) returns the function itself without calling it
+                def _obj():
+                    return obj
+            else:
+                # assert inspect.isclass(base_obj), f"Expected type class for {obj}, got {type(obj)}"
+                _obj = obj
+
+            # wrap measure in a MeasureInterface
+            # _obj = partial(
+            #     MeasureInteface,
+            #     measure=_obj,
+            #     interface=interface,
+            #     preprocessing=preprocessing,
+            #     postprocessing=postprocessing
+            # )
+
+            def make_obj():
+                return MeasureInteface(
+                    measure=_obj(),
+                    interface=interface,
+                    preprocessing=preprocessing,
+                    postprocessing=postprocessing
+                )
+
+        registry[id] = make_obj
 
     # if obj is None, register can be used as a decorator
     if obj is None:
