@@ -1,13 +1,20 @@
 from functools import partial
+
+import similarity
 from . import utils
 from .dists import scoring
 
-from similarity import register
 
-# TODO: name backend by author last name and date instead of github repo name?
+similarity.register(
+    "measure.sim_metric",
+    {
+        "paper_id": "ding2021",
+        "github": "https://github.com/js-d/sim_metric"
+    }
+)
 
 register = partial(
-    register,
+    similarity.register,
     function=True,
     preprocessing=[
         "reshape2d",
@@ -29,7 +36,11 @@ register(
 )
 register(
     "measure.sim_metric.cka",
-    scoring.lin_cka_dist
+    scoring.lin_cka_dist,
+    postprocessing=[
+        # (Ding, 2021): d_CKA = 1 - CKA
+        "one_minus"
+    ]
 )
 register(
     "measure.sim_metric.procrustes-sq-euclidean",

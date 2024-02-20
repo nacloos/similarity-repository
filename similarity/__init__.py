@@ -15,8 +15,10 @@ from similarity.api import KeyId
 
 
 def _register_imports():
-    import similarity.backend
     import similarity.processing.processing2
+    import similarity.backend
+    # important to import transforms after backends since it uses measures defined in backends
+    import similarity.transforms
 
 
 # TODO: probably don't need caching now that configs are compiled
@@ -59,10 +61,12 @@ if (Path(BUILD_DIR) / "api.json").exists():
 def make(id, *args, **kwargs):
     """
     Instantiate a config into a python object.
+
     Args:
         id: id of the config to instantiate.
         *args: positional arguments to pass to the python target.
         **kwargs: keyword arguments to pass to the python target.
+
     Returns:
         Instantiated python object.
     """
@@ -73,11 +77,12 @@ def make(id, *args, **kwargs):
     #     args = args + kwargs['_args_']
 
     if id not in registry:
-        matches = {k: v for k, v in registry.items() if fnmatch.fnmatch(k, id)}
+        # matches = {k: v for k, v in registry.items() if fnmatch.fnmatch(k, id)}
+        matches = match(id)
         if len(matches) > 0:
             return {k: make(k, *args, **kwargs) for k in matches}
 
-        raise ValueError(f"Config '{id}' not found. Use similarity.register to register a new config.")
+        raise ValueError(f"'{id}' not found in registry. Use 'similarity.register' to register a new entry.")
 
     obj = registry[id]
 
@@ -93,7 +98,7 @@ def make(id, *args, **kwargs):
     if isinstance(obj, dict):
         # TODO: temp
         # instantiate config
-        return config_utils.make(
+        res = config_utils.make(
             id=None,
             package=None,
             key=None,
@@ -102,8 +107,41 @@ def make(id, *args, **kwargs):
             return_config=False,
             **kwargs
         )
+        # TODO: temp
+        from omegaconf import DictConfig
+        if isinstance(res, DictConfig):
+            res = OmegaConf.to_container(res, resolve=True)
+        return res
     else:
         return registry[id](*args, **kwargs)
+
+
+def is_registered(id: str) -> bool:
+    """
+    Check if a key is registered.
+
+    Args:
+        id: key to check.
+
+    Returns:
+        True if the key is registered, False otherwise.
+    """
+    assert isinstance(id, str), f"Expected type str, got {type(id)}"
+    return id in registry
+
+
+def match(id: str) -> list[str]:
+    """
+    Find all the keys that match a pattern.
+
+    Args:
+        id: pattern to match.
+
+    Returns:
+        List of keys that match the pattern.
+    """
+    assert isinstance(id, str), f"Expected type str, got {type(id)}"
+    return [k for k in registry.keys() if fnmatch.fnmatch(k, id)]
 
 
 class MeasureInteface:
@@ -129,14 +167,20 @@ class MeasureInteface:
 
     def _preprocess(self, X):
         for p in self.preprocessing:
-            # X = make(f"preprocessing.{p}")(X)
-            X = make(f"preprocessing.{p}", X)
+            if isinstance(p, str):
+                # X = make(f"preprocessing.{p}")(X)
+                X = make(f"preprocessing.{p}", X)
+            else:
+                X = p(X)
         return X
 
     def _postprocess(self, score):
         for p in self.postprocessing:
-            # score = make(f"postprocessing.{p}")(score)
-            score = make(f"postprocessing.{p}", score)
+            if isinstance(p, str):
+                # score = make(f"postprocessing.{p}")(score)
+                score = make(f"postprocessing.{p}", score)
+            else:
+                score = p(score)
         return score
 
     def fit(self, X, Y):
@@ -170,11 +214,16 @@ class MeasureInteface:
 
 
 def register(id, obj=None, function=False, interface=None, preprocessing=None, postprocessing=None, override=False):
-    _register_imports()  # import after modules have been initialized to prevent circular imports
-
+    # TODO: don't want to import transforms before having registered all the measures
+    # _register_imports()  # import after modules have been initialized to prevent circular imports
     def _register(id, obj):
         if not override:
             assert id not in registry, f"{id} already registered. Use override=True to force override."
+
+        # if obj is a dict, register it directly (no need to add interface class)
+        if isinstance(obj, dict):
+            registry[id] = obj
+            return
 
         if isinstance(obj, partial):
             base_obj = obj.func

@@ -1,22 +1,25 @@
 from functools import partial
 import netrep.metrics
 
+import similarity
 from similarity.backend.netrep import cka  # fix small bug in netrep.cka
-from similarity import register
 
-# TODO: specify that center_columns: bool = True, zero_pad: bool = True,
-# or just do it again to make sure it's clear
-# TODO: add reshape2d preprocessing
-# TODO: specify interface when registering
-# TODO: register github, paper, and author
+
+similarity.register(
+    "measure.netrep",
+    {
+        "paper_id": "williams2021",
+        "github": "https://github.com/ahwillia/netrep"
+    }
+)
 
 register = partial(
-    register,
+    similarity.register,
     function=False,
     preprocessing=[
         "reshape2d",
-        # "center_columns",
-        # "zero_pad"
+        # TODO: don't center columns here because not cross-validated
+        # but how to specify that it is column centered?
     ],
     interface={
         "__call__": "fit_score"

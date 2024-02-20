@@ -12,7 +12,7 @@ def numpy_to_brainio(X, Y):
     def _convert(X):
         assert len(X.shape) == 2, X.shape
         return NeuroidAssembly(
-            X, 
+            X,
             # filled with dummy values
             coords={
                 'stimulus_id': ('presentation', np.arange(X.shape[0])),
