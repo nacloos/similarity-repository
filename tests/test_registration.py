@@ -1,8 +1,4 @@
-from collections import defaultdict
 import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
-import pandas as pd
 
 import similarity
 from similarity import make
@@ -21,6 +17,11 @@ def test_measures():
 
 
 def backend_consistency(plot_paper_id=True, save_path=None):
+    from collections import defaultdict
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    import pandas as pd
+
     measures = make("measure.*.*")
 
     X = np.random.randn(15, 10, 40)
