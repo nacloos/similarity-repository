@@ -9,21 +9,15 @@ from similarity import make
 
 
 def test_measures():
-    backends = [
-        "netrep",
-        "sim_metric",
-        "deepdive",
-    ]
-    for backend in backends:
-        measures = make(f"measure.{backend}.*")
-        for measure_id, measure in measures.items():
-            print(measure_id, measure)
-            X = np.random.randn(100, 20, 30)
-            Y = np.random.randn(100, 20, 30)
+    measures = make("measure.*.*")
+    for measure_id, measure in measures.items():
+        print(measure_id)
+        X = np.random.randn(15, 20, 30)
+        Y = np.random.randn(15, 20, 30)
 
-            score = measure(X, Y)
-            print(f"measure_id: {measure_id}, score: {score}")
-            assert isinstance(score, float), f"Expected float, but got {type(score)}"
+        score = measure(X, Y)
+        print("score: {score}")
+        assert isinstance(score, float), f"Expected float, but got {type(score)}"
 
 
 def backend_consistency(plot_paper_id=True, save_path=None):
@@ -88,16 +82,7 @@ def backend_consistency(plot_paper_id=True, save_path=None):
     plt.show()
 
 
-def test_transforms():
-    make("measure.yuanli2333.cka-angular")
-
-
 if __name__ == "__main__":
-
-    # measure = make("measure.netrep.cka")
-    # measure = make("measure.yuanli2333.cka-angular")
-    # print("done", measure)
-
-    # test_measures()
-    backend_consistency(plot_paper_id=False)
+    test_measures()
+    # backend_consistency(plot_paper_id=False)
     # test_transforms()

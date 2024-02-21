@@ -21,8 +21,7 @@ similarity.register(
     preprocessing=[
         "reshape2d",
         "center_columns",
-        # TODO: zero_padding takes two args
-        # "zero_padding"
+        {"id": "zero_padding", "inputs": ["X", "Y"]}
     ]
 )
 def procrustes(X, Y):

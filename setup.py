@@ -60,10 +60,6 @@ install_requires = [
     'pydantic',
     'scikit-learn',
     'matplotlib',
-    # TODO: pypi doesn't allow direct dependencies on github repos
-    'config-utils @ git+https://github.com/nacloos/config-utils.git',
-    # TODO: install[dev]
-    'pytest-json-report',
     'requests',
     'gitpython'
 ]

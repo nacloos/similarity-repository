@@ -6,9 +6,21 @@ transforms = [
     {"inp": "cka", "out": "cka-angular", "postprocessing": ["arccos"]},
     {"inp": "cca", "out": "cca-angular", "postprocessing": ["arccos"]},
     {"inp": "nbs", "out": "procrustes-angular", "postprocessing": ["arccos"]},
-    # TODO: require X and Y as inputs (not just the score)
-    # {"inp": "procrustes-euclidean", "out": "procrustes-angular", "postprocessing": ["euclidean_to_angular_shape_metric"]},
-    # {"inp": "procrustes-euclidean", "out": "procrustes-sq-euclidean", "postprocessing": ["square"]},
+    {"inp": "procrustes-euclidean", "out": "procrustes-sq-euclidean", "postprocessing": ["square"]},
+    {
+        "inp": "procrustes-euclidean",
+        "out": "procrustes-angular",
+        "postprocessing": [
+            {"id": "euclidean_to_angular_shape_metric", "inputs": ["X", "Y", "score"]},
+        ]
+    },
+    {
+        "inp": "procrustes-angular",
+        "out": "procrustes-euclidean",
+        "postprocessing": [
+            {"id": "angular_to_euclidean_shape_metric", "inputs": ["X", "Y", "score"]},
+        ]
+    },
     # aliases
     {"inp": "bures_distance", "out": "procrustes-euclidean", "postprocessing": []},
     {"inp": "procrustes-euclidean", "out": "bures_distance", "postprocessing": []},
@@ -26,6 +38,9 @@ def add_inverse_transforms(transforms, inverse_functions):
             continue
 
         postprocessing = transform["postprocessing"][0]
+        if isinstance(postprocessing, dict):
+            continue
+
         if postprocessing in inverse_functions:
             new_transform = {
                 "inp": transform["out"],
@@ -44,8 +59,6 @@ inverse_functions = {
     "one_minus": "one_minus",
     "square": "sqrt",
     "sqrt": "square",
-    "euclidean_to_angular_shape_metric": "angular_to_euclidean_shape_metric",
-    "angular_to_euclidean_shape_metric": "euclidean_to_angular_shape_metric",
 }
 transforms = add_inverse_transforms(transforms, inverse_functions)
 
@@ -70,9 +83,9 @@ def register_derived_measures(transform):
         def derived_measure(measure_id, postprocessing):
             measure = similarity.make(measure_id)
             # similarity.make returns a MeasureInterface object
-            assert isinstance(measure, similarity.MeasureInteface), f"Expected type MeasureInterface, but got {type(measure)}"
+            assert isinstance(measure, similarity.MeasureInterface), f"Expected type MeasureInterface, but got {type(measure)}"
             # here recreate a new MeasureInterface object with the same underlying measure, but with the new postprocessing
-            _measure = similarity.MeasureInteface(
+            _measure = similarity.MeasureInterface(
                 measure=measure.measure,
                 interface=measure.interface,
                 preprocessing=measure.preprocessing,

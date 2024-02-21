@@ -1,13 +1,10 @@
-Status: Under active development. API subject to change.
-
-
 # Similarity Measures Repository
 
 
 ![Backend metrics](https://github.com/nacloos/similarity-measures/blob/main/backend_metrics.png)
 
 
-The goal of this repository is to gather **existing**  implementations of similarity measures for neural networks into a **single** python package, with a **common** and **customizable** interface. This repository doesn't provide any new implementations. It only refers to existing ones.
+The goal of this repository is to gather **existing**  implementations of similarity measures for neural networks into a **single** python package, with a **common** and **customizable** interface. This repository is not meant to provide new implementations. It only refers to existing ones.
 
 
 ## Installation
@@ -43,7 +40,7 @@ where the inputs `X` and `Y` are 2-dimensional **numpy arrays** of shape **(cond
 Each measure has a unique identifier, where the hyphen `-` symbol is used to specify parameter values for a family of measures. For example, `measure.procrustes-sq-euclidean` refers to the squared Euclidean version of the Procrustes metric.
 
 
-You can find a list with all the implemented ids [here](similarity/api/__init__.py).
+You can find a list with all the implemented ids [here](similarity/types/__init__.py).
 
 
 ### Selecting Groups of Measures
