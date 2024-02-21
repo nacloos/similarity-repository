@@ -1,3 +1,6 @@
+"""
+Code adapted from https://github.com/google/svcca
+"""
 # Copyright 2018 Google Inc.
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,9 +36,10 @@ for full details.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+# Modified: commented out these imports
+# from __future__ import absolute_import
+# from __future__ import division
+# from __future__ import print_function
 import numpy as np
 
 num_cca_trials = 5

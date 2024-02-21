@@ -87,7 +87,7 @@ measure: {
     // for key in ["procrustes", "procrustes-sq", "cca", "permutation"] {
     for key in ["procrustes", "permutation"] {
         for score_method in ["euclidean", "angular"] {
-            (key +"-" + score_method): {
+                (key +"-" + score_method): {
                 measure[key]
                 "score_method": score_method
             }
