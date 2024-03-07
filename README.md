@@ -1,7 +1,7 @@
 # Similarity Measures Repository
 
 
-![Backend metrics](https://github.com/nacloos/similarity-measures/blob/main/implemented_measures.png)
+![Backend metrics](https://github.com/nacloos/similarity-repository/blob/main/implemented_measures.png)
 
 
 The goal of this repository is to gather **existing**  implementations of similarity measures for neural networks into a **single** python package, with a **common** and **customizable** interface. This repository is not meant to provide new implementations. It only refers to existing ones.
@@ -10,7 +10,7 @@ The goal of this repository is to gather **existing**  implementations of simila
 ## Installation
 The python package can be installed with the following command:
 ```
-pip install git+https://github.com/nacloos/similarity-measures.git
+pip install git+https://github.com/nacloos/similarity-repository.git
 ```
 Or alternatively, you can clone the repository and run `pip install -e .` inside it.
 
