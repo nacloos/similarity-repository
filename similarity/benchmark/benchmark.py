@@ -22,7 +22,7 @@ def _():
 
 
 #TODO: normal that procrustes and cka angular score are the same?
-#TODO: 2d matrix like Chris did
+#TODO: 2d matrix dim dataset 1 vs dim dataset 2
 #TODO: benchmark invariances (!= unittests because so measure are expected to fail)
 #TODO: add pytorch measures and test equality with other measures
 def benchmark_ind_gaussians():
