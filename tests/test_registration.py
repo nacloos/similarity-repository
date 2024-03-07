@@ -1,4 +1,5 @@
 import numpy as np
+from matplotlib.patches import Patch
 
 import similarity
 from similarity import make
@@ -16,7 +17,7 @@ def test_measures():
         assert isinstance(score, float), f"Expected float, but got {type(score)}"
 
 
-def backend_consistency(plot_paper_id=True, save_path=None):
+def backend_consistency(plot_paper_id=True, plot_values=True, save_path=None):
     from collections import defaultdict
     import seaborn as sns
     import matplotlib.pyplot as plt
@@ -69,21 +70,41 @@ def backend_consistency(plot_paper_id=True, save_path=None):
         y_labels = backend_names
 
     plt.figure(figsize=(6+0.8*len(measure_names), 1+0.2*len(backend_names)), dpi=100)
-    sns.heatmap(backend_df, vmin=-1000, vmax=1, annot_kws={"fontsize": 5, "color": "black"}, fmt='.2g', annot=True, cmap="viridis", cbar=False, linewidths=1, linecolor='white')
-    plt.ylabel("Backends")
-    plt.xlabel("Measures")
+    if plot_values:
+        sns.heatmap(backend_df, vmin=-1000, vmax=1, annot_kws={"fontsize": 5, "color": "black"}, fmt='.2g', annot=True, cmap="viridis", cbar=False, linewidths=1, linecolor='white')
+    else:
+        # 1 if implemented, 0 if nan
+        implemented = ~backend_df.isna()
+        ax = sns.heatmap(implemented, vmin=0, vmax=1, cmap="viridis", cbar=False, linewidths=0, linecolor='white')
+
+        # plot legend
+        cmap = ax.collections[0].cmap
+        legend_colors = [cmap(0.), cmap(1.)]
+        # labels = ['Not implemented', 'Implemented', 'Default implementation']
+        labels = ['Not implemented', 'Implemented']
+        legend_elements = [
+            Patch(facecolor=legend_colors[i], label=labels[i])
+            for i in range(len(legend_colors))
+        ]
+        plt.legend(handles=legend_elements, loc='lower center', bbox_to_anchor=(0.5, -0.2), ncol=len(legend_elements),
+                   handlelength=1, handleheight=1, frameon=False, fontsize=12)
+
+    plt.ylabel("Backends", fontsize=15)
+    plt.xlabel("Measures", fontsize=15)
     plt.gca().xaxis.tick_top()
     plt.gca().xaxis.set_label_position('top')
     plt.xticks(rotation=45, ha='left')
     plt.yticks(rotation=0, va='center')
     plt.axis('scaled')
+    # plt.tight_layout()
 
-    # if save_path:
-    #     plt.savefig(save_path, transparent=False, bbox_inches='tight', dpi=300)
-    plt.show()
+    if save_path:
+        plt.savefig(save_path, transparent=False, bbox_inches='tight', dpi=300)
+    else:
+        plt.show()
 
 
 if __name__ == "__main__":
-    test_measures()
-    # backend_consistency(plot_paper_id=False)
+    # test_measures()
+    backend_consistency(plot_paper_id=False, plot_values=False, save_path="implemented_measures.png")
     # test_transforms()
