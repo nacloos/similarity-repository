@@ -4,7 +4,7 @@ import inspect
 import os
 import json
 
-from similarity.types import IdType
+from similarity.types import IdType, MeasureIdType
 
 
 def _register_imports():
@@ -78,6 +78,11 @@ def match(id: str) -> list[str]:
     _register_imports()
     assert isinstance(id, str), f"Expected type str, got {type(id)}"
     return [k for k in registry.keys() if fnmatch.fnmatch(k, id)]
+
+
+class Measure:
+    def __new__(cls, measure_id: MeasureIdType, *args, **kwargs) -> "MeasureInterface":
+        return make(f"measure.{measure_id}", *args, **kwargs)
 
 
 class MeasureInterface:
@@ -161,7 +166,7 @@ class MeasureInterface:
         return score
 
 
-def register(id, obj=None, function=False, interface=None, preprocessing=None, postprocessing=None, override=False):
+def register(id, obj=None, function=False, interface=None, preprocessing=None, postprocessing=None, override=True):
     def _register(id, obj):
         if not override:
             assert id not in registry, f"{id} already registered. Use override=True to force override."
