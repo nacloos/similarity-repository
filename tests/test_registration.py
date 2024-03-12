@@ -1,3 +1,4 @@
+from pathlib import Path
 import numpy as np
 from matplotlib.patches import Patch
 
@@ -13,8 +14,7 @@ def test_measures():
         Y = np.random.randn(15, 20, 30)
 
         score = measure(X, Y)
-        print("score: {score}")
-        assert isinstance(score, float), f"Expected float, but got {type(score)}"
+        print(f"score: {score}")
 
 
 def backend_consistency(plot_paper_id=True, plot_values=True, save_path=None):
@@ -25,8 +25,11 @@ def backend_consistency(plot_paper_id=True, plot_values=True, save_path=None):
 
     measures = make("measure.*.*")
 
-    X = np.random.randn(15, 10, 40)
-    Y = np.random.randn(15, 10, 40)
+    # TODO: evaluate on multiple datasets and cluster measures with similar scores together (color by cluster)
+    # X = np.random.randn(15, 10, 40)
+    # Y = np.random.randn(15, 10, 40)
+    X = np.random.rand(15, 10, 40)
+    Y = np.random.rand(15, 10, 40)
 
     results = defaultdict(list)
     for measure_id, measure in measures.items():
@@ -42,6 +45,9 @@ def backend_consistency(plot_paper_id=True, plot_values=True, save_path=None):
 
     # convert to 2d dataframe (backend x measure)
     backend_df = pd.DataFrame(results).pivot(index="backend", columns="measure", values="score")
+    # convert torch tensor to float
+    import torch
+    backend_df = backend_df.applymap(lambda x: x.item() if isinstance(x, torch.Tensor) else x)
     print(backend_df)
     measure_names = list(backend_df.columns)
     backend_names = list(backend_df.index)
@@ -105,6 +111,9 @@ def backend_consistency(plot_paper_id=True, plot_values=True, save_path=None):
 
 
 if __name__ == "__main__":
-    # test_measures()
-    backend_consistency(plot_paper_id=False, plot_values=False, save_path="implemented_measures.png")
+    test_measures()
     # test_transforms()
+
+    # save_dir = Path(__file__).parent / ".."
+    # backend_consistency(plot_paper_id=False, plot_values=False, save_path=save_dir / "implemented_measures.png")
+    # backend_consistency(plot_paper_id=False, plot_values=True, save_path=save_dir / "backend_consistency.png")

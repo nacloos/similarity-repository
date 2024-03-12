@@ -1,6 +1,9 @@
 from setuptools import setup, find_packages
 
 requirements = {
+    "diffscore": [
+        'diffscore @ git+https://github.com/nacloos/diffscore.git'
+    ],
     "rsatoolbox": [
         'rsatoolbox'
     ],

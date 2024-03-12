@@ -26,7 +26,7 @@ register = partial(
 )
 
 register(
-    "measure.repsim.cka-angular",
+    "measure.repsim.cka-hsic_lange-angular",
     partial(repsim.compare, method="angular_cka")
 )
 register(

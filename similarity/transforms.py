@@ -24,6 +24,11 @@ transforms = [
     # aliases
     {"inp": "bures_distance", "out": "procrustes-euclidean", "postprocessing": []},
     {"inp": "procrustes-euclidean", "out": "bures_distance", "postprocessing": []},
+    # cka usually refers to the Gretton2007 estimate of HSIC
+    {"inp": "cka", "out": "cka-hsic_gretton", "postprocessing": []},
+    {"inp": "cka-angular", "out": "cka-hsic_gretton-angular", "postprocessing": []},
+    {"inp": "cka-angular-score", "out": "cka-hsic_gretton-angular-score", "postprocessing": []},
+
 ]
 
 
