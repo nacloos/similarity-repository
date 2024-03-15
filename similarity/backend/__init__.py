@@ -15,4 +15,4 @@ from . import imd
 from . import dsa
 
 # packages that already use similarity-repository to register their measures
-# import diffscore
+import diffscore
