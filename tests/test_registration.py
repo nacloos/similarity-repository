@@ -110,6 +110,15 @@ def backend_consistency(plot_paper_id=True, plot_values=True, save_path=None):
         plt.show()
 
 
+def test_cards():
+    scoring_measures = {
+        k: v for k, v in make("measure.*.*").items() if "score" in make(f"card.{k.split('.')[-1]}")["props"]
+    }
+    metrics = {
+        k: v for k, v in make("measure.*.*").items() if "metric" in make(f"card.{k.split('.')[-1]}")["props"]
+    }
+
+
 if __name__ == "__main__":
     test_measures()
     # test_transforms()

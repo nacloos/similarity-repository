@@ -1,4 +1,4 @@
-# Similarity Measures Repository
+# Similarity Repository
 
 
 ![Backend metrics](https://github.com/nacloos/similarity-repository/blob/main/implemented_measures.png)

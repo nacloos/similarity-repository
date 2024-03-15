@@ -2,6 +2,7 @@
 from .registration import make, register, is_registered, match, MeasureInterface
 from . import processing
 from . import backend
+from . import cards
 
 # TODO: error if import transforms here (ok if import it at first call of make)
 # measure.nn_similarity_index.procrustes-euclidean
