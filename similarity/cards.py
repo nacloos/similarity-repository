@@ -1,3 +1,4 @@
+from collections import defaultdict
 from similarity import register, make
 
 
@@ -19,7 +20,7 @@ distance_metrics = [
 
 
 # default cards
-cards = {}
+cards = defaultdict(lambda: {"props": []})
 measures = make("measure.*.*")
 for measure_id in measures.keys():
     cards[measure_id.split(".")[-1]] = {
