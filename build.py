@@ -11,9 +11,9 @@ def build(build_dir=BUILD_DIR):
     Save registered keys as a literal type. Used to get autocomplete for the make function.
     """
     print("Building id types...")
-    similarity._register_imports()
+    similarity.registration._register_imports()
 
-    ids = similarity.registry.keys()
+    ids = similarity.registration.registry.keys()
     ids = sorted(ids)
 
     # save literal type for all possible ids
