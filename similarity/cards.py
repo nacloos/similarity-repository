@@ -6,6 +6,7 @@ score_measures = [
     "cka",
     "cka-angular-score",
     "procrustes-angular-score",
+    "cca",
     "cca-angular-score",
     "nbs",
     "nbs-angular-score",
