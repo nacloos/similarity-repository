@@ -19,23 +19,50 @@ distance_metrics = [
     "cca-angular",
 ]
 
+names = {
+    "cka": "Centered Kernel Alignment",
+    "cka-angular-score": "CKA Angular Score",
+    "procrustes-angular-score": "Procrustes Angular Score",
+    "nbs": "Normalized Bures Similarity",
+    "nbs-angular-score": "NBS Angular Score",
+    "nbs-squared": "NBS Squared",
+    "cca": "Canonical Correlation Analysis",
+    "cca-angular-score": "CCA Angular Score",
+    "rsa-correlation-corr": "Representational Similarity Analysis",
+}
 
-# default cards
-cards = defaultdict(lambda: {"props": []})
-measures = make("measure.*.*")
-for measure_id in measures.keys():
-    cards[measure_id.split(".")[-1]] = {
-        "props": []
+invariances = {
+    "cka": ["orthogonal", "isotropic-scaling"],
+    "nbs": ["orthogonal", "isotropic-scaling"],
+    "cca": ["invertible-linear"],
+}
+
+
+def make_card(measure_id):
+    props = []
+    if measure_id in score_measures:
+        props.append("score")
+    if measure_id in distance_metrics:
+        props.append("metric")
+    return {
+        "props": props,  # TODO: deprecated, backward compatibility
+        "score": measure_id in score_measures,
+        "metric": measure_id in distance_metrics,
+        "name": names.get(measure_id, measure_id),
+        "invariances": invariances.get(measure_id, []),
     }
 
-# add score prop to cards
-for measure_id in score_measures:
-    cards[measure_id]["props"].append("score")
 
-# add metric prop to cards
-for measure_id in distance_metrics:
-    cards[measure_id]["props"].append("metric")
+measures = make("measure.*.*")
+all_measures = [
+    *measures.keys(),
+    *score_measures,
+    *distance_metrics
+]
 
-# register cards
-for measure_id, card in cards.items():
+# create and register cards
+for full_id in all_measures:
+    measure_id = full_id.split(".")[-1]
+    card = make_card(measure_id)
+    # TODO: card.measure.{measure_id} instead?
     register(f"card.{measure_id}", card)

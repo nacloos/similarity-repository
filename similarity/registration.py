@@ -40,7 +40,11 @@ def make(id: IdType, *args, **kwargs):
         if len(matches) > 0:
             return {k: make(k, *args, **kwargs) for k in matches}
 
-        raise ValueError(f"'{id}' not found in registry. Use 'similarity.register' to register a new entry.")
+
+        import difflib
+        suggestion = difflib.get_close_matches(id, registry.keys(), n=1)
+
+        raise ValueError(f"`{id}` not found in registry. Did you mean: `{suggestion[0]}`? Use `similarity.register` to register a new entry.")
 
     obj = registry[id]
 
