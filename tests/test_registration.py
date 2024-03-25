@@ -28,6 +28,7 @@ def backend_consistency(plot_paper_id=True, plot_values=True, save_path=None):
     # TODO: evaluate on multiple datasets and cluster measures with similar scores together (color by cluster)
     # X = np.random.randn(15, 10, 40)
     # Y = np.random.randn(15, 10, 40)
+    # test with non-zero mean data
     X = np.random.rand(15, 10, 40)
     Y = np.random.rand(15, 10, 40)
 

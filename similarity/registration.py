@@ -137,7 +137,8 @@ class MeasureInterface:
                 assert "id" in p, f"Expected 'id' in postprocessing dict, got {p}"
                 if "inputs" in p:
                     data = {"X": X, "Y": Y, "score": score}
-                    args = [data[i] for i in p["inputs"]]
+                    print(p)
+                    args = [data[k] for k in p["inputs"]]
                     score = make(f"postprocessing.{p['id']}", *args)
             else:
                 score = p(score)

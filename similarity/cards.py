@@ -20,22 +20,32 @@ distance_metrics = [
 ]
 
 names = {
-    "cka": "Centered Kernel Alignment",
-    "cka-angular-score": "CKA Angular Score",
+    "cka":                      "Centered Kernel Alignment",
+    "cka-angular-score":        "CKA Angular Score",
     "procrustes-angular-score": "Procrustes Angular Score",
-    "nbs": "Normalized Bures Similarity",
-    "nbs-angular-score": "NBS Angular Score",
-    "nbs-squared": "NBS Squared",
-    "cca": "Canonical Correlation Analysis",
-    "cca-angular-score": "CCA Angular Score",
-    "rsa-correlation-corr": "Representational Similarity Analysis",
+    "nbs":                      "Normalized Bures Similarity",
+    "nbs-angular-score":        "NBS Angular Score",
+    "nbs-squared":              "NBS Squared",
+    "cca":                      "Canonical Correlation Analysis",
+    "cca-angular-score":        "CCA Angular Score",
+    "svcca":                    "Singular Vector Canonical Correlation Analysis",
+    "rsa-correlation-corr":     "Representational Similarity Analysis",
 }
 
+# TODO: verify and complete this
+# reference: https://arxiv.org/pdf/2305.06329.pdf
 invariances = {
-    "cka": ["orthogonal", "isotropic-scaling"],
-    "nbs": ["orthogonal", "isotropic-scaling"],
-    "cca": ["invertible-linear"],
+    "cca": ["permutation", "orthogonal", "isotropic-scaling", "invertible-linear", "translation", "affine"],
+    "rsa": ["permutation", "isotropic-scaling", "translation"],
+    "cka": ["permutation", "orthogonal", "isotropic-scaling", "translation"],
+    "nbs": ["permutation", "orthogonal", "isotropic-scaling"],
+    "procrustes-angular-score": ["permutation", "orthogonal", "isotropic-scaling"],
 }
+invariances["nbs-angular-score"] = invariances["nbs"]
+invariances["nbs-squared"] = invariances["nbs"]
+invariances["cca-angular-score"] = invariances["cca"]
+invariances["cka-angular-score"] = invariances["cka"]
+invariances["rsa-correlation-corr"] = invariances["rsa"]
 
 
 def make_card(measure_id):

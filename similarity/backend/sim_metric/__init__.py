@@ -18,6 +18,9 @@ register = partial(
     function=True,
     preprocessing=[
         "reshape2d",
+        "center_columns",
+        # sim_metric scoring functions expect shape (neuron, sample)
+        # but measure inputs are of shape (sample, neuron)
         "transpose"
     ]
 )

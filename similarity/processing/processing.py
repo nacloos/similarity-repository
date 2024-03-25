@@ -108,7 +108,7 @@ def angular_dist_to_score(score):
     return normalized_score
 
 
-@register("postprocessing.euclidean_to_angular_shape_metric")
+@register("postprocessing.angular_to_euclidean_shape_metric")
 def angular_to_euclidean_shape_metric(X, Y, score):
     """
     shape-metric-angular: arccos(<X, YQ>/(||X|| ||Y||)))
@@ -122,7 +122,7 @@ def angular_to_euclidean_shape_metric(X, Y, score):
     return np.sqrt(X_norm**2 + Y_norm**2 - 2 * X_norm * Y_norm * np.cos(score))
 
 
-@register("postprocessing.angular_to_euclidean_shape_metric")
+@register("postprocessing.euclidean_to_angular_shape_metric")
 def euclidean_to_angular_shape_metric(X, Y, score):
     assert len(X.shape) == 2, "Expected 2 dimensions, found {}".format(len(X.shape))
     assert len(Y.shape) == 2, "Expected 2 dimensions, found {}".format(len(Y.shape))
