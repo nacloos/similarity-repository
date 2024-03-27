@@ -1,5 +1,4 @@
 import similarity
-import DSA
 
 
 similarity.register(
@@ -11,6 +10,7 @@ similarity.register(
 )
 
 # TODO: convert to standard interface (DSA class takes X, Y in constructor instead of fit_score)
+# import DSA
 # similarity.register(
 #     "measure.dsa.dsa",
 #     lambda: DSA.DSA

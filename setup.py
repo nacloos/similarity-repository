@@ -77,9 +77,7 @@ setup(
     name='similarity-repository',
     version="0.0.1",
     packages=[
-        package for package in find_packages()
-        # temp install brainscore here
-        if package.startswith('similarity') or package.startswith('brainscore')
+        package for package in find_packages() if package.startswith('similarity')
     ],
     include_package_data=True,
     install_requires=install_requires,
