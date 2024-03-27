@@ -12,20 +12,24 @@ def compute_kernel(X):
     return X @ X.T
 
 
-def euclidean(kmat_1, kmat_2):
+def euclidean(X, Y):
+    kmat_1, kmat_2 = compute_kernel(X), compute_kernel(Y)
     return SimIndex().euclidean(kmat_1, kmat_2)
 
 
-def cka(kmat_1, kmat_2):
+def cka(X, Y):
+    kmat_1, kmat_2 = compute_kernel(X), compute_kernel(Y)
     return SimIndex().cka(kmat_1, kmat_2)
 
 
-def nbs(kmat_1, kmat_2):
+def nbs(X, Y):
+    kmat_1, kmat_2 = compute_kernel(X), compute_kernel(Y)
     return SimIndex().nbs(kmat_1, kmat_2)
 
 
 # this metric is not included in the original code but added for comparison purposes
-def bures_distance(kmat_1, kmat_2):
+def bures_distance(X, Y):
+    kmat_1, kmat_2 = compute_kernel(X), compute_kernel(Y)
     kmat_1 = SimIndex().centering(kmat_1)
     kmat_2 = SimIndex().centering(kmat_2)
     # simple rearrangement of the terms in the SimIndex.nbs method

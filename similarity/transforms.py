@@ -1,12 +1,24 @@
+"""
+Automatic derivation of new similarity measures based on existing ones. For
+example, if there is a measure "procrustes-euclidean" that computes the
+Procrustes distance between two matrices, then we can automatically derive a
+new measure "procrustes-sq-euclidean" that computes the square of the
+Procrustes distance by adding a new transform to the list of transforms,
+"""
 from functools import partial
 import similarity
 
 
+# list of transforms used to automatically derive new measures
 transforms = [
+    {"inp": "procrustes-euclidean", "out": "procrustes-sq-euclidean", "postprocessing": ["square"]},
+
+    # Generalized Shape Metrics on Neural Representations (Williams et al., 2021)
+    # take the arccosine to get angular distance
     {"inp": "cka", "out": "cka-angular", "postprocessing": ["arccos"]},
     {"inp": "cca", "out": "cca-angular", "postprocessing": ["arccos"]},
-    {"inp": "nbs", "out": "procrustes-angular", "postprocessing": ["arccos"]},
-    {"inp": "procrustes-euclidean", "out": "procrustes-sq-euclidean", "postprocessing": ["square"]},
+
+    # transformation between angular and euclidean shape metrics
     {
         "inp": "procrustes-euclidean",
         "out": "procrustes-angular",
@@ -21,43 +33,25 @@ transforms = [
             {"id": "angular_to_euclidean_shape_metric", "inputs": ["X", "Y", "score"]},
         ]
     },
-    # aliases
+
+    # Duality of Bures and Shape Distances with Implications for Comparing Neural Representations (Harvey et al., 2023)
+    {"inp": "nbs", "out": "procrustes-angular", "postprocessing": ["arccos"]},
     {"inp": "bures_distance", "out": "procrustes-euclidean", "postprocessing": []},
     {"inp": "procrustes-euclidean", "out": "bures_distance", "postprocessing": []},
-    # cka usually refers to the Gretton2007 estimate of HSIC
+
+    # CKA by default refers to the Gretton2007 estimate of HSIC
     {"inp": "cka", "out": "cka-hsic_gretton", "postprocessing": []},
     {"inp": "cka-angular", "out": "cka-hsic_gretton-angular", "postprocessing": []},
     {"inp": "cka-angular-score", "out": "cka-hsic_gretton-angular-score", "postprocessing": []},
 
+    # rescale angular distances to scores in [0, 1]
+    {"inp": "procrustes-angular", "out": "procrustes-angular-score", "postprocessing": ["normalize_pi_half", "one_minus"]},
+    {"inp": "cka-angular", "out": "cka-angular-score", "postprocessing": ["normalize_pi_half", "one_minus"]},
+    {"inp": "cca-angular", "out": "cca-angular-score", "postprocessing": ["normalize_pi_half", "one_minus"]},
+    {"inp": "nbs-angular", "out": "nbs-angular-score", "postprocessing": ["normalize_pi_half", "one_minus"]},
 ]
 
-
-def add_inverse_transforms(transforms, inverse_functions):
-    """
-    Add inverse transforms to the list of transforms.
-    For example, if there is a transform from "a" to "b" with postprocessing "cos", then add a transform from "b" to "a" with postprocessing "arccos".
-    """
-    new_transforms = []
-    for transform in transforms:
-        if not len(transform["postprocessing"]) == 1:
-            continue
-
-        postprocessing = transform["postprocessing"][0]
-        if isinstance(postprocessing, dict):
-            continue
-
-        if postprocessing in inverse_functions:
-            new_transform = {
-                "inp": transform["out"],
-                "out": transform["inp"],
-                "postprocessing": [
-                    inverse_functions[postprocessing]
-                ]
-            }
-            new_transforms.append(new_transform)
-    return transforms + new_transforms
-
-
+# inverse functions used to automatically add inverse transforms to the list of transforms
 inverse_functions = {
     "cos": "arccos",
     "arccos": "cos",
@@ -65,10 +59,21 @@ inverse_functions = {
     "square": "sqrt",
     "sqrt": "square",
 }
-transforms = add_inverse_transforms(transforms, inverse_functions)
 
 
 def register_derived_measures(transform):
+    """
+    Register derived measures based on a transform.
+
+    Args:
+        transform: dictionary with keys "inp", "out", and "postprocessing".
+            "inp": input measure id.
+            "out": output measure id.
+            "postprocessing": list of postprocessing functions.
+
+    Returns:
+        derived_measure_ids: list of derived measure ids that were registered.
+    """
     matches = similarity.match(f"measure.*.{transform['inp']}")
 
     # all the derived measures that are not already registered
@@ -107,6 +112,42 @@ def register_derived_measures(transform):
         )
 
     return derived_measure_ids
+
+
+def add_inverse_transforms(transforms, inverse_functions):
+    """
+    Add inverse transforms to the list of transforms. For example, if there is a transform from "a" to "b" with postprocessing "cos", then add a transform from "b" to "a" with postprocessing "arccos".
+
+    Args:
+        transforms: list of transforms.
+        inverse_functions: dictionary mapping postprocessing functions to their inverses.
+
+    Returns:
+        new_transforms: list of transforms with added inverse transforms.
+    """
+    new_transforms = []
+    for transform in transforms:
+        if not len(transform["postprocessing"]) == 1:
+            continue
+
+        postprocessing = transform["postprocessing"][0]
+        if isinstance(postprocessing, dict):
+            continue
+
+        if postprocessing in inverse_functions:
+            new_transform = {
+                "inp": transform["out"],
+                "out": transform["inp"],
+                "postprocessing": [
+                    inverse_functions[postprocessing]
+                ]
+            }
+            new_transforms.append(new_transform)
+    return transforms + new_transforms
+
+
+# add inverse transforms to the list of transforms
+transforms = add_inverse_transforms(transforms, inverse_functions)
 
 # recursively register derived measures until no more derived measures are registered
 done = False

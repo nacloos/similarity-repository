@@ -1,7 +1,7 @@
 # Similarity Repository
 
 
-![Backend metrics](https://github.com/nacloos/similarity-repository/blob/main/implemented_measures.png)
+![Backend metrics](https://github.com/nacloos/similarity-repository/blob/main/figures/implemented_measures.png)
 
 
 The goal of this repository is to gather **existing**  implementations of similarity measures for neural networks into a **single** python package, with a **common** and **customizable** interface. This repository is not meant to provide new implementations. It only refers to existing ones.
@@ -102,6 +102,7 @@ X_val, Y_val = np.random.randn(100, 30), np.random.randn(100, 30)
 measure2.fit(X_fit, Y_fit)
 score = measure2.score(X_val, Y_val)
 ```
+
 
 <!-- ## Contributing
 See backend folder for examples of how to register new measures. -->

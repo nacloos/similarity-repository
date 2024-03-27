@@ -1,3 +1,6 @@
+"""
+Register similarity measures from different backends.
+"""
 from . import yuanli2333
 from . import mklabunde
 from . import sim_metric

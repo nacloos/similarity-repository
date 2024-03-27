@@ -20,7 +20,6 @@ requirements = {
         "numpy>=1.17",
         "brainio @ git+https://github.com/brain-score/brainio",
         "importlib-metadata<5",  # workaround to https://github.com/brain-score/brainio/issues/28
-        # TODO
         "scikit-learn",
         # "scikit-learn<0.24",  # 0.24 breaks pls regression
         "scipy",
@@ -35,7 +34,7 @@ requirements = {
         "jupyter",
         "pybtex",
         "peewee",
-        # "pillow<9.0.0",  # TODO: "AttributeError: module 'PIL' has no attribute 'Image'" when calling plt.savefig with old version of PIL
+        # "pillow<9.0.0",  # "AttributeError: module 'PIL' has no attribute 'Image'" when calling plt.savefig with old version of PIL
         "pillow",
         "psycopg2-binary"
     ],
@@ -54,8 +53,8 @@ requirements = {
     # https://github.com/IlyaTrofimov/RTD/blob/38b9239c7e228c9ff70e0f8b3719efce0823cd05/README.md#installation
     # "rtd": [
     #     'rtd @ git+https://github.com/IlyaTrofimov/RTD',
-    #     # TODO: requires cmake (doesn't work with latest cmake), CUDA, gcc (make the installation optional?)
-    #     # TODO: didn't manage to install it on windows (use dockerfile?)
+    #     # requires cmake (doesn't work with latest cmake), CUDA, gcc (make the installation optional?)
+    #     # didn't manage to install it on windows (use dockerfile?)
     #     'risperplusplus @ git+https://github.com/simonzhang00/ripser-plusplus',
     #     'torch',
     # ]
@@ -79,15 +78,11 @@ setup(
     version="0.0.1",
     packages=[
         package for package in find_packages()
-        # TODO: temp install brainscore here
+        # temp install brainscore here
         if package.startswith('similarity') or package.startswith('brainscore')
     ],
     include_package_data=True,
     install_requires=install_requires,
-    # TODO
-    # extras_require={
-    #     'rtd': rtd_requires
-    # },
     description='A repository for similarity measures.',
     author='Nathan Cloos'
 )

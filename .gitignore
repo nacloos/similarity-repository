@@ -161,5 +161,4 @@ cython_debug/
 
 
 # temporarily ignored
-figures/
 examples/

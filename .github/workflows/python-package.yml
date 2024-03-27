@@ -57,4 +57,5 @@ jobs:
     - name: Test with pytest
       run: |
         pytest tests/test_registration.py
+        pytest tests/test_getting_started.py
 

@@ -9,4 +9,9 @@ similarity.register(
     }
 )
 
-# TODO: register measures
+# import DSA
+# similarity.register(
+#     "measure.dsa.dsa",
+#     lambda: DSA.DSA
+# )
+

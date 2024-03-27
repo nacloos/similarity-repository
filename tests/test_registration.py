@@ -124,6 +124,6 @@ if __name__ == "__main__":
     # test_measures()
     # test_transforms()
 
-    save_dir = Path(__file__).parent / ".."
-    # backend_consistency(plot_paper_id=False, plot_values=False, save_path=save_dir / "implemented_measures.png")
+    save_dir = Path(__file__).parent / ".." / "figures"
+    backend_consistency(plot_paper_id=False, plot_values=False, save_path=save_dir / "implemented_measures.png")
     backend_consistency(plot_paper_id=False, plot_values=True, save_path=save_dir / "backend_consistency.png")
