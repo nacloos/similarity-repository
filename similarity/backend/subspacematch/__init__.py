@@ -14,7 +14,7 @@ similarity.register(
 
 similarity.register(
     "measure.subspacematch.max_match",
-    # TODO: vary epsilon
+    # vary epsilon?
     partial(score.maximum_match_score, epsilon=0.25),
     function=True,
     preprocessing=[

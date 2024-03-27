@@ -9,4 +9,4 @@ similarity.register(
     }
 )
 
-# TODO: failed to install dependencies on windows to run the code
+# failed to install dependencies on windows to run the code

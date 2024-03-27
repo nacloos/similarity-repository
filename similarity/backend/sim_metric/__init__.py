@@ -35,7 +35,11 @@ register(
 )
 register(
     "measure.sim_metric.pwcca",
-    utils.pwcca_dist
+    utils.pwcca_dist,
+    postprocessing=[
+        # (Ding, 2021): d_PWCCA = 1 - PWCCA
+        "one_minus"
+    ]
 )
 register(
     "measure.sim_metric.cka",

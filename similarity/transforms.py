@@ -18,6 +18,10 @@ transforms = [
     {"inp": "cka", "out": "cka-angular", "postprocessing": ["arccos"]},
     {"inp": "cca", "out": "cca-angular", "postprocessing": ["arccos"]},
 
+    # svcca = pca + cca
+    {"inp": "cca", "out": "svcca-var95", "preprocessing": ["reshape2d", "pca-var95"]},
+    {"inp": "cca", "out": "svcca-var99", "preprocessing": ["reshape2d", "pca-var99"]},
+
     # transformation between angular and euclidean shape metrics
     {
         "inp": "procrustes-euclidean",
@@ -92,7 +96,7 @@ def register_derived_measures(transform):
 
     # register the derived measures
     for base_measure_id, derived_measure_id in zip(base_measure_ids, derived_measure_ids):
-        def derived_measure(measure_id, postprocessing):
+        def derived_measure(measure_id, postprocessing, preprocessing):
             measure = similarity.make(measure_id)
             # similarity.make returns a MeasureInterface object
             assert isinstance(measure, similarity.MeasureInterface), f"Expected type MeasureInterface, but got {type(measure)}"
@@ -100,7 +104,7 @@ def register_derived_measures(transform):
             _measure = similarity.MeasureInterface(
                 measure=measure.measure,
                 interface=measure.interface,
-                preprocessing=measure.preprocessing,
+                preprocessing=preprocessing + measure.preprocessing,
                 postprocessing=measure.postprocessing + postprocessing,
             )
             return _measure
@@ -108,7 +112,12 @@ def register_derived_measures(transform):
         # not working as expected if directly use register as decorator and don't pass the match and transform as arguments
         similarity.register(
             derived_measure_id,
-            partial(derived_measure, base_measure_id, transform["postprocessing"])
+            partial(
+                derived_measure,
+                base_measure_id,
+                transform.get("postprocessing", []),
+                transform.get("preprocessing", [])
+            )
         )
 
     return derived_measure_ids
@@ -127,7 +136,8 @@ def add_inverse_transforms(transforms, inverse_functions):
     """
     new_transforms = []
     for transform in transforms:
-        if not len(transform["postprocessing"]) == 1:
+        # only consider transforms with exactly one postprocessing function
+        if "postprocessing" not in transform or len(transform["postprocessing"]) != 1:
             continue
 
         postprocessing = transform["postprocessing"][0]

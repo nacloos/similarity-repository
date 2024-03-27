@@ -8,7 +8,7 @@ from . import cca_core, pwcca, numpy_pls
 similarity.register(
     "measure.svcca",
     {
-        "paper_id": "raghu2017",
+        "paper_id": ["raghu2017", "morcos2018"],
         "github": "https://github.com/google/svcca"
     }
 )

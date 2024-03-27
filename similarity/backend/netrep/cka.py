@@ -1,6 +1,6 @@
 """
 Taken from https://github.com/ahwillia/netrep/blob/main/netrep/metrics/cka.py
-Added import statement for angular_distance (raised error)
+Added missing import statement for angular_distance
 """
 import numpy as np
 from sklearn.base import BaseEstimator
