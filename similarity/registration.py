@@ -1,7 +1,5 @@
 from __future__ import annotations
-from functools import partial
 import fnmatch
-import inspect
 
 from similarity.types import IdType, MeasureIdType
 
@@ -11,7 +9,7 @@ def _register_imports():
     import similarity.transforms
 
 
-# store for user defined objects
+# store registered objects
 registry = {}
 
 
@@ -34,10 +32,10 @@ def make(id: IdType, *args, **kwargs):
         if len(matches) > 0:
             return {k: make(k, *args, **kwargs) for k in matches}
 
-        # no matches found, suggest closest match
+        # no matches found, try suggesting closest match
         import difflib
         suggestion = difflib.get_close_matches(id, registry.keys(), n=1)
-    
+
         if len(suggestion) == 0:
             raise ValueError(f"`{id}` not found in registry. Use `similarity.register` to register a new entry.")
         else:
@@ -48,7 +46,7 @@ def make(id: IdType, *args, **kwargs):
     if isinstance(obj, dict):
         return obj
     else:
-        return registry[id](*args, **kwargs)
+        return obj(*args, **kwargs)
 
 
 def is_registered(id: str) -> bool:
@@ -99,6 +97,33 @@ class MeasureInterface:
             preprocessing: list = None,
             postprocessing: list = None
     ):
+        """
+        Args:
+            measure: measure object, either instantiated from a class or a function. If the `interface` argument is None,
+                the measure object is expected to have the following methods:
+                * fit: fit the measure object to the data.
+                * fit_score: fit the measure object to the data and return the score.
+                * score: return the score without fitting the measure object.
+                * __call__: call the measure object directly.
+                If `measure` is a function, only __call__ is used. Calling fit, fit_score, or score will raise an error.
+            interface: interface to use for the measure object. If None, uses default interface.
+                The interface is specified as a dict where the keys are the method names of the MeasureInterface
+                class and the values are the method names of the wrapped measure object to which they are mapped.
+            preprocessing: preprocessing to apply to the data before passing to the measure object.
+                The preprocessing can be a string, dict, or function. If a string, the string is used to
+                look up the preprocessing function in the registry. If a dict, the dict should have the following
+                keys:
+                * id: id of the preprocessing function to use.
+                * inputs: potential list of inputs to pass to the preprocessing function.
+                If a function, the function is applied directly to each dataset.
+            postprocessing: postprocessing to apply to the score after it is returned from the measure object.
+                The postprocessing can be a string, dict, or function. If a string, the string is used to
+                look up the postprocessing function in the registry. If a dict, the dict should have the following
+                keys:
+                * id: id of the postprocessing function to use.
+                * inputs: potential list of inputs to pass to the postprocessing function.
+                If a function, the function is applied directly to the score.
+        """
         assert not isinstance(measure, MeasureInterface), f"Measure is already a MeasureInterface object."
         interface = {} if interface is None else interface
         preprocessing = [] if preprocessing is None else preprocessing
@@ -122,6 +147,7 @@ class MeasureInterface:
                 X = make(f"preprocessing.{p}", X)
                 Y = make(f"preprocessing.{p}", Y)
             elif isinstance(p, dict):
+                # if dict, check for inputs key to pass data to the preprocessing function
                 assert "id" in p, f"Expected 'id' in preprocessing dict, got {p}"
                 if "inputs" in p:
                     data = {"X": X, "Y": Y}
@@ -131,6 +157,7 @@ class MeasureInterface:
                     X = make(p["id"], X)
                     Y = make(p["id"], Y)
             else:
+                # assume p is a function
                 X = p(X)
                 Y = p(Y)
         return X, Y
@@ -143,12 +170,14 @@ class MeasureInterface:
             if isinstance(p, str):
                 score = make(f"postprocessing.{p}", score)
             elif isinstance(p, dict):
+                # if dict, check for inputs key to pass data to the postprocessing function
                 assert "id" in p, f"Expected 'id' in postprocessing dict, got {p}"
                 if "inputs" in p:
                     data = {"X": X, "Y": Y, "score": score}
                     args = [data[k] for k in p["inputs"]]
                     score = make(f"postprocessing.{p['id']}", *args)
             else:
+                # assume p is a function
                 score = p(score)
         return score
 
@@ -229,7 +258,7 @@ def register(id, obj=None, function=False, interface=None, preprocessing=None, p
         override: if True, override existing registration.
 
     Returns:
-        obj: object that was registered.
+        if obj is None, returns a decorator function.
     """
     def _register(id, obj):
         if not override:
@@ -240,29 +269,22 @@ def register(id, obj=None, function=False, interface=None, preprocessing=None, p
             registry[id] = obj
             return
 
-        if isinstance(obj, partial):
-            base_obj = obj.func
-        else:
-            base_obj = obj
-        make_obj = obj
-
+        # if id starts with 'measure', wrap obj in MeasureInterface
         category = id.split(".")[0]
         if category == "measure":
-
-            # TODO: clean implementation
             if function:
-                assert inspect.isfunction(base_obj) or inspect.ismethod(base_obj), f"Expected type function or method for {obj}, got {type(obj)}"
                 # encapsulate in a function so that make(id) returns the function itself without calling it
                 def _obj():
                     return obj
             else:
-                # assert inspect.isclass(base_obj), f"Expected type class for {obj}, got {type(obj)}"
                 _obj = obj
 
             # wrap measure in a MeasureInterface
-            def make_obj():
+            def wrap_measure():
                 measure = _obj()
                 if isinstance(measure, MeasureInterface):
+                    # if measure is already a MeasureInterface object, return it directly
+                    # currently don't support overriding interface, preprocessing, or postprocessing
                     assert interface is None, f"Expected interface to be None, got {interface}"
                     assert preprocessing is None, f"Expected preprocessing to be None, got {preprocessing}"
                     assert postprocessing is None, f"Expected postprocessing to be None, got {postprocessing}"
@@ -276,7 +298,10 @@ def register(id, obj=None, function=False, interface=None, preprocessing=None, p
                 )
                 return measure_interface
 
-        registry[id] = make_obj
+            registry[id] = wrap_measure
+
+        else:
+            registry[id] = obj
 
     # if obj is None, register can be used as a decorator
     if obj is None:
