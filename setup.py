@@ -18,7 +18,11 @@ requirements = {
     "brainscore": [
         # copied from github brain-score/setup.py
         "numpy>=1.17",
-        "brainio @ git+https://github.com/brain-score/brainio",
+
+        # "brainio @ git+https://github.com/brain-score/brainio",
+        # use the exact same version as in brainscore_vision otherwise pip will raise conflict error when trying to install both similarity and brainscore_vision
+        "brainio @ git+https://github.com/brain-score/brainio.git@main",
+
         "importlib-metadata<5",  # workaround to https://github.com/brain-score/brainio/issues/28
         "scikit-learn",
         # "scikit-learn<0.24",  # 0.24 breaks pls regression
