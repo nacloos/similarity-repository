@@ -229,11 +229,11 @@ class MeasureInterface:
 
     def __call__(self, X, Y):
         """
-        Call the measure object directly.
-
+        Measure the similarity between two datasets.
+        
         Args:
-            X: data.
-            Y: data.
+            X: data array, 2d or 3d with last dimension `neuron`.
+            Y: data array, 2d or 3d with last dimension `neuron`.
 
         Returns:
             score: similarity score.
