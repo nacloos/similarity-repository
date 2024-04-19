@@ -2,10 +2,6 @@ from setuptools import setup, find_packages
 
 
 requirements = {
-    # TODO: error when installing with pip (git clone and pip install work)
-    # "diffscore": [
-    #     'diffscore @ git+https://github.com/nacloos/diffscore.git'
-    # ],
     "rsatoolbox": [
         'rsatoolbox'
     ],
