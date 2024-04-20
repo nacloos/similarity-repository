@@ -82,5 +82,5 @@ setup(
     include_package_data=True,
     install_requires=install_requires,
     description='A repository for similarity measures.',
-    author='Nathan Cloos'
+    author='XXX'
 )
