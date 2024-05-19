@@ -67,6 +67,11 @@ inverse_functions = {
     "sqrt": "square",
 }
 
+# backends that should be excluded from automatic derivation of new measures
+EXCLUDED_BACKENDS = [
+    "default"
+]
+
 
 def register_derived_measures(transform):
     """
@@ -90,6 +95,9 @@ def register_derived_measures(transform):
         assert len(match.split(".")) == 3, f"Expected 3 parts in id: '{{category}}.{{backend}}.{{measure}}', but got {match}"
 
         backend = match.split(".")[1]
+        if backend in EXCLUDED_BACKENDS:
+            continue
+
         derived_measure_id = f"measure.{backend}.{transform['out']}"
 
         if similarity.is_registered(derived_measure_id):
