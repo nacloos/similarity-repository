@@ -2,6 +2,9 @@ from setuptools import setup, find_packages
 
 
 requirements = {
+    "platonic": [
+        'torchaudio'
+    ],
     "rsatoolbox": [
         'rsatoolbox'
     ],
