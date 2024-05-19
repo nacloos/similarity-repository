@@ -1,7 +1,7 @@
 from __future__ import annotations
 import fnmatch
 
-from similarity.types import IdType, MeasureIdType
+from similarity.types import BackendIdType, IdType, MeasureIdType
 
 
 def _register_imports():
@@ -80,10 +80,13 @@ def match(id: str) -> list[str]:
 
 class Measure:
     """
-    Factory class for creating MeasureInterface object from measure id.
+    Factory class for creating MeasureInterface objects from measure id.
     """
-    def __new__(cls, measure_id: MeasureIdType, *args, **kwargs) -> "MeasureInterface":
-        return make(f"measure.{measure_id}", *args, **kwargs)
+    # def __new__(cls, measure_id: MeasureIdType, *args, **kwargs) -> "MeasureInterface":
+    #     return make(f"measure.{measure_id}", *args, **kwargs)
+
+    def __new__(cls, measure: MeasureIdType, backend: BackendIdType = "default", *args, **kwargs) -> "MeasureInterface":
+        return make(f"measure.{backend}.{measure}", *args, **kwargs)
 
 
 class MeasureInterface:
