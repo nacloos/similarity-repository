@@ -43,8 +43,10 @@ transforms = [
     {"inp": "bures_distance", "out": "procrustes-euclidean", "postprocessing": []},
     {"inp": "procrustes-euclidean", "out": "bures_distance", "postprocessing": []},
 
-    # CKA by default refers to the Gretton2007 estimate of HSIC
+    # by default CKA usually refers to the Gretton2007 estimate of HSIC
+    # see https://proceedings.mlr.press/v221/lange23a/lange23a.pdf Appendix B. for a review of different CKA variants
     {"inp": "cka", "out": "cka-hsic_gretton", "postprocessing": []},
+    {"inp": "cka-hsic_gretton", "out": "cka", "postprocessing": []},
     {"inp": "cka-angular", "out": "cka-hsic_gretton-angular", "postprocessing": []},
     {"inp": "cka-angular-score", "out": "cka-hsic_gretton-angular-score", "postprocessing": []},
 
@@ -159,9 +161,13 @@ def add_inverse_transforms(transforms, inverse_functions):
 # add inverse transforms to the list of transforms
 transforms = add_inverse_transforms(transforms, inverse_functions)
 
+# keep track of which measures were derived
+DERIVED_MEASURES = []
+
 # recursively register derived measures until no more derived measures are registered
 done = False
 while not done:
     for transform in transforms:
         registered_ids = register_derived_measures(transform)
         done = len(registered_ids) == 0
+        DERIVED_MEASURES.extend(registered_ids)
