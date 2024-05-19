@@ -73,6 +73,11 @@ def pca_var95(X):
     return pca.fit_transform(X)
 
 
+@register("preprocessing.pca-dim10")
+def pca_var95(X):
+    return PCA(n_components=10).fit_transform(X)
+
+
 @register("postprocessing.tensor_to_float")
 def tensor_to_float(score):
     return score.detach().item()
