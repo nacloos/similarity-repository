@@ -21,6 +21,7 @@ transforms = [
     # svcca = pca + cca
     {"inp": "cca", "out": "svcca-var95", "preprocessing": ["reshape2d", "pca-var95"]},
     {"inp": "cca", "out": "svcca-var99", "preprocessing": ["reshape2d", "pca-var99"]},
+    {"inp": "cca", "out": "svcca-dim10", "preprocessing": ["reshape2d", "pca-dim10"]},
 
     # transformation between angular and euclidean shape metrics
     {

@@ -17,6 +17,10 @@ from . import rtd
 from . import pyrcca
 from . import imd
 from . import dsa
+from . import platonic
 
 # packages that already use similarity-repository to register their measures
 # import diffscore
+
+# register default set of measures
+from . import default
