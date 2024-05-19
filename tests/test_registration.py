@@ -4,7 +4,10 @@ from matplotlib.patches import Patch
 
 import similarity
 from similarity import make
+from similarity.transforms import DERIVED_MEASURES
 
+print(len(DERIVED_MEASURES))
+print(DERIVED_MEASURES)
 
 def test_measures():
     measures = make("measure.*.*")
@@ -43,6 +46,9 @@ def backend_consistency(plot_paper_id=True, plot_values=True, save_path=None):
         results["backend"].append(backend)
         results["measure"].append(measure_name)
         results["score"].append(score)
+        results["derived"].append(measure_id in DERIVED_MEASURES)
+
+    # TODO: different color for derived
 
     # convert to 2d dataframe (backend x measure)
     backend_df = pd.DataFrame(results).pivot(index="backend", columns="measure", values="score")
@@ -62,7 +68,8 @@ def backend_consistency(plot_paper_id=True, plot_values=True, save_path=None):
                 paper_id = cfg.get("paper_id", backend)
             else:
                 paper_id = backend
-
+            
+            print(paper_id)
             y_labels.append(paper_id)
 
         # rename backend_df
@@ -124,6 +131,9 @@ if __name__ == "__main__":
     save_dir = Path(__file__).parent / ".." / "figures"
     backend_consistency(plot_paper_id=False, plot_values=True, save_path=save_dir / "backend_consistency.png")
     backend_consistency(plot_paper_id=False, plot_values=False, save_path=save_dir / "implemented_measures.png")
+
+    # TODO
+    # backend_consistency(plot_paper_id=True, plot_values=True, save_path=save_dir / "backend_consistency_by_paper.png")
 
     test_measures()
     test_cards()
