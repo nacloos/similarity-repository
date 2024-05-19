@@ -12,8 +12,12 @@ The python package can be installed with the following command:
 ```
 pip install git+https://github.com/nacloos/similarity-repository.git
 ```
-Or alternatively, you can clone the repository and run `pip install -e .` inside it.
-
+Alternatively you can clone the repository:
+```
+git clone https://github.com/nacloos/similarity-repository.git
+cd similarity-repository
+pip install -e .
+```
 
 ## Getting Started
 
