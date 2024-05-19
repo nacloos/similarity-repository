@@ -75,7 +75,7 @@ for k, v in requirements.items():
 
 setup(
     name='similarity-repository',
-    version="0.0.1",
+    version="0.0.2",
     packages=[
         package for package in find_packages() if package.startswith('similarity')
     ],
