@@ -40,22 +40,28 @@ transforms = [
     },
 
     # Duality of Bures and Shape Distances with Implications for Comparing Neural Representations (Harvey et al., 2023)
-    {"inp": "nbs", "out": "procrustes-angular", "postprocessing": ["arccos"]},
-    {"inp": "bures_distance", "out": "procrustes-euclidean", "postprocessing": []},
-    {"inp": "procrustes-euclidean", "out": "bures_distance", "postprocessing": []},
+    {"inp": "nbs",                  "out": "procrustes-angular",                "postprocessing": ["arccos"]},
+    {"inp": "bures_distance",       "out": "procrustes-euclidean",              "postprocessing": []},
+    {"inp": "procrustes-euclidean", "out": "bures_distance",                    "postprocessing": []},
 
     # by default CKA usually refers to the Gretton2007 estimate of HSIC
     # see https://proceedings.mlr.press/v221/lange23a/lange23a.pdf Appendix B. for a review of different CKA variants
-    {"inp": "cka", "out": "cka-hsic_gretton", "postprocessing": []},
-    {"inp": "cka-hsic_gretton", "out": "cka", "postprocessing": []},
-    {"inp": "cka-angular", "out": "cka-hsic_gretton-angular", "postprocessing": []},
-    {"inp": "cka-angular-score", "out": "cka-hsic_gretton-angular-score", "postprocessing": []},
+    {"inp": "cka",                  "out": "cka-hsic_gretton",                  "postprocessing": []},
+    {"inp": "cka-hsic_gretton",     "out": "cka",                               "postprocessing": []},
+    {"inp": "cka-angular",          "out": "cka-hsic_gretton-angular",          "postprocessing": []},
+    {"inp": "cka-angular-score",    "out": "cka-hsic_gretton-angular-score",    "postprocessing": []},
+    {"inp": "cka-hsic_gretton-angular", "out": "cka-angular",                   "postprocessing": []},
+    {"inp": "cka-hsic_gretton-angular-score", "out": "cka-angular-score",       "postprocessing": []},
+
+    # unbiased CKA (Song et al. 2012)
+    {"inp": "cka-hsic_song",        "out": "cka-hsic_song-angular",             "postprocessing": ["arccos"]},
+    {"inp": "cka-hsic_song-angular", "out": "cka-hsic_song-angular-score",      "postprocessing": ["normalize_pi_half", "one_minus"]},
 
     # rescale angular distances to scores in [0, 1]
-    {"inp": "procrustes-angular", "out": "procrustes-angular-score", "postprocessing": ["normalize_pi_half", "one_minus"]},
-    {"inp": "cka-angular", "out": "cka-angular-score", "postprocessing": ["normalize_pi_half", "one_minus"]},
-    {"inp": "cca-angular", "out": "cca-angular-score", "postprocessing": ["normalize_pi_half", "one_minus"]},
-    {"inp": "nbs-angular", "out": "nbs-angular-score", "postprocessing": ["normalize_pi_half", "one_minus"]},
+    {"inp": "procrustes-angular",   "out": "procrustes-angular-score",          "postprocessing": ["normalize_pi_half", "one_minus"]},
+    {"inp": "cka-angular",          "out": "cka-angular-score",                 "postprocessing": ["normalize_pi_half", "one_minus"]},
+    {"inp": "cca-angular",          "out": "cca-angular-score",                 "postprocessing": ["normalize_pi_half", "one_minus"]},
+    {"inp": "nbs-angular",          "out": "nbs-angular-score",                 "postprocessing": ["normalize_pi_half", "one_minus"]},
 ]
 
 # inverse functions used to automatically add inverse transforms to the list of transforms

@@ -1,5 +1,5 @@
 from functools import partial
-from similarity import register, make
+from similarity import register, make, is_registered
 
 
 defaults = {
@@ -7,11 +7,15 @@ defaults = {
     "nbs":                              "netrep",
     "rsa-correlation-corr":             "rsatoolbox",
     # cka variants
-    "cka-hsic_gretton":                 "kornblith19",
-    "cka-hsic_gretton-angular-score":   "kornblith19",
+    # "cka-hsic_gretton":                 "kornblith19",
+    # "cka-hsic_gretton-angular-score":   "kornblith19",
+    # "cka-hsic_song":                    "kornblith19",
+    # "cka-hsic_song-angular-score":      "kornblith19",
+    "cka-hsic_gretton":                 "yuanli2333",
+    "cka-hsic_gretton-angular-score":   "yuanli2333",
     "cka-hsic_song":                    "kornblith19",
-    "cka-hsic_song-angular":            "kornblith19",
-    "cka-hsic_lange-angular":           "repsim",
+    "cka-hsic_song-angular-score":      "kornblith19",
+    "cka-hsic_lange-angular-score":     "repsim",
     # cca variants
     "svcca-var99":                      "sim_metric",
     "pwcca":                            "sim_metric",
@@ -23,9 +27,19 @@ defaults = {
 }
 
 
+# TODO: error     "cka-hsic_song-angular-score":      "kornblith19",
+
+
 # register all defaults
 for measure, backend in defaults.items():
+    try:
+        make(f"measure.{backend}.{measure}")
+    except:
+        print(f"Could not register {measure} from {backend}")
+        continue
+
     register(
         f"measure.default.{measure}",
         partial(make, f"measure.{backend}.{measure}")
     )
+    
