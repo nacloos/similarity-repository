@@ -19,6 +19,12 @@ cd similarity-repository
 pip install -e .
 ```
 
+For faster installation, you can use `uv` instead of `pip`:
+```bash
+pip install uv
+uv pip install git+https://github.com/nacloos/similarity-repository.git
+```
+
 ## Getting Started
 
 Each similarity measure has a unique identifier that can be used to create a measure object.

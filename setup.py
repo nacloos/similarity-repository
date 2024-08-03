@@ -69,7 +69,9 @@ install_requires = [
     'scikit-learn',
     'matplotlib',
     'requests',
-    'gitpython'
+    'gitpython',
+    'seaborn',
+    'numpy<2.0'
 ]
 
 for k, v in requirements.items():
