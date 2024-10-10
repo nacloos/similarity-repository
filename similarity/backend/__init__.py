@@ -10,7 +10,7 @@ from . import repsim
 from . import nn_similarity_index
 from . import sim_metric
 from . import deepdive
-from . import brainscore
+# from . import brainscore
 from . import svcca
 from . import subspacematch
 from . import rtd

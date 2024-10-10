@@ -14,33 +14,33 @@ requirements = {
     "repsim": [
         'repsim @ git+https://github.com/wrongu/repsim.git'
     ],
-    "brainscore": [
-        # copied from github brain-score/setup.py
-        "numpy>=1.17",
+    # "brainscore": [
+    #     # copied from github brain-score/setup.py
+    #     "numpy>=1.17",
 
-        # "brainio @ git+https://github.com/brain-score/brainio",
-        # use the exact same version as in brainscore_vision otherwise pip will raise conflict error when trying to install both similarity and brainscore_vision
-        "brainio @ git+https://github.com/brain-score/brainio.git@main",
+    #     # "brainio @ git+https://github.com/brain-score/brainio",
+    #     # use the exact same version as in brainscore_vision otherwise pip will raise conflict error when trying to install both similarity and brainscore_vision
+    #     "brainio @ git+https://github.com/brain-score/brainio.git@main",
 
-        "importlib-metadata<5",  # workaround to https://github.com/brain-score/brainio/issues/28
-        "scikit-learn",
-        # "scikit-learn<0.24",  # 0.24 breaks pls regression
-        "scipy",
-        "h5py",
-        "tqdm",
-        "gitpython",
-        "fire",
-        "networkx",
-        "matplotlib",
-        # "tensorflow",  # not needed here
-        "result_caching @ git+https://github.com/brain-score/result_caching",
-        "jupyter",
-        "pybtex",
-        "peewee",
-        # "pillow<9.0.0",  # "AttributeError: module 'PIL' has no attribute 'Image'" when calling plt.savefig with old version of PIL
-        "pillow",
-        "psycopg2-binary"
-    ],
+    #     "importlib-metadata<5",  # workaround to https://github.com/brain-score/brainio/issues/28
+    #     "scikit-learn",
+    #     # "scikit-learn<0.24",  # 0.24 breaks pls regression
+    #     "scipy",
+    #     "h5py",
+    #     "tqdm",
+    #     "gitpython",
+    #     "fire",
+    #     "networkx",
+    #     "matplotlib",
+    #     # "tensorflow",  # not needed here
+    #     "result_caching @ git+https://github.com/brain-score/result_caching",
+    #     "jupyter",
+    #     "pybtex",
+    #     "peewee",
+    #     # "pillow<9.0.0",  # "AttributeError: module 'PIL' has no attribute 'Image'" when calling plt.savefig with old version of PIL
+    #     "pillow",
+    #     "psycopg2-binary"
+    # ],
     "dsa": [
         # ERROR: No matching distribution found for kooplearn>=1.0.6
         # "dsa @ git+https://github.com/mitchellostrow/DSA.git"
