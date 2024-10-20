@@ -117,6 +117,17 @@ score = measure2.score(X_val, Y_val)
 <!-- ## Contributing
 See backend folder for examples of how to register new measures. -->
 
+ ## Citation
+ ```
+ @inproceedings{
+    cloos2024framework,
+    title={A Framework for Standardizing Similarity Measures in a Rapidly Evolving Field},
+    author={Nathan Cloos and Guangyu Robert Yang and Christopher J Cueva},
+    booktitle={UniReps: 2nd Edition of the Workshop on Unifying Representations in Neural Models},
+    year={2024},
+    url={https://openreview.net/forum?id=vyRAYoxUuA}
+}
+```
 
  ## References
 Haruo Yanai. 1974. Unification of Various Techniques of Multivariate Analysis by Means of Generalized Coefficient of Determination. Kodo Keiryogaku (The Japanese Journal of Behaviormetrics) 1 (1974).
