@@ -147,15 +147,15 @@ class MeasureInterface:
         """
         for p in self.preprocessing:
             if isinstance(p, str):
-                X = make(f"preprocessing.{p}", X)
-                Y = make(f"preprocessing.{p}", Y)
+                X = make(f"preprocessing/{p}", X)
+                Y = make(f"preprocessing/{p}", Y)
             elif isinstance(p, dict):
                 # if dict, check for inputs key to pass data to the preprocessing function
                 assert "id" in p, f"Expected 'id' in preprocessing dict, got {p}"
                 if "inputs" in p:
                     data = {"X": X, "Y": Y}
                     args = [data[i] for i in p["inputs"]]
-                    X, Y = make(f"preprocessing.{p['id']}", *args)
+                    X, Y = make(f"preprocessing/{p['id']}", *args)
                 else:
                     X = make(p["id"], X)
                     Y = make(p["id"], Y)
@@ -171,14 +171,14 @@ class MeasureInterface:
         """
         for p in self.postprocessing:
             if isinstance(p, str):
-                score = make(f"postprocessing.{p}", score)
+                score = make(f"postprocessing/{p}", score)
             elif isinstance(p, dict):
                 # if dict, check for inputs key to pass data to the postprocessing function
                 assert "id" in p, f"Expected 'id' in postprocessing dict, got {p}"
                 if "inputs" in p:
                     data = {"X": X, "Y": Y, "score": score}
                     args = [data[k] for k in p["inputs"]]
-                    score = make(f"postprocessing.{p['id']}", *args)
+                    score = make(f"postprocessing/{p['id']}", *args)
             else:
                 # assume p is a function
                 score = p(score)
@@ -247,7 +247,7 @@ class MeasureInterface:
         return score
 
 
-def register(id, obj=None, function=False, interface=None, preprocessing=None, postprocessing=None, override=True):
+def register(id, obj=None, function=False, interface=None, preprocessing=None, postprocessing=None, override=True, separator='/'):
     """
     Register a function or class in the registry. Can be used as a decorator if obj argument is None.
 
@@ -273,7 +273,7 @@ def register(id, obj=None, function=False, interface=None, preprocessing=None, p
             return
 
         # if id starts with 'measure', wrap obj in MeasureInterface
-        category = id.split(".")[0]
+        category = id.split(separator)[0]
         if category == "measure":
             if function:
                 # encapsulate in a function so that make(id) returns the function itself without calling it
@@ -314,3 +314,19 @@ def register(id, obj=None, function=False, interface=None, preprocessing=None, p
         return decorator
     else:
         _register(id, obj)
+
+
+def all_measures():
+    # TODO: don't work if don't call make
+    # return {k: v for k, v in registry.items() if "measure" in k and len(k.split(".")) == 3}
+    # return make("measure.*.*")
+    return make("measure/*/*")
+
+
+# def register_measure(id, obj=None, **kwargs):
+#     id = f"measure/{id}"
+#     register(id, obj=obj, **kwargs)
+
+
+# def make_measure(id):
+#     return make(f"measure/{id}")

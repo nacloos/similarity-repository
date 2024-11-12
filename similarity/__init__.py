@@ -11,9 +11,8 @@ from .registration import (
 
 from .types import MeasureIdType, BackendIdType
 
-from . import backend
-# from . import registry
 from . import processing
+from . import registry
 # from . import cards
 from . import papers
 

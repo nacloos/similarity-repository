@@ -2,13 +2,13 @@ from functools import partial
 import netrep.metrics
 
 import similarity
-from similarity.backend.netrep import cka  # fix small bug in netrep.cka
+from . import cka  # fix small bug in netrep.cka
 
 
 similarity.register(
-    "measure.netrep",
+    "measure/netrep",
     {
-        "paper_id": "williams2021",
+        "paper_id": "williams2021", 
         "github": "https://github.com/ahwillia/netrep"
     }
 )
@@ -30,20 +30,20 @@ score_methods = ["angular", "euclidean"]
 
 for score_method in score_methods:
     register(
-        f"measure.netrep.procrustes-{score_method}",
+        f"measure/netrep/procrustes-{score_method}",
         partial(netrep.metrics.LinearMetric, alpha=1, score_method=score_method),
     )
     register(
-        f"measure.netrep.cca-{score_method}",
+        f"measure/netrep/cca-{score_method}",
         partial(netrep.metrics.LinearMetric, alpha=0, score_method=score_method)
     )
     register(
-        f"measure.netrep.permutation-{score_method}",
+        f"measure/netrep/permutation-{score_method}",
         partial(netrep.metrics.PermutationMetric, score_method=score_method)
     )
 
 register(
-    "measure.netrep.cka-angular",
+    "measure/netrep/cka-angular",
     cka.LinearCKA,
     interface={
         # raise error if try to call fit or fit_score (e.g. "Cross-validated score not available for CKA.")

@@ -112,8 +112,8 @@ def plot_scores(measures, X=None, Y=None, data_shape=(100, 20), figsize=(30, 8),
         print(k, scores[k])
 
     if '/' in list(measures.keys())[0]:
-        repo_names = np.unique([k.split("/")[0] for k in measures.keys()])
-        measure_names = np.unique([k.split("/")[1] for k in measures.keys()])
+        repo_names = np.unique([k.split("/")[1] for k in measures.keys()])
+        measure_names = np.unique([k.split("/")[2] for k in measures.keys()])
     else:
         repo_names = np.unique([k.split(".")[1] for k in measures.keys()])
         measure_names = np.unique([k.split(".")[2] for k in measures.keys()])
@@ -126,7 +126,7 @@ def plot_scores(measures, X=None, Y=None, data_shape=(100, 20), figsize=(30, 8),
     df = pd.DataFrame(index=repo_names, columns=measure_names, dtype=float)
     for k, score in scores.items():
         if '/' in k:
-            repo, measure = k.split("/")
+            _, repo, measure = k.split("/")
         else:
             repo = k.split(".")[1]
             measure = k.split(".")[2]

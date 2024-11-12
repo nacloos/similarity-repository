@@ -12,7 +12,7 @@ register(
 )
 
 
-@register("postprocessing.mean_score")
+@register("postprocessing/mean_score")
 def mean_score(scores):
     return scores.mean()
 

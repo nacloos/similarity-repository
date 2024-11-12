@@ -92,19 +92,20 @@ def register_derived_measures(transform):
     Returns:
         derived_measure_ids: list of derived measure ids that were registered.
     """
-    matches = similarity.match(f"measure.*.{transform['inp']}")
+    # matches = similarity.match(f"measure.*.{transform['inp']}")
+    matches = similarity.match(f"measure/*/{transform['inp']}")
 
     # all the derived measures that are not already registered
     base_measure_ids = []  # match measure id (with transform["inp"])
     derived_measure_ids = []  # replace transforms["inp"] by transforms["out"]
     for match in matches:
-        assert len(match.split(".")) == 3, f"Expected 3 parts in id: '{{category}}.{{backend}}.{{measure}}', but got {match}"
+        assert len(match.split("/")) == 3, f"Expected 3 parts in id: '{{category}}+{{backend}}/{{measure}}', but got {match}"
 
-        backend = match.split(".")[1]
+        backend = match.split("/")[1]
         if backend in EXCLUDED_BACKENDS:
             continue
 
-        derived_measure_id = f"measure.{backend}.{transform['out']}"
+        derived_measure_id = f"measure/{backend}/{transform['out']}"
 
         if similarity.is_registered(derived_measure_id):
             continue

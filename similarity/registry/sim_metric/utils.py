@@ -2,7 +2,7 @@
 Code taken from sim_metroc/dists/score_pair.py and packaged into functions
 """
 import numpy as np
-import similarity.backend.sim_metric.dists.scoring as scoring
+from .dists import scoring
 
 
 def row_centering(rep1, rep2):
