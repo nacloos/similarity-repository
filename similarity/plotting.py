@@ -140,7 +140,7 @@ def plot_scores(measures, X=None, Y=None, data_shape=(100, 20), figsize=(30, 8),
     df.to_csv(save_dir / "metric_vs_repo.csv")
 
     # add paper names "{repo} ({paper_name})" to the index
-    df.index = [f"{repo} {repo_paper_names.get(repo, "")}" for repo in df.index]
+    df.index = [f"{repo} {repo_paper_names.get(repo, '')}" for repo in df.index]
 
     # Plot heatmap
     plt.figure(figsize=figsize, dpi=300)
@@ -164,7 +164,6 @@ def plot_scores(measures, X=None, Y=None, data_shape=(100, 20), figsize=(30, 8),
 
 if __name__ == "__main__":
     measures = similarity.all_measures()
-
 
     save_dir = Path(__file__).parent.parent / "figures" / Path(__file__).stem
     save_dir.mkdir(parents=True, exist_ok=True)
