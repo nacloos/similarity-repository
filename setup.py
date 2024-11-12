@@ -1,6 +1,10 @@
 from setuptools import setup, find_packages
 
+
 requirements = {
+    "platonic": [
+        'torchaudio'
+    ],
     "rsatoolbox": [
         'rsatoolbox'
     ],
@@ -10,30 +14,33 @@ requirements = {
     "repsim": [
         'repsim @ git+https://github.com/wrongu/repsim.git'
     ],
-    "brainscore": [
-        # copied from github brain-score/setup.py
-        "numpy>=1.17",
-        "brainio @ git+https://github.com/brain-score/brainio",
-        "importlib-metadata<5",  # workaround to https://github.com/brain-score/brainio/issues/28
-        # TODO
-        "scikit-learn",
-        # "scikit-learn<0.24",  # 0.24 breaks pls regression
-        "scipy",
-        "h5py",
-        "tqdm",
-        "gitpython",
-        "fire",
-        "networkx",
-        "matplotlib",
-        # "tensorflow",  # not needed here
-        "result_caching @ git+https://github.com/brain-score/result_caching",
-        "jupyter",
-        "pybtex",
-        "peewee",
-        # "pillow<9.0.0",  # TODO: "AttributeError: module 'PIL' has no attribute 'Image'" when calling plt.savefig with old version of PIL
-        "pillow",
-        "psycopg2-binary"
-    ],
+    # "brainscore": [
+    #     # copied from github brain-score/setup.py
+    #     "numpy>=1.17",
+
+    #     # "brainio @ git+https://github.com/brain-score/brainio",
+    #     # use the exact same version as in brainscore_vision otherwise pip will raise conflict error when trying to install both similarity and brainscore_vision
+    #     "brainio @ git+https://github.com/brain-score/brainio.git@main",
+
+    #     "importlib-metadata<5",  # workaround to https://github.com/brain-score/brainio/issues/28
+    #     "scikit-learn",
+    #     # "scikit-learn<0.24",  # 0.24 breaks pls regression
+    #     "scipy",
+    #     "h5py",
+    #     "tqdm",
+    #     "gitpython",
+    #     "fire",
+    #     "networkx",
+    #     "matplotlib",
+    #     # "tensorflow",  # not needed here
+    #     "result_caching @ git+https://github.com/brain-score/result_caching",
+    #     "jupyter",
+    #     "pybtex",
+    #     "peewee",
+    #     # "pillow<9.0.0",  # "AttributeError: module 'PIL' has no attribute 'Image'" when calling plt.savefig with old version of PIL
+    #     "pillow",
+    #     "psycopg2-binary"
+    # ],
     "dsa": [
         # ERROR: No matching distribution found for kooplearn>=1.0.6
         # "dsa @ git+https://github.com/mitchellostrow/DSA.git"
@@ -49,8 +56,8 @@ requirements = {
     # https://github.com/IlyaTrofimov/RTD/blob/38b9239c7e228c9ff70e0f8b3719efce0823cd05/README.md#installation
     # "rtd": [
     #     'rtd @ git+https://github.com/IlyaTrofimov/RTD',
-    #     # TODO: requires cmake (doesn't work with latest cmake), CUDA, gcc (make the installation optional?)
-    #     # TODO: didn't manage to install it on windows (use dockerfile?)
+    #     # requires cmake (doesn't work with latest cmake), CUDA, gcc (make the installation optional?)
+    #     # didn't manage to install it on windows (use dockerfile?)
     #     'risperplusplus @ git+https://github.com/simonzhang00/ripser-plusplus',
     #     'torch',
     # ]
@@ -62,7 +69,9 @@ install_requires = [
     'scikit-learn',
     'matplotlib',
     'requests',
-    'gitpython'
+    'gitpython',
+    'seaborn',
+    'numpy<2.0'
 ]
 
 for k, v in requirements.items():
@@ -71,18 +80,12 @@ for k, v in requirements.items():
 
 setup(
     name='similarity-repository',
-    version="0.0.1",
+    version="0.0.2",
     packages=[
-        package for package in find_packages()
-        # TODO: temp install brainscore here
-        if package.startswith('similarity') or package.startswith('brainscore')
+        package for package in find_packages() if package.startswith('similarity')
     ],
     include_package_data=True,
     install_requires=install_requires,
-    # TODO
-    # extras_require={
-    #     'rtd': rtd_requires
-    # },
     description='A repository for similarity measures.',
-    author='Nathan Cloos'
+    author='XXX'
 )

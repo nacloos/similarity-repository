@@ -1,3 +1,4 @@
+import math
 import numpy as np
 from sklearn.decomposition import PCA
 
@@ -72,6 +73,11 @@ def pca_var95(X):
     return pca.fit_transform(X)
 
 
+@register("preprocessing.pca-dim10")
+def pca_var95(X):
+    return PCA(n_components=10).fit_transform(X)
+
+
 @register("postprocessing.tensor_to_float")
 def tensor_to_float(score):
     return score.detach().item()
@@ -94,6 +100,11 @@ def cosine_score(score):
 
 @register("postprocessing.arccos")
 def arccos_score(score):
+    print("arccos score:", score, np.arccos(score), abs(score - 1))
+    if abs(score - 1) < 1e-10:
+        print("score is 1, returning 0")
+        # arrccos(1) gives NaN but know that perfect score of 1 <=> angular distance of 0
+        return 0
     return np.arccos(score)
 
 
@@ -104,17 +115,18 @@ def one_minus_score(score):
 
 @register("postprocessing.normalize_pi_half")
 def angular_dist_to_score(score):
-    normalized_score = score/(np.pi/2)
+    normalized_score = score/(math.pi/2)
     return normalized_score
 
 
-@register("postprocessing.euclidean_to_angular_shape_metric")
+@register("postprocessing.angular_to_euclidean_shape_metric")
 def angular_to_euclidean_shape_metric(X, Y, score):
     """
     shape-metric-angular: arccos(<X, YQ>/(||X|| ||Y||)))
     shape-metric-euclidean: ||X - YQ||
     Ref: (Williams, 2021), (Lange, 2023)
     """
+    print("angular to euclidean, score:", score)
     assert len(X.shape) == 2, "Expected 2 dimensions, found {}".format(len(X.shape))
     assert len(Y.shape) == 2, "Expected 2 dimensions, found {}".format(len(Y.shape))
     X_norm = np.linalg.norm(X, ord="fro")
@@ -122,7 +134,7 @@ def angular_to_euclidean_shape_metric(X, Y, score):
     return np.sqrt(X_norm**2 + Y_norm**2 - 2 * X_norm * Y_norm * np.cos(score))
 
 
-@register("postprocessing.angular_to_euclidean_shape_metric")
+@register("postprocessing.euclidean_to_angular_shape_metric")
 def euclidean_to_angular_shape_metric(X, Y, score):
     assert len(X.shape) == 2, "Expected 2 dimensions, found {}".format(len(X.shape))
     assert len(Y.shape) == 2, "Expected 2 dimensions, found {}".format(len(Y.shape))

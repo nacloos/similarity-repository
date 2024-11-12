@@ -11,95 +11,59 @@ X, Y = np.random.randn(100, 30), np.random.randn(100, 30)
 
 
 def test_simple_make():
-    # make a particular measure
-    measure = similarity.make("measure.procrustes")
-    score = measure.fit_score(X, Y)
-    print(score)
+    # make a measure object
+    measure = similarity.make("measure.netrep.procrustes-angular")
+    score = measure(X, Y)
 
 
 def test_measure_subgroups():
-    # # make all the measures
-    measures = similarity.make("measure")
+    measures = similarity.make("measure.netrep.*")
     for name, measure in measures.items():
-        # all the measures have the same interface
-        score = measure.fit_score(X, Y)
+        score = measure(X, Y)
+        print(f"{name}: {score}")
+
+    measures = similarity.make("measure.*.procrustes-angular")
+    for name, measure in measures.items():
+        score = measure(X, Y)
         print(f"{name}: {score}")
 
 
-    # return_config=True returns the config instead of the instantiated object
-    measure_configs = similarity.make("measure", return_config=True)
-    # select desired subset
-    score_ids = [k for k, cfg in measure_configs.items() if "score" in cfg["properties"]]
-    # make the measures
-    score_measures = {k: similarity.make(f"measure.{k}") for k in score_ids}
-
-    for name, measure in score_measures.items():
-        print(f"Score {name}: {measure.fit_score(X, Y)}")
-
-
-    metric_ids = [k for k, cfg in measure_configs.items() if "metric" in cfg["properties"]]
-    # make the measures
-    metric_measures = {k: similarity.make(f"measure.{k}") for k in metric_ids}
-
-    for name, measure in metric_measures.items():
-        print(f"Metric {name}: {measure.fit_score(X, Y)}")
-
-
-def test_choose_backend():
-    # example of backend and measure
-    backend_id = "repsim"
-    measure_id = "procrustes"
-    measure = similarity.make(f"backend.{backend_id}.measure.{measure_id}")
-    score = measure.fit_score(X, Y)
-    print(score)
-
-
-def test_customize_interface():
-    measure = similarity.make(
-        "measure.procrustes",
-        interface={
-            # replaces the method fit_score with a __call__ method 
-            "fit_score": "__call__"
-        }
-    )
-    score = measure(X, Y)
-    print(score)
-
-
 def test_register():
-    def my_metric(x, y):
+    @similarity.register("measure.my_package.my_measure", function=True)
+    def my_measure(x, y):
         return x.reshape(-1) @ y.reshape(-1) / (np.linalg.norm(x) * np.linalg.norm(y))
 
-    # register the function with a unique id
-    similarity.register(my_metric, "measure.my_metric.fit_score")
+    measure = similarity.make("measure.my_package.my_measure")
+    score = measure(X, Y)
 
-    metric = similarity.make("measure.my_metric")
-    score = metric.fit_score(X, Y)
-    print(score)
 
-    class MyMetric:
+    @similarity.register("measure.my_package.my_measure2")
+    class MyMeasure:
         def fit(self, X, Y):
-            pass
+            self.X_norm = np.linalg.norm(X)
+            self.Y_norm = np.linalg.norm(Y)
 
         def score(self, X, Y):
-            return X.reshape(-1) @ Y.reshape(-1) / (np.linalg.norm(X) * np.linalg.norm(Y))
+            return X.reshape(-1) @ Y.reshape(-1) / (self.X_norm * self.Y_norm)
 
         def fit_score(self, x, y):
             self.fit(x, y)
             return self.score(x, y)
 
-    similarity.register(MyMetric, "measure.my_metric2")
+        def __call__(self, x, y):
+            return self.fit_score(x, y)
 
-    metric2 = similarity.make("measure.my_metric2")
-    metric2.fit(X, Y)
-    metric2.score(X, Y)
-    score = metric2.fit_score(X, Y)
-    print(score)
+    measure2 = similarity.make("measure.my_package.my_measure2")
+
+    X_fit, Y_fit = np.random.randn(100, 30), np.random.randn(100, 30)
+    X_val, Y_val = np.random.randn(100, 30), np.random.randn(100, 30)
+
+    measure2.fit(X_fit, Y_fit)
+    score = measure2.score(X_val, Y_val)
 
 
-# if __name__ == "__main__":
-#     test_simple_make()
-#     test_measure_subgroups()
-#     test_choose_backend()
-#     test_customize_interface()
-#     test_register()
+if __name__ == "__main__":
+    test_simple_make()
+    test_measure_subgroups()
+    test_register()
+    print("All tests passed!")

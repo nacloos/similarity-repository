@@ -1,19 +1,29 @@
-# Similarity Measures Repository
+# Similarity Repository
 
 
-![Backend metrics](https://github.com/nacloos/similarity-measures/blob/main/implemented_measures.png)
+![Backend metrics](https://github.com/nacloos/similarity-repository/blob/main/figures/implemented_measures.png)
 
 
-The goal of this repository is to gather **existing**  implementations of similarity measures for neural networks into a **single** python package, with a **common** and **customizable** interface. This repository is not meant to provide new implementations. It only refers to existing ones.
+The goal of this repository is to gather **existing**  implementations of similarity measures for neural networks into a **single** python package, with a **common** and **customizable** interface. This repository doesn't provide any new implementations. It only refers to existing ones.
 
 
 ## Installation
 The python package can be installed with the following command:
 ```
-pip install git+https://github.com/nacloos/similarity-measures.git
+pip install git+https://github.com/nacloos/similarity-repository.git
 ```
-Or alternatively, you can clone the repository and run `pip install -e .` inside it.
+Alternatively you can clone the repository:
+```
+git clone https://github.com/nacloos/similarity-repository.git
+cd similarity-repository
+pip install -e .
+```
 
+For faster installation, you can use `uv` instead of `pip`:
+```bash
+pip install uv
+uv pip install git+https://github.com/nacloos/similarity-repository.git
+```
 
 ## Getting Started
 
@@ -103,9 +113,21 @@ measure2.fit(X_fit, Y_fit)
 score = measure2.score(X_val, Y_val)
 ```
 
+
 <!-- ## Contributing
 See backend folder for examples of how to register new measures. -->
 
+ ## Citation
+ ```
+ @inproceedings{
+    cloos2024framework,
+    title={A Framework for Standardizing Similarity Measures in a Rapidly Evolving Field},
+    author={Nathan Cloos and Guangyu Robert Yang and Christopher J Cueva},
+    booktitle={UniReps: 2nd Edition of the Workshop on Unifying Representations in Neural Models},
+    year={2024},
+    url={https://openreview.net/forum?id=vyRAYoxUuA}
+}
+```
 
  ## References
 Haruo Yanai. 1974. Unification of Various Techniques of Multivariate Analysis by Means of Generalized Coefficient of Determination. Kodo Keiryogaku (The Japanese Journal of Behaviormetrics) 1 (1974).

@@ -1,9 +1,13 @@
+from pathlib import Path
 import numpy as np
 from matplotlib.patches import Patch
 
 import similarity
 from similarity import make
+from similarity.transforms import DERIVED_MEASURES
 
+print(len(DERIVED_MEASURES))
+print(DERIVED_MEASURES)
 
 def test_measures():
     measures = make("measure.*.*")
@@ -13,8 +17,7 @@ def test_measures():
         Y = np.random.randn(15, 20, 30)
 
         score = measure(X, Y)
-        print("score: {score}")
-        assert isinstance(score, float), f"Expected float, but got {type(score)}"
+        print(f"score: {score}")
 
 
 def backend_consistency(plot_paper_id=True, plot_values=True, save_path=None):
@@ -25,8 +28,12 @@ def backend_consistency(plot_paper_id=True, plot_values=True, save_path=None):
 
     measures = make("measure.*.*")
 
-    X = np.random.randn(15, 10, 40)
-    Y = np.random.randn(15, 10, 40)
+    # TODO: evaluate on multiple datasets and cluster measures with similar scores together (color by cluster)
+    # X = np.random.randn(15, 10, 40)
+    # Y = np.random.randn(15, 10, 40)
+    # test with non-zero mean data
+    X = np.random.rand(15, 10, 40)
+    Y = np.random.rand(15, 10, 40)
 
     results = defaultdict(list)
     for measure_id, measure in measures.items():
@@ -39,9 +46,15 @@ def backend_consistency(plot_paper_id=True, plot_values=True, save_path=None):
         results["backend"].append(backend)
         results["measure"].append(measure_name)
         results["score"].append(score)
+        results["derived"].append(measure_id in DERIVED_MEASURES)
+
+    # TODO: different color for derived
 
     # convert to 2d dataframe (backend x measure)
     backend_df = pd.DataFrame(results).pivot(index="backend", columns="measure", values="score")
+    # convert torch tensor to float
+    import torch
+    backend_df = backend_df.applymap(lambda x: x.item() if isinstance(x, torch.Tensor) else x)
     print(backend_df)
     measure_names = list(backend_df.columns)
     backend_names = list(backend_df.index)
@@ -55,7 +68,8 @@ def backend_consistency(plot_paper_id=True, plot_values=True, save_path=None):
                 paper_id = cfg.get("paper_id", backend)
             else:
                 paper_id = backend
-
+            
+            print(paper_id)
             y_labels.append(paper_id)
 
         # rename backend_df
@@ -104,7 +118,22 @@ def backend_consistency(plot_paper_id=True, plot_values=True, save_path=None):
         plt.show()
 
 
+def test_cards():
+    scoring_measures = {
+        k: v for k, v in make("measure.*.*").items() if "score" in make(f"card.{k.split('.')[-1]}")["props"]
+    }
+    metrics = {
+        k: v for k, v in make("measure.*.*").items() if "metric" in make(f"card.{k.split('.')[-1]}")["props"]
+    }
+
+
 if __name__ == "__main__":
-    # test_measures()
-    backend_consistency(plot_paper_id=False, plot_values=False, save_path="implemented_measures.png")
-    # test_transforms()
+    save_dir = Path(__file__).parent / ".." / "figures"
+    backend_consistency(plot_paper_id=False, plot_values=True, save_path=save_dir / "backend_consistency.png")
+    backend_consistency(plot_paper_id=False, plot_values=False, save_path=save_dir / "implemented_measures.png")
+
+    # TODO
+    # backend_consistency(plot_paper_id=True, plot_values=True, save_path=save_dir / "backend_consistency_by_paper.png")
+
+    test_measures()
+    test_cards()

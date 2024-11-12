@@ -18,10 +18,10 @@ register = partial(
     function=False,
     preprocessing=[
         "reshape2d",
-        # TODO: don't center columns here because not cross-validated
-        # but how to specify that it is column centered?
+        # don't center cols here, netrep is doing it in a cross-validated way
     ],
     interface={
+        # allow the measure to be called like a function
         "__call__": "fit_score"
     }
 )
@@ -46,7 +46,10 @@ register(
     "measure.netrep.cka-angular",
     cka.LinearCKA,
     interface={
-        # TODO: raise error if try to call fit or fit_score (e.g. "Cross-validated score not available for CKA.")
+        # raise error if try to call fit or fit_score (e.g. "Cross-validated score not available for CKA.")
         "__call__": "score"  # redirect __call__ to score method because fit_score is not implemented
     }
 )
+
+
+# TODO: register shape metric for other values of alpha?

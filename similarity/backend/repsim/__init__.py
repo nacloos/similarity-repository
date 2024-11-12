@@ -26,7 +26,7 @@ register = partial(
 )
 
 register(
-    "measure.repsim.cka-angular",
+    "measure.repsim.cka-hsic_lange-angular",
     partial(repsim.compare, method="angular_cka")
 )
 register(
@@ -35,7 +35,7 @@ register(
         repsim.compare,
         method="angular_shape_metric",
         alpha=1,
-        # TODO: vary this param?
+        # vary this param?
         # nb of components to keep (value used in the paper)
         p=100
     )

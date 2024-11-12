@@ -1,3 +1,11 @@
+# Cloned the brainscore repository and modified the setup.py to allow newer versions of scikit-learn (https://github.com/brain-score/brain-score/issues/327)
+# Deleted brainscore tests because don't want them to be run by pytest
+import sys
+from pathlib import Path
+# make brainscore importable by adding current folder to path
+dir_path = Path(__file__).parent
+sys.path.append(str(dir_path))
+
 from functools import partial
 import numpy as np
 

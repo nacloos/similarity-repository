@@ -9,6 +9,8 @@ from pathlib import Path
 import tempfile
 
 
+ROOT_DIR = Path(__file__).parent
+
 # could specify commit hash in the url to increase reproducibility
 download_list = [
     {
@@ -16,11 +18,11 @@ download_list = [
         "github_path": "dists",
         "local_save_dir": "./similarity/backend/sim_metric"
     },
-    {
-        "github_repo_url": "https://github.com/brain-score/brain-score",
-        "github_path": "brainscore",
-        "local_save_dir": "./"
-    },
+    # {
+    #     "github_repo_url": "https://github.com/brain-score/brain-score",
+    #     "github_path": "brainscore",
+    #     "local_save_dir": "./similarity/backend/brainscore"
+    # },
     {
         "github_repo_url": "https://github.com/yuanli2333/CKA-Centered-Kernel-Alignment",
         "github_path": "CKA.py",
@@ -30,6 +32,11 @@ download_list = [
         "github_repo_url": "https://github.com/amzn/xfer",
         "github_path": "nn_similarity_index/sim_indices.py",
         "local_save_dir": "./similarity/backend/nn_similarity_index"
+    },
+    {
+        "github_repo_url": "https://github.com/minyoungg/platonic-rep",
+        "github_path": "metrics.py",
+        "local_save_dir": "./similarity/backend/platonic"
     }
 ]
 
@@ -42,7 +49,7 @@ def download_from_github(github_repo_url, github_path, local_save_dir):
         github_path: path of the folder or file to download in the GitHub repository
         local_save_path: dir where to save the downloaded folder
     """
-    local_save_path = Path(local_save_dir) / github_path
+    local_save_path = ROOT_DIR / local_save_dir / github_path
     if local_save_path.exists():
         print(f"Folder {local_save_path} already exists. Skipping download.")
         return
@@ -56,7 +63,9 @@ def download_from_github(github_repo_url, github_path, local_save_dir):
         git.Repo.clone_from(github_repo_url, tmp_dir)
 
         src_path = tmp_dir / github_path
-        dst_path = Path(local_save_dir)
+        dst_path = local_save_path
+        # Create the directory if it does not exist
+        dst_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Check if folder_path is a file or a folder
         if src_path.is_file():

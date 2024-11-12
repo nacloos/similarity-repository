@@ -18,16 +18,15 @@ register = partial(
     function=True,
     preprocessing=[
         "reshape2d",
-        # compute kernel matrix according to eq (6) of the paper (https://arxiv.org/pdf/2003.11498.pdf)
-        utils.compute_kernel
+        "center_columns",
     ]
 )
 
-# register(
-#     # TODO: id for euclidean distance between kernel matrices
-#     "measure.nn_similarity_index.?",
-#     utils.euclidean
-# )
+register(
+    # euclidean distance between kernel matrices
+    "measure.nn_similarity_index.rsa-correlation-euclidean",
+    utils.euclidean
+)
 register(
     "measure.nn_similarity_index.cka",
     utils.cka
