@@ -247,7 +247,7 @@ class MeasureInterface:
         return score
 
 
-def register(id, obj=None, function=False, interface=None, preprocessing=None, postprocessing=None, override=True, separator='/'):
+def register(id, obj=None, function=False, interface=None, preprocessing=None, postprocessing=None, override=True):
     """
     Register a function or class in the registry. Can be used as a decorator if obj argument is None.
 
@@ -273,7 +273,7 @@ def register(id, obj=None, function=False, interface=None, preprocessing=None, p
             return
 
         # if id starts with 'measure', wrap obj in MeasureInterface
-        category = id.split(separator)[0]
+        category = id.split('/')[0]
         if category == "measure":
             if function:
                 # encapsulate in a function so that make(id) returns the function itself without calling it

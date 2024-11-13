@@ -16,27 +16,38 @@ download_list = [
     {
         "github_repo_url": "https://github.com/js-d/sim_metric",
         "github_path": "dists",
-        "local_save_dir": "./similarity/backend/sim_metric"
+        "local_save_dir": "./similarity/registry/sim_metric"
     },
     # {
     #     "github_repo_url": "https://github.com/brain-score/brain-score",
     #     "github_path": "brainscore",
-    #     "local_save_dir": "./similarity/backend/brainscore"
+    #     "local_save_dir": "./similarity/registry/brainscore"
     # },
     {
         "github_repo_url": "https://github.com/yuanli2333/CKA-Centered-Kernel-Alignment",
         "github_path": "CKA.py",
-        "local_save_dir": "./similarity/backend/yuanli2333"
+        "local_save_dir": "./similarity/registry/yuanli2333"
     },
     {
         "github_repo_url": "https://github.com/amzn/xfer",
         "github_path": "nn_similarity_index/sim_indices.py",
-        "local_save_dir": "./similarity/backend/nn_similarity_index"
+        "local_save_dir": "./similarity/registry/nn_similarity_index"
     },
     {
         "github_repo_url": "https://github.com/minyoungg/platonic-rep",
         "github_path": "metrics.py",
-        "local_save_dir": "./similarity/backend/platonic"
+        "local_save_dir": "./similarity/registry/platonic"
+    },
+    {
+        "github_repo_url": "https://github.com/ViCCo-Group/thingsvision",
+        "github_path": "thingsvision/core",
+        "local_save_dir": "./similarity/registry/thingsvision"
+    },
+    {
+        # TODO: automatically rename repsim folder to resi and replace "repsim.measures.utils" to "resi.measures.utils" in all import statements
+        "github_repo_url": "https://github.com/mklabunde/resi",
+        "github_path": "repsim/measures",
+        "local_save_dir": "./similarity/registry/resi"
     }
 ]
 
@@ -73,7 +84,7 @@ def download_from_github(github_repo_url, github_path, local_save_dir):
             shutil.move(src_path, dst_path)
         elif src_path.is_dir():
             # Copy the entire folder to the current directory
-            dst_path = dst_path / github_path
+            # dst_path = dst_path / github_path
             shutil.copytree(src_path, dst_path)
 
 

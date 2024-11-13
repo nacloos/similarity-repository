@@ -61,6 +61,21 @@ requirements = {
     #     'risperplusplus @ git+https://github.com/simonzhang00/ripser-plusplus',
     #     'torch',
     # ]
+    "neuroaimetrics": [
+        "torchmetrics",
+        "POT",
+        "fastprogress"
+    ],
+    "resi": [
+        # TODO: can't importa the package directly because of conflicting 'repsim' name
+        # "repsim @ git+https://github.com/mklabunde/resi.git",
+        "einops",
+        "loguru"
+    ],
+    "thingsvision": [
+        "torchtyping",
+        "numba"
+    ]
 }
 
 

@@ -99,7 +99,7 @@ def register_derived_measures(transform):
     base_measure_ids = []  # match measure id (with transform["inp"])
     derived_measure_ids = []  # replace transforms["inp"] by transforms["out"]
     for match in matches:
-        assert len(match.split("/")) == 3, f"Expected 3 parts in id: '{{category}}+{{backend}}/{{measure}}', but got {match}"
+        assert len(match.split("/")) == 3, f"Expected 3 parts in id: '{{category}}/{{backend}}/{{measure}}', but got {match}"
 
         backend = match.split("/")[1]
         if backend in EXCLUDED_BACKENDS:
@@ -135,7 +135,7 @@ def register_derived_measures(transform):
                 base_measure_id,
                 transform.get("postprocessing", []),
                 transform.get("preprocessing", [])
-            )
+            ),
         )
 
     return derived_measure_ids
