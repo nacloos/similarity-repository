@@ -1,24 +1,30 @@
 # https://github.com/ViCCo-Group/thingsvision
 # https://github.com/lciernik/similarity_consistency
+from functools import partial
+import numpy as np
 from .thingsvision.core.cka import get_cka
+from .thingsvision.core.cka.cka_numpy import CKANumPy
 from .thingsvision.core.rsa import compute_rdm, correlate_rdms
 
 import similarity
 
 
+# similarity.register(
+#     "kernel/thingsvision/linear",
+#     partial(CKANumPy.linear_kernel, self=None)
+# )
 
-def make_cka_measure(kernel, unbiased, sigma=None):
-    def _measure(X, Y):
-        m = X.shape[0]
-        cka = get_cka(
-            backend="numpy",
-            m=m,
-            kernel=kernel,
-            unbiased=unbiased,
-            sigma=sigma
-        )
-        return cka.compare(X, Y)
-    return _measure
+
+def _measure(X, Y, kernel, unbiased, sigma=None):
+    m = X.shape[0]
+    cka = get_cka(
+        backend="numpy",
+        m=m,
+        kernel=kernel,
+        unbiased=unbiased,
+        sigma=sigma
+    )
+    return cka.compare(X, Y)
 
 
 kernels = ["linear", "rbf"]
@@ -33,22 +39,19 @@ for kernel in kernels:
             method_name += f"_sigma_{sigma}"
 
         similarity.register(
-            f"measure/thingsvision/{method_name}",
-            make_cka_measure(kernel=kernel, unbiased=unbiased, sigma=sigma),
-            function=True
-        )
+            f"thingsvision/{method_name}",
+            partial(_measure, kernel=kernel, unbiased=unbiased, sigma=sigma),
+        )   
 
 
-def make_rsa_measure(rsa_method, corr_method):
-    def _measure(X, Y):
-        rdm_X = compute_rdm(X, method=rsa_method)
-        rdm_Y = compute_rdm(Y, method=rsa_method)
-        return correlate_rdms(rdm_X, rdm_Y, correlation=corr_method)
-    return _measure
+def rsa_measure(X, Y, rsa_method, corr_method):
+    rdm_X = compute_rdm(X, method=rsa_method)
+    rdm_Y = compute_rdm(Y, method=rsa_method)
+    return correlate_rdms(rdm_X, rdm_Y, correlation=corr_method)
 
 
 rsa_methods = ["correlation", "cosine", "euclidean", "gaussian"]
-corr_methods = ["pearson", "spearman"]  # TODO: can be any function in scipy.stats
+corr_methods = ["pearson", "spearman"]
 
 for rsa_method in rsa_methods:
     for corr_method in corr_methods:
@@ -56,7 +59,6 @@ for rsa_method in rsa_methods:
         name = f"rsa_method_{rsa_method}_corr_method_{corr_method}"
 
         similarity.register(
-            f"measure/thingsvision/{name}",
-            make_rsa_measure(rsa_method=rsa_method, corr_method=corr_method),
-            function=True
+            f"thingsvision/{name}",
+            partial(rsa_measure, rsa_method=rsa_method, corr_method=corr_method),
         )

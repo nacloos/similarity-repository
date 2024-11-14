@@ -18,7 +18,8 @@ register = partial(
     preprocessing=[
         "reshape2d",
         "array_to_tensor"
-    ]
+    ],
+    postprocessing=["tensor_to_float"]
 )
 
 register(

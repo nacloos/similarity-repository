@@ -43,11 +43,71 @@ download_list = [
         "github_path": "thingsvision/core",
         "local_save_dir": "./similarity/registry/thingsvision"
     },
+    # {
+    #     # TODO: automatically rename repsim folder to resi and replace "repsim.measures.utils" to "resi.measures.utils" in all import statements
+    #     "github_repo_url": "https://github.com/mklabunde/resi",
+    #     "github_path": "repsim/measures",
+    #     "local_save_dir": "./similarity/registry/resi"
+    # },
     {
-        # TODO: automatically rename repsim folder to resi and replace "repsim.measures.utils" to "resi.measures.utils" in all import statements
-        "github_repo_url": "https://github.com/mklabunde/resi",
-        "github_path": "repsim/measures",
-        "local_save_dir": "./similarity/registry/resi"
+        "github_repo_url": "https://github.com/Alxmrphi/correcting_CKA_alignment",
+        "github_path": "metrics.py",
+        "local_save_dir": "./similarity/registry/correcting_cka_alignment"
+    },
+    # {
+    #     # TODO: have to comment out import 'ripserplusplus' and change 'cca_core' imports to relative imports
+    #     "github_repo_url": "https://github.com/IlyaTrofimov/RTD",
+    #     "github_path": "rtd",
+    #     "local_save_dir": "./similarity/registry/rtd"
+    # },
+    # {
+    #     # TODO: need to comment out line 9 to 12 of src/comparators/compare_functions/__init__.py
+    #     "github_repo_url": "https://github.com/renyi-ai/drfrankenstein",
+    #     "github_path": "src/comparators/compare_functions",
+    #     "local_save_dir": "./similarity/registry/drfrankenstein"
+    # }
+    {
+        "github_repo_url": "https://github.com/implicitDeclaration/similarity",
+        "github_path": "metric",
+        "local_save_dir": "./similarity/registry/implicitdeclaration_similarity"
+    },
+    {
+        "github_repo_url": "https://github.com/pnnl/modelsym",
+        "github_path": "model_symmetries/alignment/alignment.py",
+        "local_save_dir": "./similarity/registry/modelsym"
+    },
+    # {
+    #     # TODO: comment out line 1 of stir/__init__.py; replace line 5 with relative import in stir/CKA_minibatch.py
+    #     "github_repo_url": "https://github.com/nvedant07/STIR",
+    #     "github_path": "stir",
+    #     "local_save_dir": "./similarity/registry/stir"
+    # },
+    {
+        "github_repo_url": "https://github.com/maroo-sky/FSD",
+        "github_path": "metrics",
+        "local_save_dir": "./similarity/registry/fsd"
+    },
+    {
+        "github_repo_url": "https://github.com/uds-lsv/xRSA-AWEs",
+        "github_path": "CKA.py",
+        "local_save_dir": "./similarity/registry/xrsa_awes"
+    },
+    # {
+    #     # TODO: change import to relative line 24 pwcca.py
+    #     "github_repo_url": "https://github.com/technion-cs-nlp/ContraSim",
+    #     "github_path": "",
+    #     "local_save_dir": "./similarity/registry/contrasim/contrasim"
+    # },
+    # {
+    #     # TODO: change line 7 qmvpa/rsa.py to relative import
+    #     "github_repo_url": "https://github.com/qihongl/nnsrm-neurips18",
+    #     "github_path": "qmvpa",
+    #     "local_save_dir": "./similarity/registry/nnsrm_neurips18"
+    # },
+    {
+        "github_repo_url": "https://github.com/mtoneva/brain_language_nlp",
+        "github_path": "utils",
+        "local_save_dir": "./similarity/registry/brain_language_nlp"
     }
 ]
 

@@ -9,6 +9,8 @@ from functools import partial
 import similarity
 
 
+# TODO: string or function that returns true if match pattern or regex
+
 # list of transforms used to automatically derive new measures
 transforms = [
     {"inp": "procrustes-euclidean", "out": "procrustes-sq-euclidean", "postprocessing": ["square"]},
@@ -43,6 +45,9 @@ transforms = [
     {"inp": "nbs",                  "out": "procrustes-angular",                "postprocessing": ["arccos"]},
     {"inp": "bures_distance",       "out": "procrustes-euclidean",              "postprocessing": []},
     {"inp": "procrustes-euclidean", "out": "bures_distance",                    "postprocessing": []},
+
+    # Equivalence between representational similarity analysis, centered kernel alignment, and canonical correlations analysis (Williams, 2024)
+    {"inp": "rsa-euclidean_centered_rdm-cosine", "out": "cka"},
 
     # by default CKA usually refers to the Gretton2007 estimate of HSIC
     # see https://proceedings.mlr.press/v221/lange23a/lange23a.pdf Appendix B. for a review of different CKA variants
@@ -136,6 +141,7 @@ def register_derived_measures(transform):
                 transform.get("postprocessing", []),
                 transform.get("preprocessing", [])
             ),
+            function=False
         )
 
     return derived_measure_ids

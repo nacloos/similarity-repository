@@ -9,14 +9,15 @@ import pandas as pd
 import similarity
 
 repo_paper_names = {
-    "platonic": "(Huh et al., 2024)",
-    "repsim": "(Lange et al., 2023)",
-    "netrep": "(Williams et al., 2021)",
-    "sim_metric": "(Ding et al., 2021)",
-    "nn_similarity_index": "(Tang et al., 2020)",
-    "representation_similarity": "(Kornblith et al., 2019)",
-    "neuroaimetrics": "(Soni et al., 2024)",
-    "rsatoolbox": "(Kriegeskorte et al., 2008)",
+    # TODO
+    # "platonic": "(Huh et al., 2024)",
+    # "repsim": "(Lange et al., 2023)",
+    # "netrep": "(Williams et al., 2021)",
+    # "sim_metric": "(Ding et al., 2021)",
+    # "nn_similarity_index": "(Tang et al., 2020)",
+    # "representation_similarity": "(Kornblith et al., 2019)",
+    # "neuroaimetrics": "(Soni et al., 2024)",
+    # "rsatoolbox": "(Kriegeskorte et al., 2008)",
 }
 
 
@@ -108,7 +109,9 @@ def plot_scores(measures, X=None, Y=None, data_shape=(50, 30), figsize=(30, 8), 
     scores = {}
     for k, measure in measures.items():
         print(k)
-        scores[k] = measure(X, Y)
+        score = measure(X, Y)
+        assert isinstance(score, float), f"Expected type float, got: {type(score)}"
+        scores[k] = score
         print(k, scores[k])
 
     if '/' in list(measures.keys())[0]:
@@ -125,6 +128,7 @@ def plot_scores(measures, X=None, Y=None, data_shape=(50, 30), figsize=(30, 8), 
     # Create a DataFrame for the scores
     df = pd.DataFrame(index=repo_names, columns=measure_names, dtype=float)
     for k, score in scores.items():
+        print(k)
         if '/' in k:
             _, repo, measure = k.split("/")
         else:
@@ -133,11 +137,9 @@ def plot_scores(measures, X=None, Y=None, data_shape=(50, 30), figsize=(30, 8), 
 
         df.loc[repo, measure] = float(score)
 
-    # print(df)
-    # breakpoint()
-
-    # save df to csv
-    df.to_csv(save_dir / "metric_vs_repo.csv")
+    if save_dir is not None:
+        # save df to csv
+        df.to_csv(save_dir / "metric_vs_repo.csv")
 
     # add paper names "{repo} ({paper_name})" to the index
     df.index = [f"{repo} {repo_paper_names.get(repo, '')}" for repo in df.index]
@@ -158,8 +160,9 @@ def plot_scores(measures, X=None, Y=None, data_shape=(50, 30), figsize=(30, 8), 
         save_dir.mkdir(parents=True, exist_ok=True)
         plt.savefig(save_dir / "metric_vs_repo_heatmap.png")
         plt.savefig(save_dir / "metric_vs_repo_heatmap.pdf")
-
-    plt.close('all')
+        plt.close('all')
+    else:
+        plt.show()
 
 
 if __name__ == "__main__":

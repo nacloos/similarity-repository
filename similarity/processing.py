@@ -80,6 +80,8 @@ def pca_var95(X):
 
 @register("postprocessing/tensor_to_float")
 def tensor_to_float(score):
+    if isinstance(score, float):
+        return score
     return score.detach().item()
 
 
@@ -100,11 +102,9 @@ def cosine_score(score):
 
 @register("postprocessing/arccos")
 def arccos_score(score):
-    print("arccos score:", score, np.arccos(score), abs(score - 1))
     if abs(score - 1) < 1e-10:
-        print("score is 1, returning 0")
         # arrccos(1) gives NaN but know that perfect score of 1 <=> angular distance of 0
-        return 0
+        return 0.
     return np.arccos(score)
 
 

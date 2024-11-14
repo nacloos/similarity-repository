@@ -6,10 +6,11 @@ from .registration import (
     is_registered,
     match,
     MeasureInterface,
-    Measure
+    Measure,
+    wrap_measure,
 )
 
-from .types import MeasureIdType, BackendIdType
+from .types import IdType
 
 from . import processing
 from . import registry

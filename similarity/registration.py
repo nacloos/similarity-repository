@@ -1,7 +1,7 @@
 from __future__ import annotations
 import fnmatch
 
-from similarity.types import BackendIdType, IdType, MeasureIdType
+from similarity.types import IdType
 
 
 def _register_imports():
@@ -85,8 +85,65 @@ class Measure:
     # def __new__(cls, measure_id: MeasureIdType, *args, **kwargs) -> "MeasureInterface":
     #     return make(f"measure.{measure_id}", *args, **kwargs)
 
-    def __new__(cls, measure: MeasureIdType, backend: BackendIdType = "default", *args, **kwargs) -> "MeasureInterface":
+    def __new__(cls, measure, backend = "default", *args, **kwargs) -> "MeasureInterface":
         return make(f"measure.{backend}.{measure}", *args, **kwargs)
+
+
+
+def wrap_measure(measure, preprocessing=None, postprocessing=None):
+    preprocessing = [] if preprocessing is None else preprocessing
+    postprocessing = [] if postprocessing is None else postprocessing
+
+    def _preprocess(X, Y):
+        """
+        Apply preprocessing to data before passing to measure.
+        """
+        for p in preprocessing:
+            if isinstance(p, str):
+                X = make(f"preprocessing/{p}", X)
+                Y = make(f"preprocessing/{p}", Y)
+            elif isinstance(p, dict):
+                # if dict, check for inputs key to pass data to the preprocessing function
+                assert "id" in p, f"Expected 'id' in preprocessing dict, got {p}"
+                if "inputs" in p:
+                    data = {"X": X, "Y": Y}
+                    args = [data[i] for i in p["inputs"]]
+                    X, Y = make(f"preprocessing/{p['id']}", *args)
+                else:
+                    X = make(p["id"], X)
+                    Y = make(p["id"], Y)
+            else:
+                # assume p is a function
+                X = p(X)
+                Y = p(Y)
+        return X, Y
+
+    def _postprocess(X, Y, score):
+        """
+        Apply postprocessing to score after it is returned from measure object.
+        """
+        for p in postprocessing:
+            if isinstance(p, str):
+                score = make(f"postprocessing/{p}", score)
+            elif isinstance(p, dict):
+                # if dict, check for inputs key to pass data to the postprocessing function
+                assert "id" in p, f"Expected 'id' in postprocessing dict, got {p}"
+                if "inputs" in p:
+                    data = {"X": X, "Y": Y, "score": score}
+                    args = [data[k] for k in p["inputs"]]
+                    score = make(f"postprocessing/{p['id']}", *args)
+            else:
+                # assume p is a function
+                score = p(score)
+        return score
+
+    def _measure(X, Y, **kwargs):
+        X, Y = _preprocess(X, Y)
+        score = measure(X, Y, **kwargs)
+        score = _postprocess(X, Y, score)
+        return score
+    
+    return _measure
 
 
 class MeasureInterface:
@@ -247,7 +304,7 @@ class MeasureInterface:
         return score
 
 
-def register(id, obj=None, function=False, interface=None, preprocessing=None, postprocessing=None, override=True):
+def register(id, obj=None, function=True, interface=None, preprocessing=None, postprocessing=None, override=True):
     """
     Register a function or class in the registry. Can be used as a decorator if obj argument is None.
 

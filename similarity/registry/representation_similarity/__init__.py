@@ -9,7 +9,7 @@ from .demo import *
 import similarity
 
 similarity.register(
-    "measure/kornblith19",
+    "measure/representation_similarity",
     {
         "paper_id": "kornblith2019",
         "github": "https://github.com/google-research/google-research/blob/master/representation_similarity"
@@ -28,11 +28,11 @@ register = partial(
 
 # register measures (not part of the original code)
 # TODO: different ids for feature space and gram matrix cka? (one is faster if num_features < num_examples)
-register("measure/kornblith19/cka-hsic_gretton", feature_space_linear_cka)
-register("measure/kornblith19/cka-hsic_song", partial(feature_space_linear_cka, debiased=True))
-register("measure/kornblith19/cca", cca)
+register("measure/representation_similarity/cka-hsic_gretton", feature_space_linear_cka)
+register("measure/representation_similarity/cka-hsic_song", partial(feature_space_linear_cka, debiased=True))
+register("measure/representation_similarity/cca", cca)
 # TODO: nonlinear cka
-# register("measure/kornblith19/cka-hsic_gretton-rbf")
+# register("measure/representation_similarity/cka-hsic_gretton-rbf")
 
 
 if __name__ == "__main__":
