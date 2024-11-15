@@ -4,18 +4,21 @@ from matplotlib.patches import Patch
 
 import similarity
 from similarity import make
-from similarity.transforms import DERIVED_MEASURES
+# from similarity.transforms import DERIVED_MEASURES
 
-print(len(DERIVED_MEASURES))
-print(DERIVED_MEASURES)
+# print(len(DERIVED_MEASURES))
+# print(DERIVED_MEASURES)
 
 def test_measures():
-    measures = make("measure.*.*")
+    # TODO: 3D no supported
+    # X = np.random.randn(15, 20, 30)
+    # Y = np.random.randn(15, 20, 30)
+    X = np.random.rand(40, 30)
+    Y = np.random.rand(40, 30)
+
+    measures = make("measure/*/*")
     for measure_id, measure in measures.items():
         print(measure_id)
-        X = np.random.randn(15, 20, 30)
-        Y = np.random.randn(15, 20, 30)
-
         score = measure(X, Y)
         print(f"score: {score}")
 
@@ -118,22 +121,12 @@ def backend_consistency(plot_paper_id=True, plot_values=True, save_path=None):
         plt.show()
 
 
-def test_cards():
-    scoring_measures = {
-        k: v for k, v in make("measure.*.*").items() if "score" in make(f"card.{k.split('.')[-1]}")["props"]
-    }
-    metrics = {
-        k: v for k, v in make("measure.*.*").items() if "metric" in make(f"card.{k.split('.')[-1]}")["props"]
-    }
-
-
 if __name__ == "__main__":
-    save_dir = Path(__file__).parent / ".." / "figures"
-    backend_consistency(plot_paper_id=False, plot_values=True, save_path=save_dir / "backend_consistency.png")
-    backend_consistency(plot_paper_id=False, plot_values=False, save_path=save_dir / "implemented_measures.png")
+    # save_dir = Path(__file__).parent / ".." / "figures"
+    # backend_consistency(plot_paper_id=False, plot_values=True, save_path=save_dir / "backend_consistency.png")
+    # backend_consistency(plot_paper_id=False, plot_values=False, save_path=save_dir / "implemented_measures.png")
 
-    # TODO
-    # backend_consistency(plot_paper_id=True, plot_values=True, save_path=save_dir / "backend_consistency_by_paper.png")
+    # # TODO
+    # # backend_consistency(plot_paper_id=True, plot_values=True, save_path=save_dir / "backend_consistency_by_paper.png")
 
     test_measures()
-    test_cards()

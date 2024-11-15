@@ -16,14 +16,15 @@ def pwcca_measure(X, Y):
     # original function returns a tuple
     return pwcca.compute_pwcca(X, Y)[0]
 
-similarity.register(
-    "measure/rtd/pwcca",
-    pwcca_measure,
-    preprocessing=[
-        "transpose",
-        "center_columns"
-    ]
-)
+# TODO: numpy.linalg.LinAlgError: SVD did not converge
+# similarity.register(
+#     "measure/rtd/pwcca",
+#     pwcca_measure,
+#     preprocessing=[
+#         "transpose",
+#         "center_columns"
+#     ]
+# )
 
 similarity.register(
     "measure/rtd/svcca",

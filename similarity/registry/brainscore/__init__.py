@@ -57,59 +57,60 @@ def aggregate_score(score):
         return score.values.item()
 
 
-register = partial(
-    similarity.register,
-    function=False,
-    preprocessing=[
-        "reshape2d",
-        numpy_to_brainio
-    ],
-    postprocessing=[
-        aggregate_score
-    ],
-    interface={
-        "fit_score": "__call__"
-    }
-)
+# TODO: register functions
+# register = partial(
+#     similarity.register,
+#     function=False,
+#     preprocessing=[
+#         "reshape2d",
+#         numpy_to_brainio
+#     ],
+#     postprocessing=[
+#         aggregate_score
+#     ],
+#     interface={
+#         "fit_score": "__call__"
+#     }
+# )
 
 
-regression_methods = {
-    "linreg": linear_regression,
-    "ridge-lambda1": ridge_regression,
-    "pls": pls_regression
-}
-for k, regression in regression_methods.items():
-    # TODO: specify stratification coord (e.g. 'object_name')?
-    register(
-        f"measure/brainscore/{k}-pearson_r-10splits-90_10_ratio_cv",
-        partial(
-            CrossRegressedCorrelation,
-            regression=regression(),
-            correlation=pearsonr_correlation()
-        )
-    )
+# regression_methods = {
+#     "linreg": linear_regression,
+#     "ridge-lambda1": ridge_regression,
+#     "pls": pls_regression
+# }
+# for k, regression in regression_methods.items():
+#     # TODO: specify stratification coord (e.g. 'object_name')?
+#     register(
+#         f"measure/brainscore/{k}-pearson_r-10splits-90_10_ratio_cv",
+#         partial(
+#             CrossRegressedCorrelation,
+#             regression=regression(),
+#             correlation=pearsonr_correlation()
+#         )
+#     )
 
-    # TODO: set random seed
-    register(
-        f"measure/brainscore/{k}-pearson_r-5folds_cv",
-        partial(
-            CrossRegressedCorrelation,
-            regression=regression(),
-            correlation=pearsonr_correlation(),
-            crossvalidation_kwargs={
-                "kfold": True,
-                "splits": 5,
-                "stratification_coord": False
-            }
-        )
-    )
+#     # TODO: set random seed
+#     register(
+#         f"measure/brainscore/{k}-pearson_r-5folds_cv",
+#         partial(
+#             CrossRegressedCorrelation,
+#             regression=regression(),
+#             correlation=pearsonr_correlation(),
+#             crossvalidation_kwargs={
+#                 "kfold": True,
+#                 "splits": 5,
+#                 "stratification_coord": False
+#             }
+#         )
+#     )
 
-register(
-    "measure/brainscore/rsa-correlation-spearman",
-    RDMMetric
-)
+# register(
+#     "measure/brainscore/rsa-correlation-spearman",
+#     RDMMetric
+# )
 
-register(
-    "measure/brainscore/correlation",
-    Correlation
-)
+# register(
+#     "measure/brainscore/correlation",
+#     Correlation
+# )
