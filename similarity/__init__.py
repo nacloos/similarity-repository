@@ -19,3 +19,6 @@ from . import papers
 
 # error if import transforms here, do it in registration.make instead
 # from . import transforms
+
+from .standardization import register_standardized_measures
+register_standardized_measures()

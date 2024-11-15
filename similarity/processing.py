@@ -32,7 +32,17 @@ def reshape2d(X):
 
 @register("preprocessing/center_columns")
 def center_columns(X):
-    return X - X.mean(axis=0)
+    return X - X.mean(axis=0, keepdims=True)
+
+
+@register("preprocessing/center_rows")
+def center_rows(X):
+    return X - X.mean(axis=1, keepdims=True)
+
+
+@register("preprocessing/center_rows_columns")
+def center_rows_columns(X):
+    return center_rows(center_columns(X))
 
 
 @register("preprocessing/zero_padding")

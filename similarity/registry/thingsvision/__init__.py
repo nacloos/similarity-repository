@@ -9,12 +9,6 @@ from .thingsvision.core.rsa import compute_rdm, correlate_rdms
 import similarity
 
 
-# similarity.register(
-#     "kernel/thingsvision/linear",
-#     partial(CKANumPy.linear_kernel, self=None)
-# )
-
-
 def _measure(X, Y, kernel, unbiased, sigma=None):
     m = X.shape[0]
     cka = get_cka(
@@ -62,3 +56,20 @@ for rsa_method in rsa_methods:
             f"thingsvision/{name}",
             partial(rsa_measure, rsa_method=rsa_method, corr_method=corr_method),
         )
+
+
+# register rdm
+similarity.register("rdm/thingsvision/euclidean", partial(compute_rdm, method="euclidean"))
+similarity.register("rdm/thingsvision/cosine", partial(compute_rdm, method="cosine"))
+similarity.register("rdm/thingsvision/correlation", partial(compute_rdm, method="correlation"))
+similarity.register("rdm/thingsvision/gaussian", partial(compute_rdm, method="gaussian"))
+
+# register kernel
+def _linear_kernel(X):
+    return CKANumPy(m=X.shape[0], kernel="linear").linear_kernel(X)
+
+def _rbf_kernel(X, sigma):
+    return CKANumPy(m=X.shape[0], kernel="rbf", sigma=sigma).rbf_kernel(X)
+
+similarity.register("kernel/thingsvision/linear", _linear_kernel)
+similarity.register("kernel/thingsvision/rbf-sigma={sigma}", _rbf_kernel)

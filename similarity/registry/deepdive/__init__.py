@@ -3,6 +3,10 @@ from similarity import register
 from .mapping_methods import neural_regression
 
 
+# TODO: define rdm_compare but not computing rdm
+# too complex to use 
+# https://github.com/ColinConwell/DeepDive/blob/main/deepdive/feature_reduction.py
+
 register(
     "measure/deepdive",
     {

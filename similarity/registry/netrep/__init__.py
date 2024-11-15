@@ -32,6 +32,17 @@ for score_method in score_methods:
     )
 
 similarity.register("netrep/LinearCKA", _cka)
+
+# register the linear kernel code copied from LinearCKA
+similarity.register(
+    "kernel/netrep/linear",
+    # same as line 46 of netrep/metrics/cka.py
+    lambda X: X @ X.T
+)
+
+similarity.register("distance/netrep/angular", netrep.utils.angular_distance)
+
+
 # similarity.register("measure/netrep/cka-kernel=linear-hsic=gretton-distance=angular", _cka)
 
 # similarity.register("distance/netrep/cosine", netrep.utils.angular_distance)

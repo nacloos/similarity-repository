@@ -100,18 +100,18 @@ def wrap_measure(measure, preprocessing=None, postprocessing=None):
         """
         for p in preprocessing:
             if isinstance(p, str):
-                X = make(f"preprocessing/{p}", X)
-                Y = make(f"preprocessing/{p}", Y)
+                X = make(f"preprocessing/{p}")(X)
+                Y = make(f"preprocessing/{p}")(Y)
             elif isinstance(p, dict):
                 # if dict, check for inputs key to pass data to the preprocessing function
                 assert "id" in p, f"Expected 'id' in preprocessing dict, got {p}"
                 if "inputs" in p:
                     data = {"X": X, "Y": Y}
                     args = [data[i] for i in p["inputs"]]
-                    X, Y = make(f"preprocessing/{p['id']}", *args)
+                    X, Y = make(f"preprocessing/{p['id']}")(*args)
                 else:
-                    X = make(p["id"], X)
-                    Y = make(p["id"], Y)
+                    X = make(p["id"])(X)
+                    Y = make(p["id"])(Y)
             else:
                 # assume p is a function
                 X = p(X)
@@ -124,14 +124,14 @@ def wrap_measure(measure, preprocessing=None, postprocessing=None):
         """
         for p in postprocessing:
             if isinstance(p, str):
-                score = make(f"postprocessing/{p}", score)
+                score = make(f"postprocessing/{p}")(score)
             elif isinstance(p, dict):
                 # if dict, check for inputs key to pass data to the postprocessing function
                 assert "id" in p, f"Expected 'id' in postprocessing dict, got {p}"
                 if "inputs" in p:
                     data = {"X": X, "Y": Y, "score": score}
                     args = [data[k] for k in p["inputs"]]
-                    score = make(f"postprocessing/{p['id']}", *args)
+                    score = make(f"postprocessing/{p['id']}")(*args)
             else:
                 # assume p is a function
                 score = p(score)
@@ -142,7 +142,7 @@ def wrap_measure(measure, preprocessing=None, postprocessing=None):
         score = measure(X, Y, **kwargs)
         score = _postprocess(X, Y, score)
         return score
-    
+
     return _measure
 
 
@@ -371,6 +371,56 @@ def register(id, obj=None, function=True, interface=None, preprocessing=None, po
         return decorator
     else:
         _register(id, obj)
+
+
+
+
+def register(id, obj=None, preprocessing=None, postprocessing=None, function=None, interface=None):
+    def _register(id, obj):
+        if id.split("/")[0] == "measure":
+            _measure = wrap_measure(obj, preprocessing, postprocessing)
+            registry[id] = _measure
+        else:
+            registry[id] = obj
+
+    if obj is None:
+        def decorator(obj):
+            _register(id, obj)
+            return obj
+        return decorator
+    else:
+        _register(id, obj)
+
+
+def make(id: IdType, *args, **kwargs):
+    """
+    Instantiate a config into a python object.
+
+    Args:
+        id: id of the config to instantiate.
+        *args: positional arguments to pass to the python target.
+        **kwargs: keyword arguments to pass to the python target.
+
+    Returns:
+        Instantiated python object.
+    """
+    _register_imports()
+
+    if id not in registry:
+        matches = match(id)
+        if len(matches) > 0:
+            return {k: make(k, *args, **kwargs) for k in matches}
+
+        # no matches found, try suggesting closest match
+        import difflib
+        suggestion = difflib.get_close_matches(id, registry.keys(), n=1)
+
+        if len(suggestion) == 0:
+            raise ValueError(f"`{id}` not found in registry. Use `similarity.register` to register a new entry.")
+        else:
+            raise ValueError(f"`{id}` not found in registry. Did you mean: `{suggestion[0]}`? Use `similarity.register` to register a new entry.")
+
+    return registry[id]
 
 
 def all_measures():

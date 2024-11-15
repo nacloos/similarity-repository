@@ -97,7 +97,7 @@ def plot_measures(measures: dict[str, callable], derived_measures: dict[str, cal
 
 
 
-def plot_scores(measures, X=None, Y=None, data_shape=(50, 30), figsize=(30, 8), save_dir=None):
+def plot_scores(measures, X=None, Y=None, data_shape=(30, 25), figsize=(30, 8), save_dir=None):
     if save_dir is not None:
         save_dir.mkdir(parents=True, exist_ok=True)
     
