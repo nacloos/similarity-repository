@@ -13,40 +13,40 @@ def _register_imports():
 registry = {}
 
 
-def make(id: IdType, *args, **kwargs):
-    """
-    Instantiate a config into a python object.
+# def make(id: IdType, *args, **kwargs):
+#     """
+#     Instantiate a config into a python object.
 
-    Args:
-        id: id of the config to instantiate.
-        *args: positional arguments to pass to the python target.
-        **kwargs: keyword arguments to pass to the python target.
+#     Args:
+#         id: id of the config to instantiate.
+#         *args: positional arguments to pass to the python target.
+#         **kwargs: keyword arguments to pass to the python target.
 
-    Returns:
-        Instantiated python object.
-    """
-    _register_imports()
+#     Returns:
+#         Instantiated python object.
+#     """
+#     _register_imports()
 
-    if id not in registry:
-        matches = match(id)
-        if len(matches) > 0:
-            return {k: make(k, *args, **kwargs) for k in matches}
+#     if id not in registry:
+#         matches = match(id)
+#         if len(matches) > 0:
+#             return {k: make(k, *args, **kwargs) for k in matches}
 
-        # no matches found, try suggesting closest match
-        import difflib
-        suggestion = difflib.get_close_matches(id, registry.keys(), n=1)
+#         # no matches found, try suggesting closest match
+#         import difflib
+#         suggestion = difflib.get_close_matches(id, registry.keys(), n=1)
 
-        if len(suggestion) == 0:
-            raise ValueError(f"`{id}` not found in registry. Use `similarity.register` to register a new entry.")
-        else:
-            raise ValueError(f"`{id}` not found in registry. Did you mean: `{suggestion[0]}`? Use `similarity.register` to register a new entry.")
+#         if len(suggestion) == 0:
+#             raise ValueError(f"`{id}` not found in registry. Use `similarity.register` to register a new entry.")
+#         else:
+#             raise ValueError(f"`{id}` not found in registry. Did you mean: `{suggestion[0]}`? Use `similarity.register` to register a new entry.")
 
-    obj = registry[id]
+#     obj = registry[id]
 
-    if isinstance(obj, dict):
-        return obj
-    else:
-        return obj(*args, **kwargs)
+#     if isinstance(obj, dict):
+#         return obj
+#     else:
+#         return obj(*args, **kwargs)
 
 
 def is_registered(id: str) -> bool:
@@ -304,73 +304,73 @@ class MeasureInterface:
         return score
 
 
-def register(id, obj=None, function=True, interface=None, preprocessing=None, postprocessing=None, override=True):
-    """
-    Register a function or class in the registry. Can be used as a decorator if obj argument is None.
+# def register(id, obj=None, function=True, interface=None, preprocessing=None, postprocessing=None, override=True):
+#     """
+#     Register a function or class in the registry. Can be used as a decorator if obj argument is None.
 
-    Args:
-        id: id to register the object under.
-        obj: object to register.
-        function: if True, obj is a function that returns the object.
-        interface: interface to use for the measure object.
-        preprocessing: preprocessing to apply to the data before passing to the measure object.
-        postprocessing: postprocessing to apply to the score after it is returned from the measure object.
-        override: if True, override existing registration.
+#     Args:
+#         id: id to register the object under.
+#         obj: object to register.
+#         function: if True, obj is a function that returns the object.
+#         interface: interface to use for the measure object.
+#         preprocessing: preprocessing to apply to the data before passing to the measure object.
+#         postprocessing: postprocessing to apply to the score after it is returned from the measure object.
+#         override: if True, override existing registration.
 
-    Returns:
-        if obj is None, returns a decorator function.
-    """
-    def _register(id, obj):
-        if not override:
-            assert id not in registry, f"{id} already registered. Use override=True to force override."
+#     Returns:
+#         if obj is None, returns a decorator function.
+#     """
+#     def _register(id, obj):
+#         if not override:
+#             assert id not in registry, f"{id} already registered. Use override=True to force override."
 
-        # if obj is a dict, register it directly (no need to add interface class)
-        if isinstance(obj, dict):
-            registry[id] = obj
-            return
+#         # if obj is a dict, register it directly (no need to add interface class)
+#         if isinstance(obj, dict):
+#             registry[id] = obj
+#             return
 
-        # if id starts with 'measure', wrap obj in MeasureInterface
-        category = id.split('/')[0]
-        if category == "measure":
-            if function:
-                # encapsulate in a function so that make(id) returns the function itself without calling it
-                def _obj():
-                    return obj
-            else:
-                _obj = obj
+#         # if id starts with 'measure', wrap obj in MeasureInterface
+#         category = id.split('/')[0]
+#         if category == "measure":
+#             if function:
+#                 # encapsulate in a function so that make(id) returns the function itself without calling it
+#                 def _obj():
+#                     return obj
+#             else:
+#                 _obj = obj
 
-            # wrap measure in a MeasureInterface
-            def wrap_measure():
-                measure = _obj()
-                if isinstance(measure, MeasureInterface):
-                    # if measure is already a MeasureInterface object, return it directly
-                    # currently don't support overriding interface, preprocessing, or postprocessing
-                    assert interface is None, f"Expected interface to be None, got {interface}"
-                    assert preprocessing is None, f"Expected preprocessing to be None, got {preprocessing}"
-                    assert postprocessing is None, f"Expected postprocessing to be None, got {postprocessing}"
-                    return measure
+#             # wrap measure in a MeasureInterface
+#             def wrap_measure():
+#                 measure = _obj()
+#                 if isinstance(measure, MeasureInterface):
+#                     # if measure is already a MeasureInterface object, return it directly
+#                     # currently don't support overriding interface, preprocessing, or postprocessing
+#                     assert interface is None, f"Expected interface to be None, got {interface}"
+#                     assert preprocessing is None, f"Expected preprocessing to be None, got {preprocessing}"
+#                     assert postprocessing is None, f"Expected postprocessing to be None, got {postprocessing}"
+#                     return measure
 
-                measure_interface = MeasureInterface(
-                    measure=measure,
-                    interface=interface,
-                    preprocessing=preprocessing,
-                    postprocessing=postprocessing
-                )
-                return measure_interface
+#                 measure_interface = MeasureInterface(
+#                     measure=measure,
+#                     interface=interface,
+#                     preprocessing=preprocessing,
+#                     postprocessing=postprocessing
+#                 )
+#                 return measure_interface
 
-            registry[id] = wrap_measure
+#             registry[id] = wrap_measure
 
-        else:
-            registry[id] = obj
+#         else:
+#             registry[id] = obj
 
-    # if obj is None, register can be used as a decorator
-    if obj is None:
-        def decorator(obj):
-            _register(id, obj)
-            return obj
-        return decorator
-    else:
-        _register(id, obj)
+#     # if obj is None, register can be used as a decorator
+#     if obj is None:
+#         def decorator(obj):
+#             _register(id, obj)
+#             return obj
+#         return decorator
+#     else:
+#         _register(id, obj)
 
 
 
