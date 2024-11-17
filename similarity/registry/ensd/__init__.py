@@ -5,14 +5,5 @@ from .ENSD_Tutorial import ENSD, computeDist
 import similarity
 
 
-similarity.register(
-    "measure/ensd/ensd",
-    ENSD,
-    function=True
-)
-
-similarity.register(
-    "measure/ensd/computeDist",
-    computeDist,
-    function=True
-)
+similarity.register("ensd/ensd", ENSD)
+similarity.register("ensd/computeDist", computeDist)

@@ -1,3 +1,4 @@
+from functools import partial
 from pathlib import Path
 import re
 
@@ -31,9 +32,11 @@ def standardize_names(measures):
     contrasim_mapping = {
         "feature_space_linear_cka": "cka-kernel=linear-hsic=gretton-score",
         "feature_space_linear_cka_debiased": "cka-kernel=linear-hsic=song-score",
-        "pwcca": "pwcca",
+
+        "pwcca": "pwcca-score",
         "cca": "cca-score",
-        "svcca": "svcca",
+        "cca_squared_correlation": "cca-squared_score",
+        "svcca": "svcca-score",
     }
 
     correct_cka_alignment_mapping = {
@@ -44,12 +47,97 @@ def standardize_names(measures):
     repsim_mapping = {
         "AngularCKA.linear": "cka-kernel=linear-hsic=gretton-distance=angular",
         "AngularCKA.unb.linear": "cka-kernel=linear-hsic=lange-distance=angular",
-        "AngularCKA.SqExp[{sigma}]": "cka-kernel=rbf-sigma={sigma}-hsic=lange-distance=angular",
-        "AngularCKA.unb.SqExp[{sigma}]": "cka-kernel=rbf-sigma={sigma}-hsic=lange-distance=angular",
-        "AngularCKA.Laplace[{sigma}]": "cka-kernel=laplace-hsic=lange-distance=angular",
+        "AngularCKA.SqExp[{sigma}]": "cka-kernel=(rbf-sigma={sigma})-hsic=gretton-distance=angular",
+        "AngularCKA.unb.SqExp[{sigma}]": "cka-kernel=(rbf-sigma={sigma})-hsic=lange-distance=angular",
+        "AngularCKA.Laplace[{sigma}]": "cka-kernel=laplace-hsic=gretton-distance=angular",
         "AngularCKA.unb.Laplace[{sigma}]": "cka-kernel=laplace-hsic=lange-distance=angular",
         "ShapeMetric[{alpha}][angular]": "shape_metric-alpha={alpha}-distance=angular",
         "ShapeMetric[{alpha}][euclidean]": "shape_metric-alpha={alpha}-distance=euclidean",
+    }
+
+    nn_similarity_index_mapping = {
+        "euclidean": "euclidean",
+        "cka": "cka-kernel=linear-hsic=gretton-score",
+        "nbs": "nbs",
+        "bures_distance": "bures_distance",
+    }
+
+    fsd_mapping = {
+        "linear_CKA_loss": "cka-kernel=linear-hsic=gretton-score-negative_log",
+        "linear_CKA": "cka-kernel=linear-hsic=gretton-score",
+    }
+
+    ensd_mapping = {
+        "ensd": "ensd",
+        "computeDist": "ensd-distance=angular_normalized",
+    }
+
+    # TODO: parameters
+    platonic_mapping = {
+        "cka": "cka-kernel=linear-hsic=gretton-score",
+        "unbiased_cka": "cka-kernel=linear-hsic=song-score",
+        "cka_rbf": "cka-kernel=(rbf-sigma=1.0)-hsic=gretton-score",
+        "unbiased_cka_rbf": "cka-kernel=(rbf-sigma=1.0)-hsic=song-score",
+        "cycle_knn_topk": "cycle_knn-topk=10",
+        "mutual_knn_topk": "mutual_knn-topk=10",
+        "lcs_knn_topk": "lcs_knn-topk=10",
+        "cknna_topk": "cknna-topk=10",
+        "svcca": "svcca-score",
+        "edit_distance_knn_topk": "edit_distance_knn-topk=10",
+    }
+
+    representation_similarity_mapping = {
+        "cka": "cka-kernel=linear-hsic=gretton-score",
+        "cka_debiased": "cka-kernel=linear-hsic=song-score",
+        "cca": "cca-squared_score",
+    }
+
+    resi_mapping = {
+        "GeometryScore": "geometry_score",
+        "PWCCA": "pwcca-score",
+        "SVCCA": "svcca-score",
+        "HardCorrelationMatch": "hard_correlation_match",
+        "SoftCorrelationMatch": "soft_correlation_match",
+        "DistanceCorrelation": "distance_correlation",
+        "EigenspaceOverlapScore": "eigenspace_overlap_score",
+        "IMDScore": "imd_score",
+        "Gulp": "gulp",
+        "LinearRegression": "linear_regression",
+        "JaccardSimilarity": "jaccard_similarity",
+        "RankSimilarity": "rank_similarity",
+        "SecondOrderCosineSimilarity": "second_order_cosine_similarity",
+        "AlignedCosineSimilarity": "aligned_cosine_similarity",
+        "OrthogonalAngularShapeMetricCentered": "orthogonal_angular_shape_metric_centered",
+        "OrthogonalProcrustesCenteredAndNormalized": "orthogonal_procrustes_centered_and_normalized",
+        "PermutationProcrustes": "permutation_procrustes",
+        "ProcrustesSizeAndShapeDistance": "procrustes_size_and_shape_distance",
+        "RSMNormDifference": "rsm_norm_difference",
+        "ConcentricityDifference": "concentricity_difference",
+        "MagnitudeDifference": "magnitude_difference",
+        "UniformityDifference": "uniformity_difference",
+
+        "CKA": "cka-kernel=linear-hsic=gretton-score",
+
+        # rsa
+        "RSA_correlation_spearman": "rsa-rdm=correlation-compare=spearman",
+        "RSA_correlation_euclidean": "rsa-rdm=correlation-compare=euclidean",
+        "RSA_euclidean_spearman": "rsa-rdm=euclidean-compare=spearman",
+        "RSA_euclidean_euclidean": "rsa-rdm=euclidean-compare=euclidean",
+    }
+
+    sim_metric_mapping = {
+        "mean_cca_corr": "cca-score",
+        "mean_sq_cca_corr": "cca-squared_score",
+        "pwcca_dist": "pwcca-distance=one_minus_score",
+        "lin_cka_dist": "cka-kernel=linear-hsic=gretton-distance=one_minus_score",
+        "procrustes": "procrustes-distance=squared_euclidean",
+    }
+
+    svcca_mapping = {
+        "cca": "cca-score",
+        "cca_squared_correlation": "cca-squared_score",
+        "pwcca": "pwcca-score",
+        "pls": "pls",
     }
 
     rsatoolbox_mapping = {}
@@ -72,7 +160,15 @@ def standardize_names(measures):
         "contrasim": contrasim_mapping,
         "correcting_cka_alignment": correct_cka_alignment_mapping,
         "repsim": repsim_mapping,
+        "nn_similarity_index": nn_similarity_index_mapping,
         "rsatoolbox": rsatoolbox_mapping,
+        "fsd": fsd_mapping,
+        "ensd": ensd_mapping,
+        "platonic": platonic_mapping,
+        "representation_similarity": representation_similarity_mapping,
+        "resi": resi_mapping,
+        "sim_metric": sim_metric_mapping,
+        "svcca": svcca_mapping,
     }
 
     standardized_measures = {}
@@ -96,8 +192,8 @@ def standardize_names(measures):
 transforms = [
     # Generalized Shape Metrics on Neural Representations (Williams et al., 2021)
     # take the arccosine to get angular distance
-    {"inp": lambda k: "score" in k, "out": lambda k, v: (k.replace("score", "distance=angular"), v), "postprocessing": ["arccos"]},
-    {"inp": lambda k: "distance=angular" in k, "out": lambda k, v: (k.replace("distance=angular", "score"), v), "postprocessing": ["cos"]},
+    {"inp": lambda k: k.endswith("-score"), "out": lambda k, v: (k.replace("-score", "-distance=angular"), v), "postprocessing": ["arccos"]},
+    {"inp": lambda k: k.endswith("-distance=angular"), "out": lambda k, v: (k.replace("-distance=angular", "-score"), v), "postprocessing": ["cos"]},
 
     # convert between euclidean and angular distance
     {
@@ -113,7 +209,15 @@ transforms = [
         "postprocessing": [
             {"id": "angular_to_euclidean_shape_metric", "inputs": ["X", "Y", "score"]},
         ]
-    }
+    },
+    # (Ding, 2021) defines CKA "distance" as 1 - CKA
+    {
+        "inp": lambda k: "distance=one_minus_score" in k,
+        "out": lambda k, v: (
+            k.replace("distance=one_minus_score", "score"),
+            lambda X, Y, **kwargs: 1 - v(X, Y, **kwargs)
+        )
+    },
 ]
 
 # shape metric
@@ -172,7 +276,7 @@ transforms.extend([
         "inp": lambda k: bool(re.match(r"^distance/[^/]+/angular$", k)),
         "out": lambda k, v: (
             k.replace("distance/", "measure/").replace("/angular", "/cosine"),
-            lambda X, Y: np.cos(v(X, Y))
+            lambda X, Y, **kwargs: np.cos(v(X, Y, **kwargs))
         )
     },
     # measure/*/cosine => distance/*/angular
@@ -180,7 +284,7 @@ transforms.extend([
         "inp": lambda k: bool(re.match(r"^measure/[^/]+/cosine$", k)),
         "out": lambda k, v: (
             k.replace("measure/", "distance/").replace("/cosine", "/angular"),
-            lambda X, Y: np.arccos(v(X, Y))
+            lambda X, Y, **kwargs: np.arccos(v(X, Y, **kwargs))
         )
     }
 ])
@@ -203,9 +307,35 @@ transforms.extend([
             k.replace("kernel/", "kernel/") + "-zero_diagonal",
             lambda X: v(X) - np.diag(np.diag(v(X)))
         )
-    },
-
+    },    
 ])
+
+# derive rbf kernel from linear kernel
+# TODO: keep this?
+# def sqrt_rbf_kernel(X, sigma):
+#     from scipy.spatial.distance import cdist
+#     K = np.exp(-cdist(X, X)**2 / (2 * sigma**2))
+#     # centering
+#     # TODO: if don't center, sim_metric don't match the other metrics!
+#     H = np.eye(K.shape[0]) - 1/K.shape[0]
+#     K = H @ K @ H
+
+#     Uk, Sk, VkT = np.linalg.svd(K)
+#     K_sqrt = Uk @ np.diag(np.sqrt(Sk)) @ VkT
+#     K_recon = K_sqrt @ K_sqrt.T
+#     assert np.allclose(K, K_recon, atol=1e-10), np.max(np.abs(K - K_recon))
+#     return K_sqrt
+# transforms.extend([
+#     # measure/*/*-kernel=linear-* => measure/*/*-kernel=(rbf-sigma={sigma})-*
+#     {
+#         "inp": lambda k: "measure/" in k and "kernel=linear" in k,
+#         "out": lambda k, v: (
+#             k.replace("kernel=linear", "kernel=(rbf-sigma={sigma})"),
+#             lambda X, Y, sigma=1.0, **kwargs: v(sqrt_rbf_kernel(X, sigma), sqrt_rbf_kernel(Y, sigma), **kwargs)
+#         )
+#     }
+# ])
+
 
 
 # convert between kernel and rdm (see https://openreview.net/pdf?id=zMdnnFasgC)
@@ -241,9 +371,35 @@ transforms.extend([
 ])
 
 
+# "fsd" repository defines CKA loss as -log(CKA)
+transforms.extend([
+    # measure/*/*-score-negative_log => measure/*/*-score
+    {
+        "inp": lambda k: bool(re.match(r"^measure/[^/]+/[^/]+-score-negative_log$", k)),
+        "out": lambda k, v: (
+            k.replace("-score-negative_log", "-score"),
+            lambda X, Y, **kwargs: np.exp(-v(X, Y, **kwargs))
+        )
+    }
+])
+
+# TODO: results don't match exactly
+# derive CKA from ENSD (https://www.biorxiv.org/content/10.1101/2023.07.27.550815v1.full.pdf)
+transforms.extend([
+    # measure/*/ensd-distance=angular_normalized => measure/*/cka-kernel=linear-hsic=gretton-score
+    {
+        "inp": lambda k: bool(re.match(r"^measure/[^/]+/ensd-distance=angular_normalized$", k)),
+        "out": lambda k, v: (
+            k.replace("ensd-distance=angular_normalized", "cka-kernel=linear-hsic=gretton-score"),
+            lambda X, Y, **kwargs: np.cos(np.pi / 2 * v(X, Y, **kwargs))
+        )
+    }
+])
+
+
 compositions = []
 
-def derive_cka_lange_from_gretton(registry: dict):
+def derive_cka(registry: dict):
     """
     Derive the Lange version of CKA from the gretton version.
     The Lange version removed the diagonal of the kernels before computing the cosine similarity.
@@ -310,7 +466,7 @@ def derive_rsa_from_cka(registry: dict):
     return derived_measures
 
 
-compositions.append(derive_cka_lange_from_gretton)
+compositions.append(derive_cka)
 compositions.append(derive_rsa_from_cka)
 
 
@@ -389,6 +545,12 @@ def register_standardized_measures():
     derived_measures = derive_measures(updated_registry, transforms, compositions)
     measures.update(derived_measures)
 
+    # for all measures with parameter 'sigma={sigma}', create a new measure with 'sigma=1.0'
+    for k, v in list(measures.items()):
+        if 'sigma={sigma}' in k:
+            new_k = k.replace('sigma={sigma}', 'sigma=1.0')
+            measures[new_k] = partial(v, sigma=1.0)
+
     # filter measures that don't have parameters
     measures = {k: v for k, v in measures.items() if '{' not in k}
 
@@ -397,27 +559,28 @@ def register_standardized_measures():
 
 
 if __name__ == "__main__":
-    # registry = similarity.registration.registry
-    # measures = standardize_names(registry)
-    # # add "measure/" prefix
-    # measures = {f"measure/{k}": v for k, v in measures.items()}
-
-    # derived_measures = derive_measures(measures, transforms, compositions)
-    # print("measure/netrep/cka-kernel=linear-hsic=lange-score" in derived_measures)
-    # breakpoint()
-    # measures.update(derived_measures)
-
-    # # filter measures that don't have parameters
-    # measures = {k: v for k, v in measures.items() if '{' not in k}
-
-
     from similarity.plotting import plot_scores
 
     np.random.seed(0)
 
     save_dir = Path(__file__).parent.parent / "figures" / Path(__file__).stem
 
-    repos_to_plot = ["netrep", "rsatoolbox", "repsim", "contrasim", "correcting_cka_alignment", "thingsvision"]
+    repos_to_plot = [
+        "netrep",
+        "rsatoolbox",
+        "repsim",
+        "contrasim",
+        "correcting_cka_alignment",
+        "thingsvision",
+        "nn_similarity_index",
+        "fsd",
+        "ensd",
+        "platonic",
+        "representation_similarity",
+        "resi",
+        "sim_metric",
+        "svcca",
+    ]
     measures = similarity.all_measures()
     measures = {k: v for k, v in measures.items() if any(repo in k for repo in repos_to_plot)}
     plot_scores(measures, save_dir=save_dir)

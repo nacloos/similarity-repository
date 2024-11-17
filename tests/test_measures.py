@@ -375,6 +375,10 @@ def test_rdm_kernel():
     breakpoint()
 
 
+def test_equiv_rsa_cca():
+    rsa = similarity.make("measure/rsatoolbox/rsa-rdm=mahalanobis-compare=cosine")
+
+
 if __name__ == "__main__":
     # fix numpy random seed
     np.random.seed(5)

@@ -12,18 +12,16 @@ args = namedtuple('Args', ['device'])('cpu')
 
 
 similarity.register(
-    "measure/fsd/linear_CKA_loss",
+    "fsd/linear_CKA_loss",
     partial(linear_CKA_loss, args=args),
-    function=True,
     preprocessing=["array_to_tensor"],
     postprocessing=["tensor_to_float"]
 )
 
 
 similarity.register(
-    "measure/fsd/linear_HSIC",
+    "hsic/fsd/linear",
     partial(linear_HSIC, args=args),
-    function=True,
     preprocessing=["array_to_tensor"],
     postprocessing=["tensor_to_float"]
 )

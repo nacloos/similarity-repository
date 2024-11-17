@@ -101,6 +101,11 @@ similarity.register(
     partial(_compare_rdm, method="cosine")
 )
 
+similarity.register(
+    "similarity/rsatoolbox/zero_diagonal-bures",
+    partial(_compare_rdm, method="bures")
+)
+
 
 # similarity.register(
 #     "measure/rsatoolbox",

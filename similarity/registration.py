@@ -374,12 +374,16 @@ class MeasureInterface:
 
 
 
-
 def register(id, obj=None, preprocessing=None, postprocessing=None, function=None, interface=None):
     def _register(id, obj):
-        if id.split("/")[0] == "measure":
-            _measure = wrap_measure(obj, preprocessing, postprocessing)
-            registry[id] = _measure
+        # TODO: doesn't work if register without "measure/" prefix
+        # if id.split("/")[0] == "measure":
+        #     _measure = wrap_measure(obj, preprocessing, postprocessing)
+        #     registry[id] = _measure
+        # else:
+        #     registry[id] = obj
+        if preprocessing is not None or postprocessing is not None:
+            registry[id] = wrap_measure(obj, preprocessing, postprocessing)
         else:
             registry[id] = obj
 

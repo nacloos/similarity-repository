@@ -6,18 +6,16 @@ from .dists import scoring
 
 
 similarity.register(
-    "measure/sim_metric",
+    "paper/sim_metric",
     {
-        "paper_id": "ding2021",
+        "id": "ding2021",
         "github": "https://github.com/js-d/sim_metric"
     }
 )
 
 register = partial(
     similarity.register,
-    function=True,
     preprocessing=[
-        "reshape2d",
         "center_columns",
         # sim_metric scoring functions expect shape (neuron, sample)
         # but measure inputs are of shape (sample, neuron)
@@ -25,31 +23,8 @@ register = partial(
     ]
 )
 
-register(
-    "measure/sim_metric/cca",
-    utils.mean_cca_corr
-)
-register(
-    "measure/sim_metric/cca-mean_sq_corr",
-    utils.mean_sq_cca_corr,
-)
-register(
-    "measure/sim_metric/pwcca",
-    utils.pwcca_dist,
-    postprocessing=[
-        # (Ding, 2021): d_PWCCA = 1 - PWCCA
-        "one_minus"
-    ]
-)
-register(
-    "measure/sim_metric/cka",
-    scoring.lin_cka_dist,
-    postprocessing=[
-        # (Ding, 2021): d_CKA = 1 - CKA
-        "one_minus"
-    ]
-)
-register(
-    "measure/sim_metric/procrustes-sq-euclidean",
-    scoring.procrustes
-)
+register("sim_metric/mean_cca_corr", utils.mean_cca_corr)
+register("sim_metric/mean_sq_cca_corr", utils.mean_sq_cca_corr)
+register("sim_metric/pwcca_dist", utils.pwcca_dist)
+register("sim_metric/lin_cka_dist", scoring.lin_cka_dist)
+register("sim_metric/procrustes", scoring.procrustes)

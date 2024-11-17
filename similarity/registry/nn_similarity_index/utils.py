@@ -27,7 +27,7 @@ def nbs(X, Y):
     return SimIndex().nbs(kmat_1, kmat_2)
 
 
-# this metric is not included in the original code but added for comparison purposes
+# Modified: this metric is not included in the original code but added for comparison purposes
 def bures_distance(X, Y):
     kmat_1, kmat_2 = compute_kernel(X), compute_kernel(Y)
     kmat_1 = SimIndex().centering(kmat_1)
