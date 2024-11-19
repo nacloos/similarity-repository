@@ -16,6 +16,7 @@ similarity.register(
 register = partial(
     similarity.register,
     preprocessing=[
+        # TODO: center columns for all the metrics?
         "center_columns",
         # sim_metric scoring functions expect shape (neuron, sample)
         # but measure inputs are of shape (sample, neuron)

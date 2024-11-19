@@ -19,7 +19,6 @@ similarity.register(
 register = partial(
     similarity.register,
     preprocessing=[
-        "reshape2d",
         # svcca repo's functions expect data with shape (neuron, data_point)
         # and similarity.measure expects data with shape (data_point, neuron)
         "transpose"

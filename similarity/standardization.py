@@ -58,7 +58,7 @@ def standardize_names(measures):
     nn_similarity_index_mapping = {
         "euclidean": "euclidean",
         "cka": "cka-kernel=linear-hsic=gretton-score",
-        "nbs": "nbs",
+        "nbs": "nbs-score",
         "bures_distance": "bures_distance",
     }
 
@@ -190,11 +190,21 @@ def standardize_names(measures):
 
 
 transforms = [
-    # Generalized Shape Metrics on Neural Representations (Williams et al., 2021)
+    # (Generalized Shape Metrics on Neural Representations. Williams et al., 2021)
     # take the arccosine to get angular distance
     {"inp": lambda k: k.endswith("-score"), "out": lambda k, v: (k.replace("-score", "-distance=angular"), v), "postprocessing": ["arccos"]},
     {"inp": lambda k: k.endswith("-distance=angular"), "out": lambda k, v: (k.replace("-distance=angular", "-score"), v), "postprocessing": ["cos"]},
-
+    # shape metric with alpha=0 <=> cca
+    {
+        "inp": lambda k: "shape_metric-alpha={alpha}" in k,
+        # "out": lambda k, v: (k.replace("shape_metric-alpha={alpha}", "cca"), wrap_shape_metric(v, alpha=0))
+        "out": lambda k, v: (k.replace("shape_metric-alpha={alpha}", "cca"), partial(v, alpha=0))
+    },
+    # shape metric with alpha=! <=> procrustes
+    {
+        "inp": lambda k: "shape_metric-alpha={alpha}" in k,
+        "out": lambda k, v: (k.replace("shape_metric-alpha={alpha}", "procrustes"), partial(v, alpha=1))
+    },
     # convert between euclidean and angular distance
     {
         "inp": lambda k: "distance=euclidean" in k,
@@ -210,6 +220,18 @@ transforms = [
             {"id": "angular_to_euclidean_shape_metric", "inputs": ["X", "Y", "score"]},
         ]
     },
+
+    # Duality of Bures and Shape Distances with Implications for Comparing Neural Representations (Harvey et al., 2023)
+    # Procrustes angular distance = arccos(NBS)
+    {
+        "inp": lambda k: "/nbs-distance=angular" in k,
+        "out": lambda k, v: (k.replace("/nbs-distance=angular", "procrustes-distance=angular"), v),
+    },
+    {
+        "inp": lambda k: "/procrustes-distance=angular" in k,
+        "out": lambda k, v: (k.replace("/procrustes-distance=angular", "/nbs-distance=angular"), v),
+    },
+
     # (Ding, 2021) defines CKA "distance" as 1 - CKA
     {
         "inp": lambda k: "distance=one_minus_score" in k,
@@ -219,17 +241,6 @@ transforms = [
         )
     },
 ]
-
-# shape metric
-def wrap_shape_metric(measure, alpha):
-    def _measure(X, Y):
-        return measure(X, Y, alpha=alpha)
-    return _measure
-
-transforms.append({
-    "inp": lambda k: "shape_metric-alpha={alpha}" in k,
-    "out": lambda k, v: (k.replace("shape_metric-alpha={alpha}", "cca"), wrap_shape_metric(v, alpha=0))
-})
 
 # rdm
 transforms.extend([
