@@ -1,0 +1,31 @@
+{
+    "save_prefix": "/mnt/fs5/nclkong/trained_models/imagenet/mouse_test/",
+    "port": 29029,
+    "db_name": "imagenet",
+    "coll_name": "simclrloss_resnet18",
+    "exp_id": "test_imagenet_100epochs_exp01",
+    "trainer": "SimCLR",
+    "cuda": true,
+    "tpu": false,
+    "gpus": [5,6],
+    "ddp_port": 8883,
+    "seed": 1,
+    "dataloader_workers": 8,
+    "model": "resnet18_simclr",
+    "loss_params": {
+        "class": "SimCLRLoss",
+        "model_output_dim": 512,
+        "hidden_dim": 512
+    },
+    "optimizer_params": {
+        "train_batch_size": 256,
+        "val_batch_size": 1024,
+        "initial_lr": 0.3,
+        "momentum": 0.9,
+        "weight_decay": 0.000001
+    },
+    "num_epochs": 100,
+    "save_freq": 10,
+    "resume_checkpoint": null
+}
+

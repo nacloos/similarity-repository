@@ -28,5 +28,9 @@ from . import ensd
 from . import nnsrm_neurips18
 from . import brain_language_nlp
 from . import llm_repsim
+from . import mouse_vision
+from . import modelsym
+from . import pyrcca
+from . import unsupervised_analysis
 
 # TODO: add diffscore? (but it already uses similarity?)

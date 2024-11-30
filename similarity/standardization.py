@@ -151,7 +151,7 @@ def standardize_names(measures):
     }
 
     nnsrm_neurips18_mapping = {
-        "rsa": "rsa-rdm=correlation-compare=spearman",
+        "rsa": "rsa-rdm=correlation-compare=pearson",
         "procrustes": "procrustes-distance=euclidean",  # TODO: what is this measure?
         "isc": "isc",
     }
@@ -166,7 +166,7 @@ def standardize_names(measures):
         "top_k_neighbors": "top_k_neighbors",
         "orthogonal_procrustes": "procrustes-distance=euclidean",
         "aligned_cossim": "aligned_cossim",
-        "representational_similarity_analysis": "representational_similarity_analysis",
+        "representational_similarity_analysis": "rsa-rdm=correlation-compare=pearson",
         "rsm_norm_diff": "rsm_norm_difference",
     }
 
@@ -185,21 +185,60 @@ def standardize_names(measures):
         "rsa-correlation-spearman": "rsa-rdm=correlation-compare=spearman",
         "correlation": "correlation",
         "cka": "cka-kernel=linear-hsic=gretton-score",
+
         "linear_regression-pearsonr_correlation": "linear_regression-pearsonr",
-        "ridge_regression-pearsonr_correlation": "ridge-lambda=1-pearsonr",
-        "pls_regression-pearsonr_correlation": "pls-pearsonr",
         "linear_regression-pearsonr_correlation-5folds_cv": "linear_regression-pearsonr-cv=5folds",
+
+        "ridge_regression-pearsonr_correlation": "ridge-lambda=1-pearsonr",
         "ridge_regression-pearsonr_correlation-5folds_cv": "ridge-lambda=1-pearsonr-cv=5folds",
+
+        "pls_regression-pearsonr_correlation": "pls-pearsonr",
         "pls_regression-pearsonr_correlation-5folds_cv": "pls-pearsonr-cv=5folds",
     }
 
     deepdive_mapping = {
         "neural_regression-alpha1-pearson_r-5folds_cv": "ridge-lambda=1-pearsonr-cv=5folds",
-        "neural_regression-alpha0-pearson_r-5folds_cv": "linreg-pearsonr-cv=5folds",
         "neural_regression-alpha1-pearson_r2-5folds_cv": "ridge-lambda=1-pearsonr2-cv=5folds",
-        "neural_regression-alpha0-pearson_r2-5folds_cv": "linreg-pearsonr2-cv=5folds",
         "neural_regression-alpha1-r2-5folds_cv": "ridge-lambda=1-r2-cv=5folds",
-        "neural_regression-alpha0-r2-5folds_cv": "linreg-r2-cv=5folds",
+
+        "neural_regression-alpha0-pearson_r-5folds_cv": "linear_regression-pearsonr-cv=5folds",
+        "neural_regression-alpha0-pearson_r2-5folds_cv": "linear_regression-pearsonr2-cv=5folds",
+        "neural_regression-alpha0-r2-5folds_cv": "linear_regression-r2-cv=5folds",
+    }
+
+    neuroaimetrics_mapping = {
+        "CKA": "cka-kernel=linear-hsic=gretton-score",
+        "RSA": "rsa-rdm=correlation-compare=kendall",
+        "SoftMatching": "softmatching",
+        "LinearShapeMetric": "shape_metric",
+        "VERSA": "versa",
+        "pairwisematching": "pairwisematching",
+
+        # TODO: ridge reg: alphas=np.logspace(-8,8,17)
+        "LinearPredictivity": "ridge-pearsonr-cv=5folds",
+        "reverseLinearPredictivity": "ridge-pearsonr-cv=5folds-reverse",
+        "PLSreg": "pls-pearsonr-components=25-cv=5folds",
+    }
+
+    mouse_vision_mapping = {
+        "rsa": "rsa-rdm=correlation-compare=pearson",
+        "PLSNeuralMap": "pls-pearsonr-components=25",
+        "CorrelationNeuralMap": "correlation",
+    }
+
+    modelsym_mapping = {
+        "wreath_cka": "wreath_cka",
+        "wreath_procrustes": "wreath_procrustes",
+        "ortho_cka": "cka-kernel=linear-hsic=gretton-score",
+        "ortho_procrustes": "procrustes-distance=euclidean",
+    }
+
+    pyrcca_mapping = {
+        "cca": "cca-score",
+    }
+
+    unsupervised_analysis_mapping = {
+        "cka": "cka-kernel=linear-hsic=gretton-score",
     }
 
 
@@ -214,6 +253,13 @@ def standardize_names(measures):
 
         if rdm_method == "euclidean":
             rdm_method = "squared_euclidean"
+
+        if compare_method == "corr":
+            compare_method = "pearson"
+
+        # TODO: is rho-a, rho-b same as spearman?
+        # from docs: 'rho-a' = spearman correlation without tie correction
+        # https://github.com/rsagroup/rsatoolbox/blob/main/src/rsatoolbox/rdm/compare.py
 
         rsatoolbox_mapping[k] = f"rsa-rdm={rdm_method}-compare={compare_method}"
 
@@ -244,6 +290,11 @@ def standardize_names(measures):
         "brain_language_nlp": brain_language_nlp_mapping,
         "brainscore": brainscore_mapping,
         "deepdive": deepdive_mapping,
+        "neuroaimetrics": neuroaimetrics_mapping,
+        "mouse_vision": mouse_vision_mapping,
+        "modelsym": modelsym_mapping,
+        "pyrcca": pyrcca_mapping,
+        "unsupervised_analysis": unsupervised_analysis_mapping,
     }
 
     standardized_measures = {}
@@ -697,5 +748,7 @@ if __name__ == "__main__":
     # measures = {k: v for k, v in measures.items() if "nbs" in k or "procrustes" in k}
     # measures = {k: v for k, v in measures.items() if "cka" in k}
     # measures = {k: v for k, v in measures.items() if "cca" in k}
+    # measures = {k: v for k, v in measures.items() if "rsa" in k}
+    # measures = {k: v for k, v in measures.items() if "ridge" in k}
 
     plot_scores(measures, save_dir=save_dir)

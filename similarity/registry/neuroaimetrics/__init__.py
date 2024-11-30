@@ -20,7 +20,7 @@ def make_measure(name):
 
 for name in all_metrics.keys():
     similarity.register(
-        f"measure/neuroaimetrics/{name}",
+        f"neuroaimetrics/{name}",
         make_measure(name),
         function=True
     )

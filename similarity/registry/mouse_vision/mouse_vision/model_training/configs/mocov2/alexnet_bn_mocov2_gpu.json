@@ -1,0 +1,30 @@
+{
+    "save_prefix": "/mnt/fs5/nclkong/trained_models/mouse_vision/",
+    "port": 29029,
+    "db_name": "imagenet",
+    "coll_name": "mocov2loss_alexnet_64x64",
+    "exp_id": "exp1",
+    "trainer": "MoCov2",
+    "cuda": true,
+    "tpu": false,
+    "gpus": [2],
+    "ddp_port": 8882,
+    "seed": 1,
+    "dataloader_workers": 8,
+    "model": "alexnet_bn_mocov2_64x64",
+    "loss_params": {
+        "class": "MoCov2Loss",
+        "model_output_dim": 4096
+    },
+    "optimizer_params": {
+        "train_batch_size": 512,
+        "val_batch_size": 1024,
+        "initial_lr": 0.06,
+        "momentum": 0.9,
+        "weight_decay": 5e-4
+    },
+    "num_epochs": 200,
+    "save_freq": 10,
+    "resume_checkpoint": null
+}
+

@@ -19,44 +19,44 @@ class Features():
         self.hook.remove()
 
 
-def feature_collector(dataloader: DataLoader,
-    model1: nn.Module, model2: nn.Module,
-    layer_type = None,
-    device: torch.device = torch.cuda.current_device(),
-    progress: bool = False,
-    debug = False,
-    batched=False):
-    model1.eval()
-    model1.to(device)
-    model2.eval()
-    model2.to(device)
-    h1 = list(model1.modules())
-    h2 = list(model2.modules())
-    if layer_type != None:
-        h1 = [x for x in h1 if isinstance(x, layer_type)]
-        h2 = [x for x in h2 if isinstance(x, layer_type)]
-    print('module types:', [type(x) for x in h1], [type(x) for x in h2])
-    H1, H2 = [[Features(x) for x in h] for h in [h1, h2]]
-    features1, features2 = [[[] for x in H] for H in [H1, H2]]
-    loop = enumerate(dataloader)
-    if progress:
-        loop = tqdm(loop, total=len(dataloader), desc='collecting features')
-    with torch.no_grad():
-        for i, (x, y) in loop:
-            if debug and i >= 1:
-                break
-            x = x.to(device)
-            y1, y2 = model1(x), model2(x)
+# def feature_collector(dataloader: DataLoader,
+#     model1: nn.Module, model2: nn.Module,
+#     layer_type = None,
+#     device: torch.device = torch.cuda.current_device(),
+#     progress: bool = False,
+#     debug = False,
+#     batched=False):
+#     model1.eval()
+#     model1.to(device)
+#     model2.eval()
+#     model2.to(device)
+#     h1 = list(model1.modules())
+#     h2 = list(model2.modules())
+#     if layer_type != None:
+#         h1 = [x for x in h1 if isinstance(x, layer_type)]
+#         h2 = [x for x in h2 if isinstance(x, layer_type)]
+#     print('module types:', [type(x) for x in h1], [type(x) for x in h2])
+#     H1, H2 = [[Features(x) for x in h] for h in [h1, h2]]
+#     features1, features2 = [[[] for x in H] for H in [H1, H2]]
+#     loop = enumerate(dataloader)
+#     if progress:
+#         loop = tqdm(loop, total=len(dataloader), desc='collecting features')
+#     with torch.no_grad():
+#         for i, (x, y) in loop:
+#             if debug and i >= 1:
+#                 break
+#             x = x.to(device)
+#             y1, y2 = model1(x), model2(x)
 
-            for l, h in zip(features1, H1):
-                l.append(h.features.cpu())
-            for l, h in zip(features2, H2):
-                l.append(h.features.cpu())
+#             for l, h in zip(features1, H1):
+#                 l.append(h.features.cpu())
+#             for l, h in zip(features2, H2):
+#                 l.append(h.features.cpu())
 
-    if batched:
-        return [features1, features2]
-    else:
-        return [[torch.cat(x, dim=0) for x in f] for f in [features1, features2]]
+#     if batched:
+#         return [features1, features2]
+#     else:
+#         return [[torch.cat(x, dim=0) for x in f] for f in [features1, features2]]
 
 def wreath_procrustes(features1: List[torch.Tensor],
     features2: List[torch.Tensor], diagonly=True,

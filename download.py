@@ -71,11 +71,12 @@ download_list = [
         "github_path": "metric",
         "local_save_dir": "./similarity/registry/implicitdeclaration_similarity"
     },
-    {
-        "github_repo_url": "https://github.com/pnnl/modelsym",
-        "github_path": "model_symmetries/alignment/alignment.py",
-        "local_save_dir": "./similarity/registry/modelsym"
-    },
+    # {
+    #     # TODO: comment out function line 22 in alignment.py to prevent pytorch cuda error
+    #     "github_repo_url": "https://github.com/pnnl/modelsym",
+    #     "github_path": "model_symmetries/alignment/alignment.py",
+    #     "local_save_dir": "./similarity/registry/modelsym"
+    # },
     # {
     #     # TODO: comment out line 1 of stir/__init__.py; replace line 5 with relative import in stir/CKA_minibatch.py
     #     "github_repo_url": "https://github.com/nvedant07/STIR",
@@ -114,7 +115,23 @@ download_list = [
         # "github_repo_url": "https://github.com/mklabunde/llm_repsim",
         # "github_path": "llmcomp/measures",
         # "local_save_dir": "./similarity/registry/llm_repsim"
-    # }
+    # },
+    {
+        "github_repo_url": "https://github.com/neuroailab/mouse-vision",
+        "github_path": "mouse_vision",
+        "local_save_dir": "./similarity/registry/mouse_vision"
+    },
+    {
+        # TODO: changed line 373 in rcca.py because of deprecation error
+        "github_repo_url": "https://github.com/gallantlab/pyrcca",
+        "github_path": "rcca/rcca.py",
+        "local_save_dir": "./similarity/registry/pyrcca"
+    },
+    {
+        "github_repo_url": "https://github.com/mgwillia/unsupervised-analysis",
+        "github_path": "experiments/calculate_cka.py",
+        "local_save_dir": "./similarity/registry/unsupervised_analysis"
+    }
 ]
 
 
