@@ -16,10 +16,8 @@ similarity.register(
 
 
 @similarity.register(
-    "measure/mklabunde/procrustes-sq-euclidean",
-    function=True,
+    "survey_measures/procrustes",
     preprocessing=[
-        "reshape2d",
         "center_columns",
         {"id": "zero_padding", "inputs": ["X", "Y"]}
     ]

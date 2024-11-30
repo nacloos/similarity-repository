@@ -106,7 +106,6 @@ def plot_scores(measures, X=None, Y=None, data_shape=(30, 25), figsize=(30, 8), 
         # X, Y = np.random.randn(*data_shape), np.random.randn(*data_shape)
         X, Y = np.random.uniform(size=data_shape), np.random.uniform(size=data_shape)
 
-
     scores = {}
     for k, measure in measures.items():
         print(k)

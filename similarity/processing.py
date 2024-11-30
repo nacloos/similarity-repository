@@ -136,9 +136,11 @@ def angular_to_euclidean_shape_metric(X, Y, score):
     shape-metric-euclidean: ||X - YQ||
     Ref: (Williams, 2021), (Lange, 2023)
     """
-    print("angular to euclidean, score:", score)
     assert len(X.shape) == 2, "Expected 2 dimensions, found {}".format(len(X.shape))
     assert len(Y.shape) == 2, "Expected 2 dimensions, found {}".format(len(Y.shape))
+    # center columns
+    X = X - X.mean(axis=0, keepdims=True)
+    Y = Y - Y.mean(axis=0, keepdims=True)
     X_norm = np.linalg.norm(X, ord="fro")
     Y_norm = np.linalg.norm(Y, ord="fro")
     return np.sqrt(X_norm**2 + Y_norm**2 - 2 * X_norm * Y_norm * np.cos(score))
@@ -148,6 +150,9 @@ def angular_to_euclidean_shape_metric(X, Y, score):
 def euclidean_to_angular_shape_metric(X, Y, score):
     assert len(X.shape) == 2, "Expected 2 dimensions, found {}".format(len(X.shape))
     assert len(Y.shape) == 2, "Expected 2 dimensions, found {}".format(len(Y.shape))
+    # center columns
+    X = X - X.mean(axis=0, keepdims=True)
+    Y = Y - Y.mean(axis=0, keepdims=True)
     X_norm = np.linalg.norm(X, ord="fro")
     Y_norm = np.linalg.norm(Y, ord="fro")
     return np.arccos((X_norm**2 + Y_norm**2 - score**2) / (2 * X_norm * Y_norm))

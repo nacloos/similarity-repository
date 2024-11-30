@@ -13,20 +13,19 @@ def rsa_measure(X, Y):
 
 
 similarity.register(
-    "measure/nnsrm_neurips18/rsa",
+    "nnsrm_neurips18/rsa",
     rsa_measure,
-    function=True,
     preprocessing=["transpose"]
 )
 
 
 def procrustes_measure(X, Y):
-    return inter_procrustes(np.array([X, Y]))[0, 1]
+    return inter_procrustes(np.array([X, Y]))[1, 0]
 
+# TODO
 similarity.register(
-    "measure/nnsrm_neurips18/procrustes",
+    "nnsrm_neurips18/procrustes",
     procrustes_measure,
-    function=True,
     preprocessing=["transpose"]
 )
 
@@ -36,8 +35,7 @@ def isc_measure(X, Y):
 
 # TODO: what is isc? just correlation?
 similarity.register(
-    "measure/nnsrm_neurips18/isc",
+    "nnsrm_neurips18/isc",
     isc_measure,
-    function=True,
     preprocessing=["transpose"]
 )

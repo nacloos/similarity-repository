@@ -5,5 +5,5 @@ from .ENSD_Tutorial import ENSD, computeDist
 import similarity
 
 
-similarity.register("ensd/ensd", ENSD)
-similarity.register("ensd/computeDist", computeDist)
+similarity.register("ensd/ensd", ENSD, preprocessing=["center_columns", "transpose"])
+similarity.register("ensd/computeDist", computeDist, preprocessing=["center_columns", "transpose"])

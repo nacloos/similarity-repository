@@ -379,6 +379,79 @@ def test_equiv_rsa_cca():
     rsa = similarity.make("measure/rsatoolbox/rsa-rdm=mahalanobis-compare=cosine")
 
 
+def test_procrustes():
+    X = np.random.uniform(size=(30, 20))
+    Y = np.random.uniform(size=(30, 20))
+    X = X - X.mean(axis=0)
+    Y = Y - Y.mean(axis=0)
+
+    s1 = similarity.make("measure/sim_metric/procrustes-distance=euclidean")(X, Y)
+    s2 = similarity.make("measure/netrep/procrustes-distance=euclidean")(X, Y)
+    print(s1, s2)
+    assert np.allclose(s1, s2)
+
+
+    from similarity.processing import euclidean_to_angular_shape_metric
+    s3 = euclidean_to_angular_shape_metric(X, Y, s1)
+    s4 = similarity.make("measure/netrep/procrustes-distance=angular")(X, Y)
+    print(s3, s4)
+    assert np.allclose(s3, s4)
+
+
+
+def test_cca():
+    X = np.random.uniform(size=(30, 20))
+    Y = np.random.uniform(size=(30, 20))
+
+    s1 = similarity.make("measure/netrep/cca-distance=euclidean")(X, Y)
+    s2 = similarity.make("measure/repsim/cca-distance=euclidean")(X, Y)
+
+    import torch
+    from netrep.utils import whiten
+    from repsim.metrics.generalized_shape_metrics import _whiten
+
+    X_centered = X - X.mean(axis=0)
+    Y_centered = Y - Y.mean(axis=0)
+
+    # TODO: netrep and repsim whiten are different!
+    # repsim: (i) eigendecomposition of X^T X / n (ii) whitening matrix is z = V @ diag(d) @ V.T
+    # netrep: (i) eigendecomposition of X^T X (ii) rescale to preserve varriance (iii) whitening matrix is z = V @ diag(d) @ V.T
+
+    # use whiten from netrep
+    X_whitened_netrep, _ = whiten(X_centered, alpha=0)
+    Y_whitened_netrep, _ = whiten(Y_centered, alpha=0)
+    U, _, Vt = np.linalg.svd(X_whitened_netrep.T @ Y_whitened_netrep)
+    X_aligned = X_whitened_netrep @ U
+    Y_aligned = Y_whitened_netrep @ Vt.T
+    s_netrep = np.linalg.norm(X_aligned - Y_aligned, ord="fro")
+
+    # use whiten from repsim
+    X_whitened_repsim = _whiten(torch.tensor(X_centered), alpha=0)
+    Y_whitened_repsim = _whiten(torch.tensor(Y_centered), alpha=0)
+    U, _, Vt = np.linalg.svd(X_whitened_repsim.T @ Y_whitened_repsim)
+    X_aligned = X_whitened_repsim @ U
+    Y_aligned = Y_whitened_repsim @ Vt.T
+    s_repsim = np.linalg.norm(X_aligned - Y_aligned, ord="fro")
+
+    print(s1, s2, s_netrep, s_repsim)
+    assert np.allclose(s1, s2)
+    assert np.allclose(s1, s_netrep)
+    assert np.allclose(s1, s_repsim)
+
+
+def test_pwcca():
+    X = np.random.uniform(size=(30, 20))
+    Y = np.random.uniform(size=(30, 20))
+
+    # TODO: pwcca weights are different from sim_metric pwcca weights!
+    # svcca weights = [0.26423158 0.12612452 0.07069886 0.05311284 0.03643432 0.03357586 0.0425463  0.04480145 0.03121227 0.03424228 0.0391881  0.02434415 0.02815332 0.02723701 0.03489208 0.02528867 0.02366323 0.01652084 0.03105138 0.01268094]
+    # sim_metric weights = [0.05168891 0.04969103 0.04672399 0.04356813 0.05515011 0.05573484 0.05772232 0.05921389 0.05427756 0.05612392 0.05177573 0.03819405 0.04778156 0.04476957 0.05143251 0.05588235 0.04236934 0.03909257 0.05445022 0.0443574 ]
+    s1 = similarity.make("measure/svcca/pwcca-score")(X, Y)
+    s2 = similarity.make("measure/sim_metric/pwcca-score")(X, Y)
+    print(s1, s2)
+    assert np.allclose(s1, s2)
+
+
 if __name__ == "__main__":
     # fix numpy random seed
     np.random.seed(5)
@@ -387,7 +460,10 @@ if __name__ == "__main__":
     # test_consistency()
     # test_netrep()
 
-    test_equiv_thingsvision_cka_rsa()
+    # test_equiv_thingsvision_cka_rsa()
+    # test_procrustes()
+    test_pwcca()
+    test_cca()
 
     # test_measures()
     # test_equiv_lange_cka_rsa()

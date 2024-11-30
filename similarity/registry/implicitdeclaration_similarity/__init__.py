@@ -6,7 +6,7 @@ import similarity
 
 
 similarity.register(
-    "measure/implicitdeclaration_similarity/linear_cka",
+    "implicitdeclaration_similarity/linear_cka",
     linear_CKA,
     function=True
 )

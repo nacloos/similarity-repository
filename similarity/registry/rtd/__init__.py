@@ -4,35 +4,23 @@ from .rtd import cka, cca_core, pwcca, svcca
 import similarity
 
 
-similarity.register(
-    "measure/rtd/cka",
-    cka.cka,
-    preprocessing=[
-        "center_columns"
-    ]
-)
+similarity.register("rtd/cka", cka.cka, preprocessing=["center_columns"])
 
 def pwcca_measure(X, Y):
     # original function returns a tuple
     return pwcca.compute_pwcca(X, Y)[0]
 
 # TODO: numpy.linalg.LinAlgError: SVD did not converge
-# similarity.register(
-#     "measure/rtd/pwcca",
-#     pwcca_measure,
-#     preprocessing=[
-#         "transpose",
-#         "center_columns"
-#     ]
-# )
+similarity.register(
+    "rtd/pwcca",
+    pwcca_measure,
+    preprocessing=["transpose"]
+)
 
 similarity.register(
-    "measure/rtd/svcca",
+    "rtd/svcca",
     svcca.svcca,
-    preprocessing=[
-        "transpose",
-        "center_columns"
-    ]
+    preprocessing=["transpose"]
 )
 
 

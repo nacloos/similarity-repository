@@ -27,5 +27,6 @@ from . import contrasim
 from . import ensd
 from . import nnsrm_neurips18
 from . import brain_language_nlp
+from . import llm_repsim
 
 # TODO: add diffscore? (but it already uses similarity?)

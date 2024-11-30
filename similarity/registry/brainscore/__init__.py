@@ -14,6 +14,7 @@ import similarity
 from brainscore.metrics.regression import CrossRegressedCorrelation, pls_regression, linear_regression, ridge_regression, pearsonr_correlation
 from brainscore.metrics.rdm import RDMCrossValidated, RDMMetric
 from brainscore.metrics.correlation import Correlation
+from brainscore.metrics.cka import CKAMetric
 from brainio.assemblies import NeuroidAssembly
 
 
@@ -58,59 +59,44 @@ def aggregate_score(score):
 
 
 # TODO: register functions
-# register = partial(
-#     similarity.register,
-#     function=False,
-#     preprocessing=[
-#         "reshape2d",
-#         numpy_to_brainio
-#     ],
-#     postprocessing=[
-#         aggregate_score
-#     ],
-#     interface={
-#         "fit_score": "__call__"
-#     }
-# )
+register = partial(
+    similarity.register,
+    preprocessing=[numpy_to_brainio],
+    postprocessing=[aggregate_score],
+)
 
 
-# regression_methods = {
-#     "linreg": linear_regression,
-#     "ridge-lambda1": ridge_regression,
-#     "pls": pls_regression
-# }
-# for k, regression in regression_methods.items():
-#     # TODO: specify stratification coord (e.g. 'object_name')?
-#     register(
-#         f"measure/brainscore/{k}-pearson_r-10splits-90_10_ratio_cv",
-#         partial(
-#             CrossRegressedCorrelation,
-#             regression=regression(),
-#             correlation=pearsonr_correlation()
-#         )
-#     )
+register("brainscore/cka", lambda x, y: CKAMetric()(x, y))
+register("brainscore/rsa-correlation-spearman", lambda x, y: RDMMetric()(x, y))
+register("brainscore/correlation", lambda x, y: Correlation()(x, y))
 
-#     # TODO: set random seed
-#     register(
-#         f"measure/brainscore/{k}-pearson_r-5folds_cv",
-#         partial(
-#             CrossRegressedCorrelation,
-#             regression=regression(),
-#             correlation=pearsonr_correlation(),
-#             crossvalidation_kwargs={
-#                 "kfold": True,
-#                 "splits": 5,
-#                 "stratification_coord": False
-#             }
-#         )
-#     )
 
-# register(
-#     "measure/brainscore/rsa-correlation-spearman",
-#     RDMMetric
-# )
+regression_methods = {
+    "linear_regression": linear_regression,
+    "ridge_regression": ridge_regression,
+    "pls_regression": pls_regression
+}
+for k, regression in regression_methods.items():
+    # TODO: specify stratification coord (e.g. 'object_name')?
+    register(
+        f"brainscore/{k}-pearsonr_correlation",
+        lambda x, y: CrossRegressedCorrelation(
+            regression=regression(),
+            correlation=pearsonr_correlation()
+        )(x, y)
+    )
 
-# register(
-#     "measure/brainscore/correlation",
-#     Correlation
-# )
+    # TODO: set random seed
+    register(
+        f"brainscore/{k}-pearsonr_correlation-5folds_cv",
+        lambda x, y: CrossRegressedCorrelation(
+            regression=regression(),
+            correlation=pearsonr_correlation(),
+            crossvalidation_kwargs={
+                "kfold": True,
+                "splits": 5,
+                "stratification_coord": False
+            }
+        )(x, y)
+    )
+

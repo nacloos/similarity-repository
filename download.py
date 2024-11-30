@@ -108,7 +108,13 @@ download_list = [
         "github_repo_url": "https://github.com/mtoneva/brain_language_nlp",
         "github_path": "utils",
         "local_save_dir": "./similarity/registry/brain_language_nlp"
-    }
+    },
+    # {   
+        # TODO: have to comment out llmcomp/measures/__init__.py
+        # "github_repo_url": "https://github.com/mklabunde/llm_repsim",
+        # "github_path": "llmcomp/measures",
+        # "local_save_dir": "./similarity/registry/llm_repsim"
+    # }
 ]
 
 

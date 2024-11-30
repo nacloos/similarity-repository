@@ -1,30 +1,23 @@
 # https://github.com/renyi-ai/drfrankenstein
+from functools import partial
 from .src.comparators.compare_functions import cca, cka, correlation, l2, lr
 
 import similarity
 
 
-similarity.register(
-    "measure/drfrankenstein/cca",
-    cca,
-    function=True
-)
-
-similarity.register(
-    "measure/drfrankenstein/cka",
-    cka,
-    function=True
-)
+similarity.register("drfrankenstein/cca", cca, preprocessing=["center_columns"])
+similarity.register("drfrankenstein/cka", cka)
 
 
-similarity.register(
-    "measure/drfrankenstein/l2",
-    l2,
-    function=True
-)
+# TODO: register distance
+# similarity.register(
+#     "drfrankenstein/l2",
+#     l2,
+#     function=True
+# )
 
-similarity.register(
-    "measure/drfrankenstein/lr",
-    lr,
-    function=True
-)
+# similarity.register(
+#     "drfrankenstein/lr",
+#     lr,
+#     function=True
+# )

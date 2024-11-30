@@ -82,7 +82,7 @@ def standardize_names(measures):
         "mutual_knn_topk": "mutual_knn-topk=10",
         "lcs_knn_topk": "lcs_knn-topk=10",
         "cknna_topk": "cknna-topk=10",
-        "svcca": "svcca-score",
+        "svcca": "svcca-dim=10-score",
         "edit_distance_knn_topk": "edit_distance_knn-topk=10",
     }
 
@@ -95,7 +95,7 @@ def standardize_names(measures):
     resi_mapping = {
         "GeometryScore": "geometry_score",
         "PWCCA": "pwcca-score",
-        "SVCCA": "svcca-score",
+        "SVCCA": "svcca-var=0.99-score",
         "HardCorrelationMatch": "hard_correlation_match",
         "SoftCorrelationMatch": "soft_correlation_match",
         "DistanceCorrelation": "distance_correlation",
@@ -110,7 +110,7 @@ def standardize_names(measures):
         "OrthogonalAngularShapeMetricCentered": "orthogonal_angular_shape_metric_centered",
         "OrthogonalProcrustesCenteredAndNormalized": "orthogonal_procrustes_centered_and_normalized",
         "PermutationProcrustes": "permutation_procrustes",
-        "ProcrustesSizeAndShapeDistance": "procrustes_size_and_shape_distance",
+        "ProcrustesSizeAndShapeDistance": "procrustes-distance=euclidean",
         "RSMNormDifference": "rsm_norm_difference",
         "ConcentricityDifference": "concentricity_difference",
         "MagnitudeDifference": "magnitude_difference",
@@ -140,6 +140,69 @@ def standardize_names(measures):
         "pls": "pls",
     }
 
+    drfrankenstein_mapping = {
+        "cka": "cka-kernel=linear-hsic=gretton-score",
+        "cca": "cca-squared_score",
+        "cka_debiased": "cka-kernel=linear-hsic=song-score",
+    }
+
+    implicitdeclaration_similarity_mapping = {
+        "linear_cka": "cka-kernel=linear-hsic=gretton-score",
+    }
+
+    nnsrm_neurips18_mapping = {
+        "rsa": "rsa-rdm=correlation-compare=spearman",
+        "procrustes": "procrustes-distance=euclidean",  # TODO: what is this measure?
+        "isc": "isc",
+    }
+
+    survey_measures_mapping = {
+        "procrustes": "procrustes-distance=squared_euclidean",
+    }
+
+    llm_repsim_mapping = {
+        "cka": "cka-kernel=linear-hsic=gretton-score",
+        "jaccard_similarity": "jaccard_similarity",
+        "top_k_neighbors": "top_k_neighbors",
+        "orthogonal_procrustes": "procrustes-distance=euclidean",
+        "aligned_cossim": "aligned_cossim",
+        "representational_similarity_analysis": "representational_similarity_analysis",
+        "rsm_norm_diff": "rsm_norm_difference",
+    }
+
+    rtd_mapping = {
+        "cka": "cka-kernel=linear-hsic=gretton-score",
+        "pwcca": "pwcca-score",
+        "svcca": "svcca-score",
+    }
+
+    brain_language_nlp_mapping = {
+        "ridge": "ridge-lambda=1-r2",
+        "kernel_ridge": "kernel_ridge-lambda=1-r2",
+    }
+
+    brainscore_mapping = {
+        "rsa-correlation-spearman": "rsa-rdm=correlation-compare=spearman",
+        "correlation": "correlation",
+        "cka": "cka-kernel=linear-hsic=gretton-score",
+        "linear_regression-pearsonr_correlation": "linear_regression-pearsonr",
+        "ridge_regression-pearsonr_correlation": "ridge-lambda=1-pearsonr",
+        "pls_regression-pearsonr_correlation": "pls-pearsonr",
+        "linear_regression-pearsonr_correlation-5folds_cv": "linear_regression-pearsonr-cv=5folds",
+        "ridge_regression-pearsonr_correlation-5folds_cv": "ridge-lambda=1-pearsonr-cv=5folds",
+        "pls_regression-pearsonr_correlation-5folds_cv": "pls-pearsonr-cv=5folds",
+    }
+
+    deepdive_mapping = {
+        "neural_regression-alpha1-pearson_r-5folds_cv": "ridge-lambda=1-pearsonr-cv=5folds",
+        "neural_regression-alpha0-pearson_r-5folds_cv": "linreg-pearsonr-cv=5folds",
+        "neural_regression-alpha1-pearson_r2-5folds_cv": "ridge-lambda=1-pearsonr2-cv=5folds",
+        "neural_regression-alpha0-pearson_r2-5folds_cv": "linreg-pearsonr2-cv=5folds",
+        "neural_regression-alpha1-r2-5folds_cv": "ridge-lambda=1-r2-cv=5folds",
+        "neural_regression-alpha0-r2-5folds_cv": "linreg-r2-cv=5folds",
+    }
+
+
     rsatoolbox_mapping = {}
     for k in measures.keys():
         # process keys only of the form "rsatoolbox/*"
@@ -153,6 +216,9 @@ def standardize_names(measures):
             rdm_method = "squared_euclidean"
 
         rsatoolbox_mapping[k] = f"rsa-rdm={rdm_method}-compare={compare_method}"
+
+    # https://rsatoolbox.readthedocs.io/en/stable/comparing.html#whitened-comparison-measures
+    rsatoolbox_mapping["rsa-euclidean-cosine_cov"] = "cka-kernel=linear-hsic=gretton-score"
 
     mapping = {
         "thingsvision": thingsvision_mapping,
@@ -169,6 +235,15 @@ def standardize_names(measures):
         "resi": resi_mapping,
         "sim_metric": sim_metric_mapping,
         "svcca": svcca_mapping,
+        "drfrankenstein": drfrankenstein_mapping,
+        "implicitdeclaration_similarity": implicitdeclaration_similarity_mapping,
+        "nnsrm_neurips18": nnsrm_neurips18_mapping,
+        "survey_measures": survey_measures_mapping,
+        "llm_repsim": llm_repsim_mapping,
+        "rtd": rtd_mapping,
+        "brain_language_nlp": brain_language_nlp_mapping,
+        "brainscore": brainscore_mapping,
+        "deepdive": deepdive_mapping,
     }
 
     standardized_measures = {}
@@ -200,32 +275,43 @@ transforms = [
         # "out": lambda k, v: (k.replace("shape_metric-alpha={alpha}", "cca"), wrap_shape_metric(v, alpha=0))
         "out": lambda k, v: (k.replace("shape_metric-alpha={alpha}", "cca"), partial(v, alpha=0))
     },
-    # shape metric with alpha=! <=> procrustes
+    # shape metric with alpha=1 <=> procrustes
     {
         "inp": lambda k: "shape_metric-alpha={alpha}" in k,
         "out": lambda k, v: (k.replace("shape_metric-alpha={alpha}", "procrustes"), partial(v, alpha=1))
     },
     # convert between euclidean and angular distance
     {
-        "inp": lambda k: "distance=euclidean" in k,
+        "inp": lambda k: k.endswith("distance=euclidean"),
         "out": lambda k, v: (k.replace("distance=euclidean", "distance=angular"), v),
         "postprocessing": [
             {"id": "euclidean_to_angular_shape_metric", "inputs": ["X", "Y", "score"]},
         ]
     },
     {
-        "inp": lambda k: "distance=angular" in k,
+        "inp": lambda k: k.endswith("distance=angular"),
         "out": lambda k, v: (k.replace("distance=angular", "distance=euclidean"), v),
         "postprocessing": [
             {"id": "angular_to_euclidean_shape_metric", "inputs": ["X", "Y", "score"]},
         ]
+    },
+    # squared euclidean <=> euclidean
+    {
+        "inp": lambda k: k.endswith("distance=squared_euclidean"),
+        "out": lambda k, v: (k.replace("distance=squared_euclidean", "distance=euclidean"), v),
+        "postprocessing": ["sqrt"]
+    },
+    {
+        "inp": lambda k: k.endswith("distance=euclidean"),
+        "out": lambda k, v: (k.replace("distance=euclidean", "distance=squared_euclidean"), v),
+        "postprocessing": ["square"]
     },
 
     # Duality of Bures and Shape Distances with Implications for Comparing Neural Representations (Harvey et al., 2023)
     # Procrustes angular distance = arccos(NBS)
     {
         "inp": lambda k: "/nbs-distance=angular" in k,
-        "out": lambda k, v: (k.replace("/nbs-distance=angular", "procrustes-distance=angular"), v),
+        "out": lambda k, v: (k.replace("/nbs-distance=angular", "/procrustes-distance=angular"), v),
     },
     {
         "inp": lambda k: "/procrustes-distance=angular" in k,
@@ -234,12 +320,17 @@ transforms = [
 
     # (Ding, 2021) defines CKA "distance" as 1 - CKA
     {
-        "inp": lambda k: "distance=one_minus_score" in k,
+        "inp": lambda k: k.endswith("distance=one_minus_score"),
         "out": lambda k, v: (
             k.replace("distance=one_minus_score", "score"),
             lambda X, Y, **kwargs: 1 - v(X, Y, **kwargs)
         )
     },
+
+    # SVCCA = PCA + CCA
+    {"inp": lambda k: "/cca" in k, "out": lambda k, v: (k.replace("/cca", "/svcca-dim=10"), v), "preprocessing": ["pca-dim10"]},
+    {"inp": lambda k: "/cca" in k, "out": lambda k, v: (k.replace("/cca", "/svcca-var=0.95"), v), "preprocessing": ["pca-var95"]},
+    {"inp": lambda k: "/cca" in k, "out": lambda k, v: (k.replace("/cca", "/svcca-var=0.99"), v), "preprocessing": ["pca-var99"]},
 ]
 
 # rdm
@@ -521,6 +612,7 @@ def derive_measures(measures, transforms, compositions=None):
                         preprocessing=transform.get("preprocessing", None),
                         postprocessing=transform.get("postprocessing", None)
                     )
+
                 print(f"Derived measure: {new_measure_id}")
                 derived_measures[new_measure_id] = new_measure
 
@@ -576,23 +668,34 @@ if __name__ == "__main__":
 
     save_dir = Path(__file__).parent.parent / "figures" / Path(__file__).stem
 
-    repos_to_plot = [
-        "netrep",
-        "rsatoolbox",
-        "repsim",
-        "contrasim",
-        "correcting_cka_alignment",
-        "thingsvision",
-        "nn_similarity_index",
-        "fsd",
-        "ensd",
-        "platonic",
-        "representation_similarity",
-        "resi",
-        "sim_metric",
-        "svcca",
-    ]
+    # repos_to_plot = [
+    #     "netrep",
+    #     "rsatoolbox",
+    #     "repsim",
+    #     "contrasim",
+    #     "correcting_cka_alignment",
+    #     "thingsvision",
+    #     "nn_similarity_index",
+    #     "fsd",
+    #     "ensd",
+    #     "platonic",
+    #     "representation_similarity",
+    #     "resi",
+    #     "sim_metric",
+    #     "svcca",
+    #     "drfrankenstein",
+    #     "implicitdeclaration_similarity",
+    #     "nnsrm_neurips18",
+    #     "survey_measures",
+    #     "llm_repsim",
+    #     "rtd",
+    #     "brain_language_nlp",
+    # ]
     measures = similarity.all_measures()
-    measures = {k: v for k, v in measures.items() if any(repo in k for repo in repos_to_plot)}
-    plot_scores(measures, save_dir=save_dir)
+    # measures = {k: v for k, v in measures.items() if any(repo in k for repo in repos_to_plot)}
+    
+    # measures = {k: v for k, v in measures.items() if "nbs" in k or "procrustes" in k}
+    # measures = {k: v for k, v in measures.items() if "cka" in k}
+    # measures = {k: v for k, v in measures.items() if "cca" in k}
 
+    plot_scores(measures, save_dir=save_dir)

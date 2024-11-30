@@ -21,7 +21,7 @@ similarity.register("kernel/representation_similarity/linear", gram_linear)
 similarity.register("kernel/representation_similarity/rbf-threshold={threshold}", gram_rbf)
 similarity.register("similarity/representation_similarity/centered-cosine", cka)
 
-similarity.register("representation_similarity/cca", cca)
+similarity.register("representation_similarity/cca", cca, preprocessing=["center_columns"])
 similarity.register("representation_similarity/cka", feature_space_linear_cka)
 similarity.register("representation_similarity/cka_debiased", partial(feature_space_linear_cka, debiased=True))
 

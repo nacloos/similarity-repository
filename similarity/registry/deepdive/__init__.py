@@ -33,11 +33,11 @@ score_types = ["pearson_r", "pearson_r2", "r2"]
 
 for score_type in score_types:
     register(
-        f"measure/deepdive/ridge-lambda1-{score_type}-5folds_cv",
+        f"deepdive/neural_regression-alpha1-{score_type}-5folds_cv",
         partial(neural_regression, alphas=[1], score_type=score_type),
     )
     register(
-        f"measure/deepdive/linreg-{score_type}-5folds_cv",
+        f"deepdive/neural_regression-alpha0-{score_type}-5folds_cv",
         partial(neural_regression, alphas=[0], score_type=score_type),
     )
 

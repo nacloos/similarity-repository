@@ -42,7 +42,9 @@ similarity.register("repsim/AngularCKA.unb.Laplace[{sigma}]", partial(cka_measur
 def shape_measure(X: np.ndarray, Y: np.ndarray, name: str, alpha: float = 1.0) -> float:
     # no PCA
     p = X.shape[1]
-    assert p == Y.shape[1], "X and Y must have the same number of features"
+
+    # assert p == Y.shape[1], "X and Y must have the same number of features"
+
     X = torch.as_tensor(X)
     Y = torch.as_tensor(Y)
     score = repsim.compare(x=X, y=Y, method=name, alpha=alpha, p=p)
