@@ -14,6 +14,9 @@ requirements = {
     "repsim": [
         'repsim @ git+https://github.com/wrongu/repsim.git'
     ],
+    "brainscore": [
+        "brainio @ git+https://github.com/brain-score/brainio.git"
+    ],
     # "brainscore": [
     #     # copied from github brain-score/setup.py
     #     "numpy>=1.17",
