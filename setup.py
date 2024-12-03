@@ -14,6 +14,17 @@ requirements = {
     "repsim": [
         'repsim @ git+https://github.com/wrongu/repsim.git'
     ],
+    "brainscore": [
+        "six",
+        "boto3",
+        "tqdm",
+        "Pillow",
+        "entrypoints",
+        "numpy",
+        "pandas",
+        "xarray<2022.6",  # groupby bug was introduced in index refactor: https://github.com/pydata/xarray/issues/6836
+        "netcdf4"
+    ]
     # "brainscore": [
     #     # copied from github brain-score/setup.py
     #     "numpy>=1.17",
