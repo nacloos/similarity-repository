@@ -25,6 +25,8 @@ similarity.register("contrasim/cca_squared_correlation", compute_cca_squared_cor
 
 
 similarity.register("kernel/contrasim/linear", cka.gram_linear)
+similarity.register("kernel/contrasim/rbf-threshold={threshold}", cka.gram_rbf)
+
 
 def _cosine_similarity(gram_x, gram_y):
     # copied lines 89-95 from ./contrasim/cka.py
