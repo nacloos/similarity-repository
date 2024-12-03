@@ -24,6 +24,11 @@ download_list = [
     #     "local_save_dir": "./similarity/registry/brainscore"
     # },
     {
+        "github_repo_url": "https://github.com/brain-score/brainio",
+        "github_path": "brainio",
+        "local_save_dir": "./similarity/registry/brainscore"
+    },
+    {
         "github_repo_url": "https://github.com/yuanli2333/CKA-Centered-Kernel-Alignment",
         "github_path": "CKA.py",
         "local_save_dir": "./similarity/registry/yuanli2333"
