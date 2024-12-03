@@ -7,15 +7,6 @@ import similarity
 from . import cca_core, pwcca, numpy_pls
 
 
-similarity.register(
-    "paper/svcca",
-    {
-        "id": ["raghu2017", "morcos2018"],
-        "github": "https://github.com/google/svcca"
-    }
-)
-
-
 register = partial(
     similarity.register,
     preprocessing=[

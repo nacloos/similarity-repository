@@ -131,6 +131,11 @@ download_list = [
         "github_repo_url": "https://github.com/mgwillia/unsupervised-analysis",
         "github_path": "experiments/calculate_cka.py",
         "local_save_dir": "./similarity/registry/unsupervised_analysis"
+    },
+    {
+        "github_repo_url": "https://github.com/nacloos/diffscore",
+        "github_path": "diffscore/analysis/similarity_measures.py",
+        "local_save_dir": "./similarity/registry/diffscore"
     }
 ]
 

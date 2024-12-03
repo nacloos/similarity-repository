@@ -5,11 +5,7 @@ from .metric.CKA import linear_CKA, sparse_HSIC
 import similarity
 
 
-similarity.register(
-    "implicitdeclaration_similarity/linear_cka",
-    linear_CKA,
-    function=True
-)
+similarity.register("implicitdeclaration_similarity/linear_cka", linear_CKA)
 
 
 # TODO
@@ -21,6 +17,5 @@ for kernel in kernels:
     similarity.register(
         f"measure/implicitdeclaration_similarity/{name}",
         partial(sparse_HSIC, topk=topk, kernel=kernel, sigma=sigma),
-        function=True
     )
 

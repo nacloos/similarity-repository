@@ -9,7 +9,7 @@ from .thingsvision.core.rsa import compute_rdm, correlate_rdms
 import similarity
 
 
-def _measure(X, Y, kernel, unbiased, sigma=None):
+def measure(X, Y, kernel, unbiased, sigma=None):
     m = X.shape[0]
     cka = get_cka(
         backend="numpy",
@@ -23,7 +23,7 @@ def _measure(X, Y, kernel, unbiased, sigma=None):
 
 kernels = ["linear", "rbf"]
 unbiased_values = [True, False]
-sigma = 1.0  # TODO
+sigma = 1.0  # default value (can be overwrittn)
 
 for kernel in kernels:
     for unbiased in unbiased_values:
@@ -34,7 +34,7 @@ for kernel in kernels:
 
         similarity.register(
             f"thingsvision/{method_name}",
-            partial(_measure, kernel=kernel, unbiased=unbiased, sigma=sigma),
+            partial(measure, kernel=kernel, unbiased=unbiased, sigma=sigma),
         )   
 
 

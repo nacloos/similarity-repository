@@ -7,14 +7,6 @@ from .mapping_methods import neural_regression
 # too complex to use 
 # https://github.com/ColinConwell/DeepDive/blob/main/deepdive/feature_reduction.py
 
-register(
-    "measure/deepdive",
-    {
-        "paper_id": "conwell2023",
-        "github": "https://github.com/ColinConwell/DeepDive"
-    }
-)
-
 
 @register("postprocessing/mean_score")
 def mean_score(scores):
@@ -23,8 +15,6 @@ def mean_score(scores):
 
 register = partial(
     register,
-    function=True,
-    preprocessing=["reshape2d"],
     postprocessing=["mean_score"]
 )
 

@@ -8,13 +8,6 @@ from .demo import *
 
 import similarity
 
-similarity.register(
-    "paper/representation_similarity",
-    {
-        "id": "kornblith2019",
-        "github": "https://github.com/google-research/google-research/blob/master/representation_similarity"
-    }
-)
 
 # TODO: register representation_similarity/gram_linear and use standardization
 similarity.register("kernel/representation_similarity/linear", gram_linear)

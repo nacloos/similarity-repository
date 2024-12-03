@@ -10,8 +10,8 @@ def standardize_names(measures):
     thingsvision_mapping = {
         "cka_kernel_linear_unbiased": "cka-kernel=linear-hsic=song-score",
         "cka_kernel_linear_biased": "cka-kernel=linear-hsic=gretton-score",
-        "cka_kernel_rbf_unbiased_sigma_1.0": "cka-kernel=(rbf-sigma=1.0)-hsic=song-score",
-        "cka_kernel_rbf_biased_sigma_1.0": "cka-kernel=(rbf-sigma=1.0)-hsic=gretton-score",
+        "cka_kernel_rbf_unbiased_sigma_1.0": "cka-kernel=(rbf-sigma={sigma})-hsic=song-score",
+        "cka_kernel_rbf_biased_sigma_1.0": "cka-kernel=(rbf-sigma={sigma})-hsic=gretton-score",
     }
     for k in measures.keys():
         if "thingsvision/rsa" not in k or len(k.split("/")) != 2:
@@ -49,8 +49,8 @@ def standardize_names(measures):
         "AngularCKA.unb.linear": "cka-kernel=linear-hsic=lange-distance=angular",
         "AngularCKA.SqExp[{sigma}]": "cka-kernel=(rbf-sigma={sigma})-hsic=gretton-distance=angular",
         "AngularCKA.unb.SqExp[{sigma}]": "cka-kernel=(rbf-sigma={sigma})-hsic=lange-distance=angular",
-        "AngularCKA.Laplace[{sigma}]": "cka-kernel=laplace-hsic=gretton-distance=angular",
-        "AngularCKA.unb.Laplace[{sigma}]": "cka-kernel=laplace-hsic=lange-distance=angular",
+        "AngularCKA.Laplace[{sigma}]": "cka-kernel=(laplace-sigma={sigma})-hsic=gretton-distance=angular",
+        "AngularCKA.unb.Laplace[{sigma}]": "cka-kernel=(laplace-sigma={sigma})-hsic=lange-distance=angular",
         "ShapeMetric[{alpha}][angular]": "shape_metric-alpha={alpha}-distance=angular",
         "ShapeMetric[{alpha}][euclidean]": "shape_metric-alpha={alpha}-distance=euclidean",
     }
@@ -67,6 +67,10 @@ def standardize_names(measures):
         "linear_CKA": "cka-kernel=linear-hsic=gretton-score",
     }
 
+    imd_mapping = {
+        "imd": "imd",
+    }
+
     ensd_mapping = {
         "ensd": "ensd",
         "computeDist": "ensd-distance=angular_normalized",
@@ -76,14 +80,14 @@ def standardize_names(measures):
     platonic_mapping = {
         "cka": "cka-kernel=linear-hsic=gretton-score",
         "unbiased_cka": "cka-kernel=linear-hsic=song-score",
-        "cka_rbf": "cka-kernel=(rbf-sigma=1.0)-hsic=gretton-score",
-        "unbiased_cka_rbf": "cka-kernel=(rbf-sigma=1.0)-hsic=song-score",
-        "cycle_knn_topk": "cycle_knn-topk=10",
-        "mutual_knn_topk": "mutual_knn-topk=10",
-        "lcs_knn_topk": "lcs_knn-topk=10",
-        "cknna_topk": "cknna-topk=10",
-        "svcca": "svcca-dim=10-score",
-        "edit_distance_knn_topk": "edit_distance_knn-topk=10",
+        "cka_rbf": "cka-kernel=(rbf-sigma={sigma})-hsic=gretton-score",
+        "unbiased_cka_rbf": "cka-kernel=(rbf-sigma={sigma})-hsic=song-score",
+        "cycle_knn_topk": "cycle_knn-topk={topk}",
+        "mutual_knn_topk": "mutual_knn-topk={topk}",
+        "lcs_knn_topk": "lcs_knn-topk={topk}",
+        "cknna_topk": "cknna-topk={topk}",
+        "svcca": "svcca-dim={dim}-score",
+        "edit_distance_knn_topk": "edit_distance_knn-topk={topk}",
     }
 
     representation_similarity_mapping = {
@@ -100,7 +104,7 @@ def standardize_names(measures):
         "SoftCorrelationMatch": "soft_correlation_match",
         "DistanceCorrelation": "distance_correlation",
         "EigenspaceOverlapScore": "eigenspace_overlap_score",
-        "IMDScore": "imd_score",
+        "IMDScore": "imd",
         "Gulp": "gulp",
         "LinearRegression": "linear_regression",
         "JaccardSimilarity": "jaccard_similarity",
@@ -209,12 +213,13 @@ def standardize_names(measures):
     neuroaimetrics_mapping = {
         "CKA": "cka-kernel=linear-hsic=gretton-score",
         "RSA": "rsa-rdm=correlation-compare=kendall",
-        "SoftMatching": "softmatching",
-        "LinearShapeMetric": "shape_metric",
+        "SoftMatching": "soft_correlation_match",
+        "LinearShapeMetric": "shape_metric-alpha={alpha}-distance=angular-cv=5folds",
         "VERSA": "versa",
         "pairwisematching": "pairwisematching",
 
         # TODO: ridge reg: alphas=np.logspace(-8,8,17)
+        # parameters are hardcoded in the orginal (can't overwrite them)
         "LinearPredictivity": "ridge-pearsonr-cv=5folds",
         "reverseLinearPredictivity": "ridge-pearsonr-cv=5folds-reverse",
         "PLSreg": "pls-pearsonr-components=25-cv=5folds",
@@ -222,7 +227,7 @@ def standardize_names(measures):
 
     mouse_vision_mapping = {
         "rsa": "rsa-rdm=correlation-compare=pearson",
-        "PLSNeuralMap": "pls-pearsonr-components=25",
+        "PLSNeuralMap": "pls-pearsonr-components={n_components}",
         "CorrelationNeuralMap": "correlation",
     }
 
@@ -240,7 +245,6 @@ def standardize_names(measures):
     unsupervised_analysis_mapping = {
         "cka": "cka-kernel=linear-hsic=gretton-score",
     }
-
 
     rsatoolbox_mapping = {}
     for k in measures.keys():
@@ -263,8 +267,9 @@ def standardize_names(measures):
 
         rsatoolbox_mapping[k] = f"rsa-rdm={rdm_method}-compare={compare_method}"
 
-    # https://rsatoolbox.readthedocs.io/en/stable/comparing.html#whitened-comparison-measures
-    rsatoolbox_mapping["rsa-euclidean-cosine_cov"] = "cka-kernel=linear-hsic=gretton-score"
+    diffscore_keys = [k.split("/")[1] for k in measures.keys() if "diffscore/" in k]
+    diffscore_mapping = {k: k for k in diffscore_keys}
+
 
     mapping = {
         "thingsvision": thingsvision_mapping,
@@ -295,6 +300,8 @@ def standardize_names(measures):
         "modelsym": modelsym_mapping,
         "pyrcca": pyrcca_mapping,
         "unsupervised_analysis": unsupervised_analysis_mapping,
+        "imd": imd_mapping,
+        # "diffscore": diffscore_mapping,  # TODO: too many measures
     }
 
     standardized_measures = {}
@@ -382,6 +389,12 @@ transforms = [
     {"inp": lambda k: "/cca" in k, "out": lambda k, v: (k.replace("/cca", "/svcca-dim=10"), v), "preprocessing": ["pca-dim10"]},
     {"inp": lambda k: "/cca" in k, "out": lambda k, v: (k.replace("/cca", "/svcca-var=0.95"), v), "preprocessing": ["pca-var95"]},
     {"inp": lambda k: "/cca" in k, "out": lambda k, v: (k.replace("/cca", "/svcca-var=0.99"), v), "preprocessing": ["pca-var99"]},
+
+    # 
+    # https://rsatoolbox.readthedocs.io/en/stable/comparing.html#whitened-comparison-measures
+    # rsa-rdm=squared_euclidean-compare=cosine_cov <=> cka-kernel=linear-hsic=gretton-score
+    {"inp": lambda k: "rsa-rdm=squared_euclidean-compare=cosine_cov" in k, "out": lambda k, v: (k.replace("rsa-rdm=squared_euclidean-compare=cosine_cov", "cka-kernel=linear-hsic=gretton-score"), v)},
+
 ]
 
 # rdm
@@ -691,6 +704,9 @@ def derive_measures(measures, transforms, compositions=None):
 def register_standardized_measures():
     registry = similarity.registration.registry
 
+    # TODO: remove papers
+    registry = {k: v for k, v in registry.items() if "paper/" not in k}
+
     measures = standardize_names(registry)
     # add "measure/" prefix to the standardized measures
     measures = {f"measure/{k}": v for k, v in measures.items()}
@@ -699,21 +715,16 @@ def register_standardized_measures():
     derived_measures = derive_measures(updated_registry, transforms, compositions)
     measures.update(derived_measures)
 
-    # for all measures with parameter 'sigma={sigma}', create a new measure with 'sigma=1.0'
-    for k, v in list(measures.items()):
-        if 'sigma={sigma}' in k:
-            new_k = k.replace('sigma={sigma}', 'sigma=1.0')
-            measures[new_k] = partial(v, sigma=1.0)
-
-    # filter measures that don't have parameters
-    measures = {k: v for k, v in measures.items() if '{' not in k}
-
     for k, v in measures.items():
         similarity.register(k, v)
 
+    # keep track of derived measures
+    for k, v in derived_measures.items():
+        similarity.registration.DERIVED_MEASURES[k] = v
+
 
 if __name__ == "__main__":
-    from similarity.plotting import plot_scores
+    from similarity.plotting import plot_scores, plot_measures
 
     np.random.seed(0)
 
@@ -742,13 +753,44 @@ if __name__ == "__main__":
     #     "rtd",
     #     "brain_language_nlp",
     # ]
+    repos_to_plot = [
+        "rsatoolbox",
+        "representation_similarity",
+        "nn_similarity_index",
+        "netrep",
+        "sim_metric",
+        "repsim",
+        "platonic",
+        "neuroaimetrics",
+        "resi"
+        # "diffscore"
+    ]
     measures = similarity.all_measures()
-    # measures = {k: v for k, v in measures.items() if any(repo in k for repo in repos_to_plot)}
+    measures = {k: v for k, v in measures.items() if any(repo in k for repo in repos_to_plot)}
     
     # measures = {k: v for k, v in measures.items() if "nbs" in k or "procrustes" in k}
     # measures = {k: v for k, v in measures.items() if "cka" in k}
     # measures = {k: v for k, v in measures.items() if "cca" in k}
     # measures = {k: v for k, v in measures.items() if "rsa" in k}
     # measures = {k: v for k, v in measures.items() if "ridge" in k}
+
+    # original = measures - derived
+    original_measures = {k: v for k, v in measures.items() if k not in similarity.registration.DERIVED_MEASURES}
+
+    original_measures = {k: v for k, v in original_measures.items() if any(repo in k for repo in repos_to_plot)}
+    derived_measures = {k: v for k, v in similarity.registration.DERIVED_MEASURES.items() if any(repo in k for repo in repos_to_plot)}
+
+    plot_measures(original_measures, derived_measures=derived_measures, save_dir=save_dir)
+
+
+
+    # for all measures with parameter 'sigma={sigma}', create a new measure with 'sigma=1.0'
+    for k, v in list(measures.items()):
+        if 'sigma={sigma}' in k:
+            new_k = k.replace('sigma={sigma}', 'sigma=1.0')
+            measures[new_k] = partial(v, sigma=1.0)
+
+    # filter measures that don't have parameters
+    measures = {k: v for k, v in measures.items() if '{' not in k}
 
     plot_scores(measures, save_dir=save_dir)

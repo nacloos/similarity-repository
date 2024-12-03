@@ -8,26 +8,22 @@ import pandas as pd
 
 import similarity
 
-repo_paper_names = {
-    # TODO
-    # "platonic": "(Huh et al., 2024)",
-    # "repsim": "(Lange et al., 2023)",
-    # "netrep": "(Williams et al., 2021)",
-    # "sim_metric": "(Ding et al., 2021)",
-    # "nn_similarity_index": "(Tang et al., 2020)",
-    # "representation_similarity": "(Kornblith et al., 2019)",
-    # "neuroaimetrics": "(Soni et al., 2024)",
-    # "rsatoolbox": "(Kriegeskorte et al., 2008)",
-}
-
 
 def plot_measures(measures: dict[str, callable], derived_measures: dict[str, callable] = None, save_dir: str = None):
     derived_measures = derived_measures or {}
-    
+
+    # keep only valid measures
+    measures = {k: v for k, v in measures.items() if len(k.split("/")) == 3 and k.split("/")[0] == "measure"}
+    derived_measures = {k: v for k, v in derived_measures.items() if len(k.split("/")) == 3 and k.split("/")[0] == "measure"}
+
+    all_measures = {**measures, **derived_measures}
+
     measure_names = []
     repo_names = []
-    for k in measures.keys():
-        repo_name, measure_name = k.split("/")
+    # for k in measures.keys():
+    for k in all_measures.keys():
+        obj_type, repo_name, measure_name = k.split("/")
+        assert obj_type == "measure", f"Expected measure, got: {obj_type}"
         if measure_name not in measure_names:
             measure_names.append(measure_name)
         if repo_name not in repo_names:
@@ -35,14 +31,22 @@ def plot_measures(measures: dict[str, callable], derived_measures: dict[str, cal
 
     measure_names = sorted(np.unique(measure_names))
     
+    # TODO?: keep only derived measures that are in the measures dict
+    # derived_measures = {k: v for k, v in derived_measures.items() if len(k.split("/")) == 3 and k.split("/")[0] == "measure" and k.split("/")[2] in measure_names}
+    papers = similarity.all_papers()
+    repo_paper_names = {k.split("/")[1]: v["shortcite"] for k, v in papers.items()}
+
     # sort repo names by year of paper
-    repo_names = sorted(repo_names, key=lambda x: int(repo_paper_names[x].split(",")[-1].strip().strip(")")))
+    repo_years = [int(repo_paper_names.get(repo, repo).split(",")[-1].strip().strip(")")) for repo in repo_names]
+    repo_names = [repo for _, repo in sorted(zip(repo_years, repo_names), key=lambda x: x[0])]
+    # repo_names = sorted(repo_names, key=lambda x: int(repo_paper_names.get(x, x).split(",")[-1].strip().strip(")")))
     repo_names = list(reversed(repo_names))
 
     indices = []
     derived_indices = []
     for k in measures.keys():
-        repo_name, measure_name = k.split("/")
+        obj_type, repo_name, measure_name = k.split("/")
+        assert obj_type == "measure", f"Expected measure, got: {obj_type}"
         assert measure_name in measure_names, f"Measure name {measure_name} not in {measure_names}"
         assert repo_name in repo_names, f"Repo name {repo_name} not in {repo_names}"
         x_idx = measure_names.index(measure_name)
@@ -50,7 +54,8 @@ def plot_measures(measures: dict[str, callable], derived_measures: dict[str, cal
         indices.append((x_idx, y_idx))
 
     for k in derived_measures.keys():
-        repo_name, measure_name = k.split("/")
+        obj_type, repo_name, measure_name = k.split("/")
+        assert obj_type == "measure", f"Expected measure, got: {obj_type}"
         assert measure_name in measure_names, f"Measure name {measure_name} not in {measure_names}"
         assert repo_name in repo_names, f"Repo name {repo_name} not in {repo_names}"
         x_idx = measure_names.index(measure_name)
@@ -58,13 +63,18 @@ def plot_measures(measures: dict[str, callable], derived_measures: dict[str, cal
         derived_indices.append((x_idx, y_idx))
     
     # Modify ylabels to make the paper name bold using LaTeX syntax
-    ylabels = [f"{k.split('/')[0]} {repo_paper_names[k.split('/')[0]]}" for k in repo_names]
+    # ylabels = [f"{k.split('/')[1]} {repo_paper_names[k.split('/')[1]]}" for k in repo_names]
+    
+    # add paper names "{repo} ({paper_name})" to the index
+    ylabels = [f"{repo} ({repo_paper_names.get(repo, repo)})" for repo in repo_names]
 
     color_registered = "#669bbc"
     color_derived = "#B7CFDE"
 
     # scatter plot
-    plt.figure(figsize=(20, 7), dpi=100)
+    # plt.figure(figsize=(20, 7), dpi=100)
+    # plt.figure(figsize=(25, 13), dpi=100)
+    plt.figure(figsize=(35, 20), dpi=100)
     for i, (x, y) in enumerate(indices):
         plt.scatter(x, y, c=color_registered, marker="s", s=100, edgecolors='white', linewidth=0.5)
     for i, (x, y) in enumerate(derived_indices):
@@ -122,8 +132,15 @@ def plot_scores(measures, X=None, Y=None, data_shape=(30, 25), figsize=(30, 8), 
         measure_names = np.unique([k.split(".")[2] for k in measures.keys()])
 
     # Sort alphabetically
-    repo_names = sorted(repo_names)
+    # repo_names = sorted(repo_names)
     measure_names = sorted(measure_names)
+
+    # sort repo names by year of paper
+    papers = similarity.all_papers()
+    repo_paper_names = {k.split("/")[1]: v["shortcite"] for k, v in papers.items()}
+    repo_names = sorted(repo_names, key=lambda x: int(repo_paper_names.get(x, x).split(",")[-1].strip().strip(")")))
+    # repo_names = list(reversed(repo_names))
+
 
     # Create a DataFrame for the scores
     df = pd.DataFrame(index=repo_names, columns=measure_names, dtype=float)
@@ -142,7 +159,7 @@ def plot_scores(measures, X=None, Y=None, data_shape=(30, 25), figsize=(30, 8), 
         df.to_csv(save_dir / "metric_vs_repo.csv")
 
     # add paper names "{repo} ({paper_name})" to the index
-    df.index = [f"{repo} {repo_paper_names.get(repo, '')}" for repo in df.index]
+    df.index = [f"{repo} ({repo_paper_names.get(repo, repo)})" for repo in df.index]
 
     # Plot heatmap
     plt.figure(figsize=figsize, dpi=300)
@@ -170,5 +187,5 @@ if __name__ == "__main__":
 
     save_dir = Path(__file__).parent.parent / "figures" / Path(__file__).stem
     save_dir.mkdir(parents=True, exist_ok=True)
-    # plot_measures(measures, derived_measures=measures, save_dir=save_dir)
+    plot_measures(measures, derived_measures=measures, save_dir=save_dir)
     plot_scores(measures, save_dir=save_dir)

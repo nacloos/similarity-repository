@@ -15,7 +15,6 @@ sigma = 1.0
 similarity.register(
     f"measure/stir/linear_CKA",
     linear_CKA,
-    function=True,
     preprocessing=["array_to_tensor"],
     postprocessing=["tensor_to_float"]
 )
@@ -23,7 +22,6 @@ similarity.register(
 similarity.register(
     f"measure/stir/kernel_CKA",
     partial(kernel_CKA, sigma=sigma),
-    function=True,
     preprocessing=["array_to_tensor"],
     postprocessing=["tensor_to_float"]
 )
@@ -31,7 +29,6 @@ similarity.register(
 similarity.register(
     f"measure/stir/linear_HSIC",
     linear_HSIC,
-    function=True,
     preprocessing=["array_to_tensor"],
     postprocessing=["tensor_to_float"]
 )
@@ -39,7 +36,6 @@ similarity.register(
 similarity.register(
     f"measure/stir/kernel_HSIC",
     partial(kernel_HSIC, sigma=sigma),
-    function=True,
     preprocessing=["array_to_tensor"],
     postprocessing=["tensor_to_float"]
 )
@@ -47,7 +43,6 @@ similarity.register(
 similarity.register(
     f"measure/stir/unbiased_linear_HSIC",
     unbiased_linear_HSIC,
-    function=True,
     preprocessing=["array_to_tensor"],
     postprocessing=["tensor_to_float"]
 )

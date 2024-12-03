@@ -1,4 +1,3 @@
-from . import yuanli2333
 from . import representation_similarity
 from . import netrep
 from . import survey_measures
@@ -32,5 +31,5 @@ from . import mouse_vision
 from . import modelsym
 from . import pyrcca
 from . import unsupervised_analysis
-
-# TODO: add diffscore? (but it already uses similarity?)
+# from . import yuanli2333  # no paper
+# from . import diffscore  # TODO
