@@ -110,6 +110,9 @@ setup(
     packages=[
         package for package in find_packages() if package.startswith('similarity')
     ],
+    package_data={
+        'similarity': ['registry/**/*'],
+    },
     include_package_data=True,
     install_requires=install_requires,
     description='A repository for similarity measures.',
