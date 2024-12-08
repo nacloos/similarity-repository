@@ -30,8 +30,7 @@ jobs:
 
         git clone https://github.com/nacloos/similarity-repository.git
         cd similarity-repository
-        pip install uv
-        uv pip install -e .
+        pip install -e .
 
     # direct install with pip is currently not supported
     # pip install git+https://github.com/nacloos/similarity-repository.git
