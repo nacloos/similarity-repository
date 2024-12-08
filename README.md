@@ -4,29 +4,25 @@
 ![Backend metrics](https://github.com/nacloos/similarity-repository/blob/main/figures/standardization/measures.png)
 
 
-A unified Python package that standardizes **existing** implementations of similarity measures to faciliate comparisons across studies. This repository does not provide new implementations - it **integrates** and **standardizes** existing ones.
+A unified Python package that standardizes existing implementations of similarity measures to faciliate comparisons across studies. 
 
 **Paper:** [A Framework for Standardizing Similarity Measures in a Rapidly Evolving Field](https://openreview.net/pdf?id=vyRAYoxUuA)
 
 
 ## Installation
-Install via pip:
-```bash
-pip install git+https://github.com/nacloos/similarity-repository.git
-```
 
-For faster installation using `uv`:
-```bash
-pip install uv
-uv pip install git+https://github.com/nacloos/similarity-repository.git
-```
-
-Alternatively, clone and install locally:
+Clone and install locally:
 ```bash
 git clone https://github.com/nacloos/similarity-repository.git
 cd similarity-repository
 pip install -e .
 ```
+For faster installation using `uv`:
+```bash
+pip install uv
+uv pip install -e .
+```
+
 
 ## Usage
 
@@ -96,19 +92,39 @@ score = measure(X, Y)
 
 * [`similarity/registry`](similarity/registry/): registers github repositories
 * [`similarity/standardization.py`](similarity/standardization.py): standardizes measure names and applies transformations to derive new measures
-* [`similarity/papers.py`](similarity/papers.py): contains the papers referenced in the repository
+* [`similarity/papers.py`](similarity/papers.py): information about papers for each github repository in the registry
+* [`similarity/types/__init__.py`](similarity/types/__init__.py): list of all the registered identifiers
 
 
 ## Contributing
-Contributions are welcome! Follow these steps:
-* Create a new folder in [`similarity/registry/`](similarity/registry/) for your repository and a `__init__.py` file inside it
-* Register your measures using `similarity.register`. The easiest way is to copy your code with the similarity measures into the created folder, so that you can import and register them in your  `__init__.py` file
-* Add your folder to imports in [`similarity/registry/__init__.py`](similarity/registry/__init__.py)
-* Add your paper to [`similarity/papers.py`](similarity/papers.py)
-* Submit a pull request
+Contributions are welcome! 
+
+Follow these steps to register your own similarity measures:
+* Fork the repository.
+* Create a new folder in [`similarity/registry/`](similarity/registry/) for your repository and a `__init__.py` file inside it.
+* Register your measures using `similarity.register`. The easiest way is to copy your code with the similarity measures into the created folder and import them in your  `__init__.py` file.
+* Use the naming convention `{repo_name}/{measure_name}` (you can use any measure name you want under your own namespace).
+
+* Add your folder to imports in [`similarity/registry/__init__.py`](similarity/registry/__init__.py).
+* Add your paper to [`similarity/papers.py`](similarity/papers.py).
+
+You can then check that your measures have been registered correctly:
+```python
+import similarity
+
+X, Y = np.random.randn(50, 30), np.random.randn(50, 30)
+measures = similarity.make("{repo_name}/{measure_name}")
+score = measures(X, Y)
+```
+
+If you want to map your measures to standardized names, see [`similarity/standardization.py`](similarity/standardization.py). Standardized measures are under the `measure/` namespace and have the form `measure/{repo_name}/{standardized_measure_name}`. If your measure already exists in another repository, you can use the same standardized name. In this case, make sure your implementation is consistent with the existing ones. If your measure is new, you can propose a new standardized name.
 
 
- ## Citation
+You can then submit a pull request for your changes to be reviewed and merged.
+
+For additional questions for how to contribute, please contact nacloos@mit.edu.
+
+## Citation
 
  ```bibtex
  @inproceedings{
