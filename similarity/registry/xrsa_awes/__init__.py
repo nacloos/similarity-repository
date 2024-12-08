@@ -9,12 +9,10 @@ import similarity
 similarity.register(
     "measure/xrsa_awes/feature_space_linear_cka",
     feature_space_linear_cka,
-    function=True
 )
 
 
 similarity.register(
     "measure/xrsa_awes/feature_space_linear_cka-debiased_True",
     partial(feature_space_linear_cka, debiased=True),
-    function=True
 )

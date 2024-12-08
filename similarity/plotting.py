@@ -71,6 +71,10 @@ def plot_measures(measures: dict[str, callable], derived_measures: dict[str, cal
     color_registered = "#669bbc"
     color_derived = "#B7CFDE"
 
+    # color_registered = "#ff7f0e"  # orange
+    # color_derived = "#ffbb78"  # light orange
+
+
     # scatter plot
     # plt.figure(figsize=(20, 7), dpi=100)
     # plt.figure(figsize=(25, 13), dpi=100)
@@ -82,8 +86,8 @@ def plot_measures(measures: dict[str, callable], derived_measures: dict[str, cal
     
     plt.xticks(range(len(measure_names)), measure_names, rotation=45, ha='left', fontsize=8)
     plt.yticks(range(len(repo_names)), ylabels)
-    plt.xlabel('Measures', fontsize=12, fontweight='bold')
-    plt.ylabel('Repositories', fontsize=12, fontweight='bold')
+    plt.xlabel(f'Measures ({len(measure_names)})', fontsize=15, fontweight='bold')
+    plt.ylabel(f'Repositories ({len(repo_names)})', fontsize=15, fontweight='bold')
     ax = plt.gca()
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
@@ -182,10 +186,39 @@ def plot_scores(measures, X=None, Y=None, data_shape=(30, 25), figsize=(30, 8), 
         plt.show()
 
 
+
 if __name__ == "__main__":
+    from similarity.plotting import plot_scores, plot_measures
+
+    np.random.seed(0)
+    repos_to_plot = None
+    save_dir = Path(__file__).parent.parent / "figures"
+
+
     measures = similarity.all_measures()
 
-    save_dir = Path(__file__).parent.parent / "figures" / Path(__file__).stem
-    save_dir.mkdir(parents=True, exist_ok=True)
-    plot_measures(measures, derived_measures=measures, save_dir=save_dir)
+    if repos_to_plot is not None:
+        measures = {k: v for k, v in measures.items() if any(repo in k for repo in repos_to_plot)}
+
+    # original = measures - derived
+    original_measures = {k: v for k, v in measures.items() if k not in similarity.registration.DERIVED_MEASURES}
+    derived_measures = similarity.registration.DERIVED_MEASURES
+
+    if repos_to_plot is not None:
+        original_measures = {k: v for k, v in original_measures.items() if any(repo in k for repo in repos_to_plot)}
+        derived_measures = {k: v for k, v in derived_measures.items() if any(repo in k for repo in repos_to_plot)}
+
+
+    plot_measures(original_measures, derived_measures=derived_measures, save_dir=save_dir)
+
+
+    # for all measures with parameter 'sigma={sigma}', create a new measure with 'sigma=1.0'
+    for k, v in list(measures.items()):
+        if 'sigma={sigma}' in k:
+            new_k = k.replace('sigma={sigma}', 'sigma=1.0')
+            measures[new_k] = partial(v, sigma=1.0)
+
+    # filter measures that don't have parameters
+    measures = {k: v for k, v in measures.items() if '{' not in k}
+
     plot_scores(measures, save_dir=save_dir)

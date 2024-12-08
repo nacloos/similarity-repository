@@ -11,6 +11,4 @@ similarity.register(
 similarity.register(
     "measure/yuanli2333/cka",
     linear_CKA,
-    function=True,
-    preprocessing=["reshape2d"]
 )

@@ -78,7 +78,7 @@ requirements = {
         "fastprogress"
     ],
     "resi": [
-        # TODO: can't importa the package directly because of conflicting 'repsim' name
+        # TODO: can't import the package directly because of conflicting 'repsim' name
         # "repsim @ git+https://github.com/mklabunde/resi.git",
         "einops",
         "loguru"
@@ -106,7 +106,7 @@ for k, v in requirements.items():
 
 setup(
     name='similarity-repository',
-    version="0.0.2",
+    version="0.1.0",
     packages=[
         package for package in find_packages() if package.startswith('similarity')
     ],

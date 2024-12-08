@@ -3,7 +3,11 @@
 from functools import partial
 
 import numpy as np
+# TODO: error when pip installed
 from .contrasim import cka, pwcca, cca_core
+# from .contrasim.cka import gram_rbf, gram_linear
+# from .contrasim.pwcca import compute_pwcca
+# from .contrasim.cca_core import compute_cca, compute_svcca
 
 import similarity
 

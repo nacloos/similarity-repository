@@ -43,11 +43,12 @@ download_list = [
         "github_path": "nn_similarity_index/sim_indices.py",
         "local_save_dir": "./similarity/registry/nn_similarity_index"
     },
-    {
-        "github_repo_url": "https://github.com/minyoungg/platonic-rep",
-        "github_path": "metrics.py",
-        "local_save_dir": "./similarity/registry/platonic"
-    },
+    # {
+    #     # TODO: comment out line 12 in metrics.py
+    #     "github_repo_url": "https://github.com/minyoungg/platonic-rep",
+    #     "github_path": "metrics.py",
+    #     "local_save_dir": "./similarity/registry/platonic"
+    # },
     {
         "github_repo_url": "https://github.com/ViCCo-Group/thingsvision",
         "github_path": "thingsvision/core",

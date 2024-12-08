@@ -21,7 +21,6 @@ for debiased in [True, False]:
     similarity.register(
         f"correcting_cka_alignment/{name}",
         partial(_measure, debiased=debiased),
-        function=True
     )
 
 

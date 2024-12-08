@@ -77,7 +77,6 @@ def standardize_names(measures):
         "computeDist": "ensd-distance=angular_normalized",
     }
 
-    # TODO: parameters
     platonic_mapping = {
         "cka": "cka-kernel=linear-hsic=gretton-score",
         "unbiased_cka": "cka-kernel=linear-hsic=song-score",
@@ -316,7 +315,6 @@ def standardize_names(measures):
         if repo_name not in mapping:
             continue
         
-        print(repo_name, measure_name)
         new_name = mapping[repo_name][measure_name]
         standardized_measures[f"{repo_name}/{new_name}"] = value
 
@@ -677,14 +675,14 @@ def derive_measures(measures, transforms, compositions=None):
                         postprocessing=transform.get("postprocessing", None)
                     )
 
-                print(f"Derived measure: {new_measure_id}")
+                # print(f"Derived measure: {new_measure_id}")
                 derived_measures[new_measure_id] = new_measure
 
         # apply compositions
         if compositions is not None:
             for composition in compositions:
                 new_measures = composition(measures)
-                print("Add compositions:", new_measures.keys())
+                # print("Add compositions:", new_measures.keys())
                 derived_measures.update(new_measures)
 
         return derived_measures
@@ -704,7 +702,6 @@ def derive_measures(measures, transforms, compositions=None):
 def register_standardized_measures():
     registry = similarity.registration.registry
 
-    # TODO: remove papers
     registry = {k: v for k, v in registry.items() if "paper/" not in k}
 
     measures = standardize_names(registry)
@@ -722,83 +719,3 @@ def register_standardized_measures():
     for k, v in derived_measures.items():
         similarity.registration.DERIVED_MEASURES[k] = v
 
-
-if __name__ == "__main__":
-    from similarity.plotting import plot_scores, plot_measures
-
-    np.random.seed(0)
-
-    save_dir = Path(__file__).parent.parent / "figures" / Path(__file__).stem
-
-    # repos_to_plot = [
-    #     "netrep",
-    #     "rsatoolbox",
-    #     "repsim",
-    #     "contrasim",
-    #     "correcting_cka_alignment",
-    #     "thingsvision",
-    #     "nn_similarity_index",
-    #     "fsd",
-    #     "ensd",
-    #     "platonic",
-    #     "representation_similarity",
-    #     "resi",
-    #     "sim_metric",
-    #     "svcca",
-    #     "drfrankenstein",
-    #     "implicitdeclaration_similarity",
-    #     "nnsrm_neurips18",
-    #     "survey_measures",
-    #     "llm_repsim",
-    #     "rtd",
-    #     "brain_language_nlp",
-    # ]
-    repos_to_plot = [
-        "rsatoolbox",
-        "representation_similarity",
-        "nn_similarity_index",
-        "netrep",
-        "sim_metric",
-        "repsim",
-        "platonic",
-        "neuroaimetrics",
-        "resi"
-        # "diffscore"
-    ]
-    repos_to_plot = None
-
-
-    measures = similarity.all_measures()
-
-    if repos_to_plot is not None:
-        measures = {k: v for k, v in measures.items() if any(repo in k for repo in repos_to_plot)}
-    
-    # measures = {k: v for k, v in measures.items() if "nbs" in k or "procrustes" in k}
-    # measures = {k: v for k, v in measures.items() if "cka" in k}
-    # measures = {k: v for k, v in measures.items() if "cca" in k}
-    # measures = {k: v for k, v in measures.items() if "rsa" in k}
-    # measures = {k: v for k, v in measures.items() if "ridge" in k}
-
-    # original = measures - derived
-    original_measures = {k: v for k, v in measures.items() if k not in similarity.registration.DERIVED_MEASURES}
-    derived_measures = similarity.registration.DERIVED_MEASURES
-
-    if repos_to_plot is not None:
-        original_measures = {k: v for k, v in original_measures.items() if any(repo in k for repo in repos_to_plot)}
-        derived_measures = {k: v for k, v in derived_measures.items() if any(repo in k for repo in repos_to_plot)}
-
-
-    plot_measures(original_measures, derived_measures=derived_measures, save_dir=save_dir)
-
-
-
-    # for all measures with parameter 'sigma={sigma}', create a new measure with 'sigma=1.0'
-    for k, v in list(measures.items()):
-        if 'sigma={sigma}' in k:
-            new_k = k.replace('sigma={sigma}', 'sigma=1.0')
-            measures[new_k] = partial(v, sigma=1.0)
-
-    # filter measures that don't have parameters
-    measures = {k: v for k, v in measures.items() if '{' not in k}
-
-    plot_scores(measures, save_dir=save_dir)

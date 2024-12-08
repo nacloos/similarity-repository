@@ -29,7 +29,8 @@ def eval_naming_convention(
         for X, Y in zip(Xs, Ys):
             score = measures[i](X, Y)
             if np.isnan(score):
-                # TODO: why?
+                raise ValueError(f"nan score for {name}")
+                # TODO: solve nan issue
                 print(name, score)
                 _scores.append(0)
             else:

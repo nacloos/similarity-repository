@@ -31,5 +31,3 @@ from . import mouse_vision
 from . import modelsym
 from . import pyrcca
 from . import unsupervised_analysis
-# from . import yuanli2333  # no paper
-# from . import diffscore  # TODO

@@ -13,11 +13,9 @@ similarity.register("drfrankenstein/cka", cka)
 # similarity.register(
 #     "drfrankenstein/l2",
 #     l2,
-#     function=True
 # )
 
 # similarity.register(
 #     "drfrankenstein/lr",
 #     lr,
-#     function=True
 # )

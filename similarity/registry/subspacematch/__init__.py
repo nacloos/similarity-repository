@@ -16,7 +16,6 @@ similarity.register(
     "measure/subspacematch/max_match",
     # vary epsilon?
     partial(score.maximum_match_score, epsilon=0.25),
-    function=True,
     preprocessing=[
         "reshape2d",
         "transpose"

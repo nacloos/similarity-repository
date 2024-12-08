@@ -2,7 +2,6 @@
 # https://arxiv.org/pdf/1811.11684
 import numpy as np
 from .qmvpa.rsa import within_RSMs, correlate_2RSMs, inter_procrustes, isc
-# TODO
 
 import similarity
 

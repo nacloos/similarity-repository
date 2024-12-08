@@ -9,7 +9,6 @@ import similarity
 
 
 # TODO: how to use minibatch CKA?
-# TODO: sigma parameter
 sigma = 1.0
 
 similarity.register(

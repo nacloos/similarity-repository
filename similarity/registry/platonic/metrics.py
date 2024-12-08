@@ -9,7 +9,7 @@ try:
     pymp_available = True
 except ImportError:
     pymp_available = False
-    print("Please install the pymp library using `pip install pymp` to speed up non-batched metrics")
+    # print("Please install the pymp library using `pip install pymp` to speed up non-batched metrics")
 
 
 class AlignmentMetrics:
