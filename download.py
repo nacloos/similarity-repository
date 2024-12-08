@@ -106,6 +106,7 @@ download_list = [
     },
     # {
     #     # TODO: change import to relative line 24 pwcca.py
+    #     # TODO: delete .git folder otherwise treated as a git submodule
     #     "github_repo_url": "https://github.com/technion-cs-nlp/ContraSim",
     #     "github_path": "",
     #     "local_save_dir": "./similarity/registry/contrasim/contrasim"
