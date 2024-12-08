@@ -17,7 +17,7 @@ git clone https://github.com/nacloos/similarity-repository.git
 cd similarity-repository
 pip install -e .
 ```
-For faster installation using `uv`:
+For faster installation using `uv` in a virtual environment:
 ```bash
 pip install uv
 uv pip install -e .
