@@ -1,8 +1,9 @@
 from functools import partial
 from pathlib import Path
 import re
-
+from scipy.spatial.distance import cdist
 import numpy as np
+
 import similarity
 
 
@@ -478,29 +479,28 @@ transforms.extend([
 
 # derive rbf kernel from linear kernel
 # TODO: keep this?
-# def sqrt_rbf_kernel(X, sigma):
-#     from scipy.spatial.distance import cdist
-#     K = np.exp(-cdist(X, X)**2 / (2 * sigma**2))
-#     # centering
-#     # TODO: if don't center, sim_metric don't match the other metrics!
-#     H = np.eye(K.shape[0]) - 1/K.shape[0]
-#     K = H @ K @ H
+def sqrt_rbf_kernel(X, sigma):
+    K = np.exp(-cdist(X, X)**2 / (2 * sigma**2))
+    # centering
+    H = np.eye(K.shape[0]) - 1/K.shape[0]
+    K = H @ K @ H
+    # take the matrix square root
+    Uk, Sk, VkT = np.linalg.svd(K)
+    K_sqrt = Uk @ np.diag(np.sqrt(np.clip(Sk, a_min=0, a_max=np.inf))) @ VkT
+    K_recon = K_sqrt @ K_sqrt.T
+    assert np.allclose(K, K_recon, atol=1e-10), np.max(np.abs(K - K_recon))
+    return K_sqrt
 
-#     Uk, Sk, VkT = np.linalg.svd(K)
-#     K_sqrt = Uk @ np.diag(np.sqrt(Sk)) @ VkT
-#     K_recon = K_sqrt @ K_sqrt.T
-#     assert np.allclose(K, K_recon, atol=1e-10), np.max(np.abs(K - K_recon))
-#     return K_sqrt
-# transforms.extend([
-#     # measure/*/*-kernel=linear-* => measure/*/*-kernel=(rbf-sigma={sigma})-*
-#     {
-#         "inp": lambda k: "measure/" in k and "kernel=linear" in k,
-#         "out": lambda k, v: (
-#             k.replace("kernel=linear", "kernel=(rbf-sigma={sigma})"),
-#             lambda X, Y, sigma=1.0, **kwargs: v(sqrt_rbf_kernel(X, sigma), sqrt_rbf_kernel(Y, sigma), **kwargs)
-#         )
-#     }
-# ])
+transforms.extend([
+    # measure/*/*-kernel=linear-* => measure/*/*-kernel=(rbf-sigma={sigma})-*
+    {
+        "inp": lambda k: "measure/" in k and "kernel=linear" in k,
+        "out": lambda k, v: (
+            k.replace("kernel=linear", "kernel=(rbf-sigma={sigma})"),
+            lambda X, Y, sigma=1.0, **kwargs: v(sqrt_rbf_kernel(X, sigma), sqrt_rbf_kernel(Y, sigma), **kwargs)
+        )
+    }
+])
 
 
 
@@ -765,8 +765,13 @@ if __name__ == "__main__":
         "resi"
         # "diffscore"
     ]
+    repos_to_plot = None
+
+
     measures = similarity.all_measures()
-    measures = {k: v for k, v in measures.items() if any(repo in k for repo in repos_to_plot)}
+
+    if repos_to_plot is not None:
+        measures = {k: v for k, v in measures.items() if any(repo in k for repo in repos_to_plot)}
     
     # measures = {k: v for k, v in measures.items() if "nbs" in k or "procrustes" in k}
     # measures = {k: v for k, v in measures.items() if "cka" in k}
@@ -776,9 +781,12 @@ if __name__ == "__main__":
 
     # original = measures - derived
     original_measures = {k: v for k, v in measures.items() if k not in similarity.registration.DERIVED_MEASURES}
+    derived_measures = similarity.registration.DERIVED_MEASURES
 
-    original_measures = {k: v for k, v in original_measures.items() if any(repo in k for repo in repos_to_plot)}
-    derived_measures = {k: v for k, v in similarity.registration.DERIVED_MEASURES.items() if any(repo in k for repo in repos_to_plot)}
+    if repos_to_plot is not None:
+        original_measures = {k: v for k, v in original_measures.items() if any(repo in k for repo in repos_to_plot)}
+        derived_measures = {k: v for k, v in derived_measures.items() if any(repo in k for repo in repos_to_plot)}
+
 
     plot_measures(original_measures, derived_measures=derived_measures, save_dir=save_dir)
 
