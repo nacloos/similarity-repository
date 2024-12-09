@@ -92,7 +92,7 @@ measure = similarity.make("my_repo/my_measure")
 score = measure(X, Y)
 ```
 
-## Project structure
+## Project Structure
 
 * [`similarity/registry`](similarity/registry/): all the registered github repositories
 * [`similarity/standardization.py`](similarity/standardization.py): mapping to standardize names and transformations to leverage relations between measures
