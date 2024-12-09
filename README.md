@@ -10,19 +10,23 @@ A unified Python package that standardizes existing implementations of similarit
 
 
 ## Installation
+Install via pip:
+```bash
+pip install git+https://github.com/nacloos/similarity-repository.git
+```
 
-Clone and install locally:
+For faster installation using `uv` in a virtual environment (add `--system` to install outside of virtual environment):
+```bash
+pip install uv
+uv pip install git+https://github.com/nacloos/similarity-repository.git
+```
+
+Alternatively, clone and install locally:
 ```bash
 git clone https://github.com/nacloos/similarity-repository.git
 cd similarity-repository
 pip install -e .
 ```
-For faster installation using `uv` in a virtual environment:
-```bash
-pip install uv
-uv pip install -e .
-```
-
 
 ## Usage
 

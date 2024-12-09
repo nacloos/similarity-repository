@@ -29,15 +29,7 @@ jobs:
         python -m pip install pytest
 
         pip install uv
-        uv pip install git+https://github.com/nacloos/similarity-repository.git@dev --system
-
-        # git clone https://github.com/nacloos/similarity-repository.git
-        # # git clone https://github.com/nacloos/similarity-repository.git --branch dev
-        # cd similarity-repository
-        # pip install uv
-        # uv pip install -e . --system
-        # # pip install -e .
-        # cd ..
+        uv pip install git+https://github.com/nacloos/similarity-repository.git --system
 
     # direct install with pip is currently not supported
     # pip install git+https://github.com/nacloos/similarity-repository.git
