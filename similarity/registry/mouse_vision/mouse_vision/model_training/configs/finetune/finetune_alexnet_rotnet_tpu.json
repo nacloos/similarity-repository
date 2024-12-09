@@ -1,0 +1,39 @@
+{
+    "save_prefix": "gs://mouse_vision_models/",
+    "port": 29029,
+    "ddp_port": 24046,
+    "db_name": "imagenet",
+    "coll_name": "rotnetloss_alexnet",
+    "exp_id": "finetune_rotnet_alexnet_tpu",
+    "trainer": "FinetuneImageNet",
+    "cuda": false,
+    "tpu": "mv-tpu-05",
+    "gpus": null,
+    "seed": 1,
+    "dataloader_workers": 8,
+    "model": "alexnet_rotnet_transfer",
+    "loss_params": {
+        "class": "FinetuneLoss"
+    },
+    "readout_params": {
+        "class": "RotNetAlexNetHead",
+        "num_channels": 256,
+        "pool_size": 6,
+        "num_classes": 1000
+    },
+    "optimizer_params": {
+        "train_batch_size": 192,
+        "val_batch_size": 1024,
+        "initial_lr": 0.01,
+        "lr_decay_schedule": [5,15,25],
+        "lr_decay_rate": 0.2,
+        "momentum": 0.9,
+        "nesterov": true,
+        "weight_decay": 5e-4
+    },
+    "num_epochs": 35,
+    "save_freq": 5,
+    "resume_checkpoint": null,
+    "model_checkpoint": "gs://mouse_vision_models/imagenet/rotnetloss_alexnet/test_rotnet_exp01_tpu/model_best.pt"
+}
+

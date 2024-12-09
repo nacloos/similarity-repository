@@ -1,0 +1,33 @@
+{
+    "save_prefix": "/mnt/fs5/nclkong/trained_models/mouse_vision/",
+    "port": 29029,
+    "ddp_port": 30310,
+    "db_name": "imagenet",
+    "coll_name": "rotnetloss_simplified_mousenet_six_stream_visp3x3_64x64_input",
+    "exp_id": "gpuexp0",
+    "trainer": "RotNet",
+    "cuda": true,
+    "tpu": false,
+    "gpus": [1],
+    "seed": 1,
+    "dataloader_workers": 8,
+    "model": "simplified_mousenet_six_stream_visp_3x3_rotnet",
+    "loss_params": {
+        "class": "RotNetLoss",
+        "model_output_dim": 18432
+    },
+    "optimizer_params": {
+        "train_batch_size": 192,
+        "val_batch_size": 1024,
+        "initial_lr": 0.01,
+        "lr_decay_schedule": [15,30,45,50],
+        "lr_decay_rate": 0.1,
+        "nesterov": true,
+        "momentum": 0.9,
+        "weight_decay": 5e-4
+    },
+    "num_epochs": 50,
+    "save_freq": 5,
+    "resume_checkpoint": null
+}
+

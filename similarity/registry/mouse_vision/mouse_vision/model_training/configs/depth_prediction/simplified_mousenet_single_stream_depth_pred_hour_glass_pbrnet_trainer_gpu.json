@@ -1,0 +1,32 @@
+{
+    "save_prefix": "/mnt/fs5/nclkong/trained_models/mouse_vision/",
+    "port": 29029,
+    "db_name": "imagenet",
+    "coll_name": "depthpredloss_simplified_mousenet_single_stream",
+    "exp_id": "exp2_hour_glass",
+    "trainer": "DepthPrediction",
+    "cuda": true,
+    "tpu": false,
+    "gpus": [5],
+    "ddp_port": 20480,
+    "seed": 1,
+    "dataloader_workers": 8,
+    "model": "simplified_mousenet_depth_hour_glass_single_stream",
+    "loss_params": {
+        "class": "DepthPredictionHourGlassLoss"
+    },
+    "optimizer": "SGD",
+    "optimizer_params": {
+        "train_batch_size": 256,
+        "val_batch_size": 1024,
+        "initial_lr": 1e-4,
+        "lr_decay_schedule": [15, 30, 45],
+        "lr_decay_rate": 0.1,
+        "momentum": 0.9,
+        "weight_decay": 1e-4
+    },
+    "num_epochs": 50,
+    "save_freq": 5,
+    "resume_checkpoint": null
+}
+

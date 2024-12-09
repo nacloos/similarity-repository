@@ -1,0 +1,36 @@
+{
+    "save_prefix": "/mnt/fs5/nclkong/trained_models/mouse_vision/",
+    "port": 29029,
+    "db_name": "imagenet",
+    "coll_name": "irloss_alexnet_bn_64x64_input_pool_6",
+    "exp_id": "gpuexplowlr0",
+    "trainer": "InstanceDiscrimination",
+    "cuda": true,
+    "tpu": false,
+    "gpus": [3],
+    "ddp_port": 7809,
+    "seed": 1,
+    "dataloader_workers": 32,
+    "model": "alexnet_bn_ir_64x64_input_pool_6",
+    "loss_params": {
+        "class": "InstanceDiscriminationLoss",
+        "m": 4096,
+        "gamma": 0.5,
+        "tau": 0.07,
+        "embedding_dim": 128,
+        "model_output_dim": 4096
+    },
+    "optimizer_params": {
+        "train_batch_size": 256,
+        "val_batch_size": 1024,
+        "initial_lr": 0.003,
+        "lr_decay_schedule": [120, 160],
+        "lr_decay_rate": 0.1,
+        "momentum": 0.9,
+        "weight_decay": 5e-4
+    },
+    "num_epochs": 200,
+    "save_freq": 10,
+    "resume_checkpoint": null
+}
+

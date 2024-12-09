@@ -1,0 +1,31 @@
+{
+    "save_prefix": "/mnt/fs5/nclkong/trained_models/mouse_vision/",
+    "port": 29029,
+    "db_name": "imagenet",
+    "coll_name": "xentloss_alexnet_six_64x64",
+    "exp_id": "gpuexp0",
+    "trainer": "SupervisedImageNet",
+    "cuda": true,
+    "tpu": false,
+    "gpus": [3],
+    "ddp_port": 5554,
+    "seed": 1,
+    "dataloader_workers": 8,
+    "model": "alexnet_six_64x64",
+    "loss_params": {
+        "class": "CrossEntropyLoss"
+    },
+    "optimizer_params": {
+        "train_batch_size": 256,
+        "val_batch_size": 1024,
+        "initial_lr": 0.01,
+        "lr_decay_schedule": [30, 60, 90],
+        "lr_decay_rate": 0.1,
+        "momentum": 0.9,
+        "weight_decay": 5e-4
+    },
+    "num_epochs": 100,
+    "save_freq": 10,
+    "resume_checkpoint": null
+}
+

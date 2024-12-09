@@ -1,0 +1,29 @@
+{
+    "save_prefix": "gs://mouse_vision_models/",
+    "port": 29029,
+    "db_name": "imagenet",
+    "coll_name": "xentloss_alexnet_four_64x64",
+    "exp_id": "exp0",
+    "trainer": "SupervisedImageNet",
+    "gpus": null,
+    "tpu": "mv-tpu-03",
+    "seed": 1,
+    "dataloader_workers": 8,
+    "model": "alexnet_four_64x64",
+    "loss_params": {
+        "class": "CrossEntropyLoss"
+    },
+    "optimizer_params": {
+        "train_batch_size": 256,
+        "val_batch_size": 1024,
+        "initial_lr": 0.01,
+        "lr_decay_schedule": [30, 60, 90],
+        "lr_decay_rate": 0.1,
+        "momentum": 0.9,
+        "weight_decay": 5e-4
+    },
+    "num_epochs": 100,
+    "save_freq": 10,
+    "resume_checkpoint": null
+}
+

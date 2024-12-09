@@ -14,6 +14,17 @@ requirements = {
     "repsim": [
         'repsim @ git+https://github.com/wrongu/repsim.git'
     ],
+    "brainscore": [
+        "six",
+        "boto3",
+        "tqdm",
+        "Pillow",
+        "entrypoints",
+        "numpy",
+        "pandas",
+        "xarray<2022.6",  # groupby bug was introduced in index refactor: https://github.com/pydata/xarray/issues/6836
+        "netcdf4"
+    ],
     # "brainscore": [
     #     # copied from github brain-score/setup.py
     #     "numpy>=1.17",
@@ -61,6 +72,21 @@ requirements = {
     #     'risperplusplus @ git+https://github.com/simonzhang00/ripser-plusplus',
     #     'torch',
     # ]
+    "neuroaimetrics": [
+        "torchmetrics",
+        "POT",
+        "fastprogress"
+    ],
+    "resi": [
+        # TODO: can't import the package directly because of conflicting 'repsim' name
+        # "repsim @ git+https://github.com/mklabunde/resi.git",
+        "einops",
+        "loguru"
+    ],
+    "thingsvision": [
+        "torchtyping",
+        "numba"
+    ]
 }
 
 
@@ -80,12 +106,15 @@ for k, v in requirements.items():
 
 setup(
     name='similarity-repository',
-    version="0.0.2",
+    version="0.1.0",
     packages=[
         package for package in find_packages() if package.startswith('similarity')
     ],
+    package_data={
+        'similarity': ['registry/**/*'],
+    },
     include_package_data=True,
     install_requires=install_requires,
     description='A repository for similarity measures.',
-    author='XXX'
+    author='Nathan Cloos'
 )
