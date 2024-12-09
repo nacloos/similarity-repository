@@ -1,0 +1,37 @@
+{
+    "save_prefix": "/mnt/fs5/nclkong/trained_models/imagenet/mouse_test/",
+    "port": 29029,
+    "ddp_port": 24051,
+    "db_name": "imagenet",
+    "coll_name": "simclrloss_resnet18",
+    "exp_id": "finetune_simclr_resnet18_512",
+    "trainer": "FinetuneImageNet",
+    "cuda": true,
+    "tpu": null,
+    "gpus": [8],
+    "seed": 1,
+    "dataloader_workers": 8,
+    "model": "resnet18_simclr",
+    "loss_params": {
+        "class": "FinetuneLoss"
+    },
+    "readout_params": {
+        "class": "LinearReadout",
+        "model_output_dim": 512,
+        "num_classes": 1000
+    },
+    "optimizer_params": {
+        "train_batch_size": 256,
+        "val_batch_size": 1024,
+        "initial_lr": 0.1,
+        "lr_decay_schedule": [30,60],
+        "lr_decay_rate": 0.1,
+        "momentum": 0.9,
+        "weight_decay": 1e-4
+    },
+    "num_epochs": 90,
+    "save_freq": 10,
+    "resume_checkpoint": "/mnt/fs5/nclkong/trained_models/imagenet/mouse_test/imagenet/simclrloss_resnet18/finetune_simclr_resnet18_512/checkpoint.pt",
+    "model_checkpoint": "/mnt/fs5/nclkong/trained_models/imagenet/mouse_test/imagenet/simclrloss_resnet18/test_imagenet_exp02/checkpoint_epoch_199.pt"
+}
+

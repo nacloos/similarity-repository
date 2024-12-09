@@ -1,0 +1,37 @@
+{
+    "save_prefix": "/mnt/fs5/nclkong/trained_models/mouse_vision/",
+    "port": 29029,
+    "ddp_port": 25080,
+    "db_name": "imagenet",
+    "coll_name": "alexnet_rl_truncated_transfer_64x64_input",
+    "exp_id": "finetune_alexnet_rl_truncated_transfer_generic_preproc",
+    "trainer": "FinetuneImageNet",
+    "tpu": null,
+    "gpus": [1],
+    "seed": 1,
+    "dataloader_workers": 8,
+    "model": "alexnet_64x64_rl_scratch_truncated",
+    "image_preprocess": "SupervisedImageNetTrainer_64x64",
+    "loss_params": {
+        "class": "FinetuneLoss"
+    },
+    "readout_params": {
+        "class": "LinearReadout",
+        "model_output_dim": 2304,
+        "num_classes": 1000
+    },
+    "optimizer_params": {
+        "train_batch_size": 256,
+        "val_batch_size": 1024,
+        "initial_lr": 0.1,
+        "lr_decay_schedule": [30,60,90],
+        "lr_decay_rate": 0.1,
+        "momentum": 0.9,
+        "weight_decay": 1e-9
+    },
+    "num_epochs": 100,
+    "save_freq": 10,
+    "resume_checkpoint": null,
+    "model_checkpoint": "/mnt/fs5/nclkong/trained_models/mouse_vision/dmlocomotion/alexnet_truncated_rl_scratch_copy.pt"
+}
+

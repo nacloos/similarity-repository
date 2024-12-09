@@ -1,124 +1,132 @@
 # Similarity Repository
 
 
-![Backend metrics](https://github.com/nacloos/similarity-repository/blob/main/figures/implemented_measures.png)
+![Implemented measures](https://github.com/nacloos/similarity-repository/blob/main/figures/measures.png)
 
 
-The goal of this repository is to gather **existing**  implementations of similarity measures for neural networks into a **single** python package, with a **common** and **customizable** interface. This repository doesn't provide any new implementations. It only refers to existing ones.
+A unified Python package that standardizes existing implementations of similarity measures to faciliate comparisons across studies. 
+
+**Paper:** [A Framework for Standardizing Similarity Measures in a Rapidly Evolving Field](https://openreview.net/pdf?id=vyRAYoxUuA)
 
 
 ## Installation
-The python package can be installed with the following command:
-```
-pip install git+https://github.com/nacloos/similarity-repository.git
-```
-Alternatively you can clone the repository:
-```
+
+Clone and install locally:
+```bash
 git clone https://github.com/nacloos/similarity-repository.git
 cd similarity-repository
 pip install -e .
 ```
-
-For faster installation, you can use `uv` instead of `pip`:
+For faster installation using `uv` in a virtual environment:
 ```bash
 pip install uv
-uv pip install git+https://github.com/nacloos/similarity-repository.git
+uv pip install -e .
 ```
 
-## Getting Started
 
-Each similarity measure has a unique identifier that can be used to create a measure object.
+## Usage
 
+### Quick Start
 ```python
 import numpy as np
 import similarity
 
-# generate some random data
+# generate two datasets
 X, Y = np.random.randn(100, 30), np.random.randn(100, 30)
 
-# make a measure object
-measure = similarity.make("measure.netrep.procrustes-angular")
+# measure their similarity
+measure = similarity.make("measure/netrep/procrustes-distance=angular")
 score = measure(X, Y)
 ```
 
-In this example, the full id of the measure is `"measure.netrep.procrustes-angular"`. The id is composed of three parts: 
-* the object type (`measure`)
-* the backend id (`netrep`)
-* the measure id (`procrustes-angular`)
+### Measure Identifiers
+Each similarity measure has a unique identifier composed of three parts:
+* the object type (i.e. `measure`)
+* the repository name
+* the measure name
 
-You can find a list with all the implemented ids [here](similarity/types/__init__.py).
+
+See [`similarity/types/__init__.py`](similarity/types/__init__.py) for a complete list of implemented measures.
 
 
-### Selecting Groups of Measures
+### Standard Interface
+All measures follow this interface:
+- **Inputs**: `X, Y` - numpy arrays of shape `(n_samples, n_features)`
+- **Output**: `score` - float value
 
-You can easily select all the measures implemented for a specific backend by using the wildcard `*`:
+
+### Working with Multiple Measures
+
+Select all measures from a specific repository:
 ```python
-measures = similarity.make("measure.netrep.*")
+measures = similarity.make("measure/netrep/*")
 for name, measure in measures.items():
     score = measure(X, Y)
     print(f"{name}: {score}")
 ```
 
-You can also select all the backend implementations for a specific measure:
+Select all implementations of a specific measure across repositories:
 ```python
-measures = similarity.make("measure.*.procrustes-angular")
+measures = similarity.make("measure/*/procrustes-distance=angular")
 for name, measure in measures.items():
     score = measure(X, Y)
     print(f"{name}: {score}")
 ```
 
-### Registering New Measures
+### Custom Measures
 
-You can register a new measure locally:
+Register your own measure:
 ```python
 # register the function with a unique id
-@similarity.register("measure.my_package.my_measure", function=True)
 def my_measure(x, y):
     return x.reshape(-1) @ y.reshape(-1) / (np.linalg.norm(x) * np.linalg.norm(y))
-```
 
-And then use it as any other measure:
-```python
-measure = similarity.make("measure.my_package.my_measure")
+similarity.register("my_repo/my_measure", my_measure)
+
+# use it like any other measure
+measure = similarity.make("my_repo/my_measure")
 score = measure(X, Y)
 ```
 
-You can also register a class:
+## Project structure
+
+* [`similarity/registry`](similarity/registry/): all the registered github repositories
+* [`similarity/standardization.py`](similarity/standardization.py): mapping to standardize names and transformations to leverage relations between measures
+* [`similarity/papers.py`](similarity/papers.py): information about papers for each github repository in the registry
+* [`similarity/types/__init__.py`](similarity/types/__init__.py): list with all the registered identifiers
+
+
+## Contributing
+If your implementation of similarity measures is missing, please contribute!
+
+Follow these steps to register your own similarity measures:
+* Fork the repository.
+* Create a new folder in [`similarity/registry/`](similarity/registry/) for your repository and a `__init__.py` file inside it.
+* Register your measures using `similarity.register`. The easiest way is to copy your code with the similarity measures into the created folder and import them in your  `__init__.py` file.
+* Use the naming convention `{repo_name}/{measure_name}` (you can use any measure name under your own namespace).
+
+* Add your folder to imports in [`similarity/registry/__init__.py`](similarity/registry/__init__.py).
+* Add your paper to [`similarity/papers.py`](similarity/papers.py).
+
+You can then check that your measures have been registered correctly:
 ```python
-@similarity.register("measure.my_package.my_measure2")
-class MyMeasure:
-    def fit(self, X, Y):
-        self.X_norm = np.linalg.norm(X)
-        self.Y_norm = np.linalg.norm(Y)
+import similarity
 
-    def score(self, X, Y):
-        return X.reshape(-1) @ Y.reshape(-1) / (self.X_norm * self.Y_norm)
-
-    def fit_score(self, x, y):
-        self.fit(x, y)
-        return self.score(x, y)
-
-    def __call__(self, x, y):
-        return self.fit_score(x, y)
+X, Y = np.random.randn(50, 30), np.random.randn(50, 30)
+measures = similarity.make("{repo_name}/{measure_name}")
+score = measures(X, Y)
 ```
 
-The advantage of using a class is that you can separate the fitting and scoring steps:
-```python
-measure2 = similarity.make("measure.my_package.my_measure2")
-
-X_fit, Y_fit = np.random.randn(100, 30), np.random.randn(100, 30)
-X_val, Y_val = np.random.randn(100, 30), np.random.randn(100, 30)
-
-measure2.fit(X_fit, Y_fit)
-score = measure2.score(X_val, Y_val)
-```
+If you want to map your measures to standardized names, see [`similarity/standardization.py`](similarity/standardization.py). Standardized measures are under the `measure/` namespace and have the form `measure/{repo_name}/{standardized_measure_name}`. If your measure already exists in another repository, you can use the same standardized name. In this case, make sure your implementation is consistent with the existing ones. If your measure is new, you can propose a new standardized name.
 
 
-<!-- ## Contributing
-See backend folder for examples of how to register new measures. -->
+Submit a pull request for your changes to be reviewed and merged.
 
- ## Citation
- ```
+For additional questions for how to contribute, please contact nacloos@mit.edu.
+
+## Citation
+
+ ```bibtex
  @inproceedings{
     cloos2024framework,
     title={A Framework for Standardizing Similarity Measures in a Rapidly Evolving Field},
@@ -129,36 +137,9 @@ See backend folder for examples of how to register new measures. -->
 }
 ```
 
- ## References
-Haruo Yanai. 1974. Unification of Various Techniques of Multivariate Analysis by Means of Generalized Coefficient of Determination. Kodo Keiryogaku (The Japanese Journal of Behaviormetrics) 1 (1974).
 
-Frances Ding, Jean-Stanislas Denain, and Jacob Steinhardt. 2021. Grounding Representation Similarity Through Statistical Testing. In NeurIPS.
+## Contact
 
-Max Klabunde, Tobias Schumacher, Markus Strohmaier, & Florian Lemmerich. (2023). Similarity of Neural Network Models: A Survey of Functional and Representational Measures.
-
-Simon Kornblith, Mohammad Norouzi, Honglak Lee, and Geoffrey E. Hinton. 2019. Similarity of Neural Network Representations Revisited. In ICML.
-
-Nikolaus Kriegeskorte, Marieke Mur, and Peter Bandettini. 2008. Representational similarity analysis - connecting the branches of systems neuroscience. Frontiers in Systems Neuroscience 2 (2008).
-
-Richard D. Lange, Devin Kwok, Jordan Matelsky, Xinyue Wang, David S. Rolnick, & Konrad P. Kording. (2022). Neural Networks as Paths through the Space of Representations.
-
-Richard D. Lange, David S. Rolnick, and Konrad P. Kording. 2022. Clustering units in neural networks: upstream vs downstream information. TMLR (2022).
-
-Yixuan Li, Jason Yosinski, Jeff Clune, Hod Lipson, and John E. Hopcroft. 2016. Convergent Learning: Do different neural networks learn the same representations?. In ICLR.
-
-Ari S. Morcos, Maithra Raghu, and Samy Bengio. 2018. Insights on representational similarity in neural networks with canonical correlation. In NeurIPS.
-
-Maithra Raghu, Justin Gilmer, Jason Yosinski, and Jascha Sohl-Dickstein. 2017. SVCCA: Singular Vector Canonical Correlation Analysis for Deep Learning Dynamics and Interpretability. In NeurIPS.
-
-Martin Schrimpf, Jonas Kubilius, Ha Hong, Najib J. Majaj, Rishi Rajalingham, Elias B. Issa, Kohitĳ Kar, Pouya Bashivan, Jonathan Prescott-Roy, Franziska Geiger, Kailyn Schmidt, Daniel L. K. Yamins, & James J. DiCarlo (2018). Brain-Score: Which Artificial Neural Network for Object Recognition is most Brain-Like?. bioRxiv preprint.
-
-Schrimpf, M., Kubilius, J., Lee, M., Murty, N., Ajemian, R., & DiCarlo, J. (2020). Integrative Benchmarking to Advance Neurally Mechanistic Models of Human Intelligence. Neuron.
-
-Mahdiyar Shahbazi, Ali Shirali, Hamid Aghajan, and Hamed Nili. 2021. Using distance on the Riemannian manifold to compare representations in brain and in models. NeuroImage 239 (2021).
-
-Anton Tsitsulin, Marina Munkhoeva, Davide Mottin, Panagiotis Karras, Alex Bronstein, Ivan Oseledets, and Emmanuel Mueller. 2020. The Shape of Data: Intrinsic Distance for Data Distributions. In ICLR.
-
-Liwei Wang, Lunjia Hu, Jiayuan Gu, Zhiqiang Hu, Yue Wu, Kun He, and John E. Hopcroft. 2018. Towards Understanding Learning Representations: To What Extent Do Different Neural Networks Learn the Same Representation. In NeurIPS.
-
-Alex H. Williams, Erin Kunz, Simon Kornblith, and Scott W. Linderman. 2021. Generalized Shape Metrics on Neural Representations. In NeurIPS.
-
+For questions or feedback, please contact:
+- Nathan Cloos (nacloos@mit.edu)
+- Christopher Cueva (ccueva@gmail.com)

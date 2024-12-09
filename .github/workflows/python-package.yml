@@ -10,30 +10,12 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build_api:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install git+https://github.com/nacloos/similarity-repository.git
-    - name: Build API
-      run: |
-        python build.py
-
   build:
-    needs: build_api
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.10", "3.11", "3.12"]
 
     steps:
     - uses: actions/checkout@v3
@@ -44,16 +26,23 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install flake8 pytest
-        pip install git+https://github.com/nacloos/similarity-repository.git
-    # - name: Lint with flake8
-    #   run: |
-    #     # stop the build if there are Python syntax errors or undefined names
-    #     flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-    #     # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-    #     flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        python -m pip install pytest
+
+        pip install uv
+        uv pip install git+https://github.com/nacloos/similarity-repository.git@dev --system
+
+        # git clone https://github.com/nacloos/similarity-repository.git
+        # # git clone https://github.com/nacloos/similarity-repository.git --branch dev
+        # cd similarity-repository
+        # pip install uv
+        # uv pip install -e . --system
+        # # pip install -e .
+        # cd ..
+
+    # direct install with pip is currently not supported
+    # pip install git+https://github.com/nacloos/similarity-repository.git
+  
     - name: Test with pytest
       run: |
-        pytest tests/test_registration.py
-        pytest tests/test_getting_started.py
-
+        pytest tests/test_readme.py
+        pytest tests/test_measures.py

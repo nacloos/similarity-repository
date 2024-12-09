@@ -1,0 +1,36 @@
+{
+    "save_prefix": "/mnt/fs5/nclkong/trained_models/mouse_vision/",
+    "port": 29029,
+    "ddp_port": 24094,
+    "db_name": "imagenet",
+    "coll_name": "mocov2loss_simplified_mousenet_single_stream_64x64_input",
+    "exp_id": "finetune_mocov2_single_stream",
+    "trainer": "FinetuneImageNet",
+    "tpu": null,
+    "gpus": [0],
+    "seed": 1,
+    "dataloader_workers": 8,
+    "model": "simplified_mousenet_single_stream_mocov2",
+    "loss_params": {
+        "class": "FinetuneLoss"
+    },
+    "readout_params": {
+        "class": "LinearReadout",
+        "model_output_dim": 9216,
+        "num_classes": 1000
+    },
+    "optimizer_params": {
+        "train_batch_size": 256,
+        "val_batch_size": 1024,
+        "initial_lr": 0.1,
+        "lr_decay_schedule": [30,60],
+        "lr_decay_rate": 0.1,
+        "momentum": 0.9,
+        "weight_decay": 1e-9
+    },
+    "num_epochs": 90,
+    "save_freq": 10,
+    "resume_checkpoint": null,
+    "model_checkpoint": "/mnt/fs5/nclkong/trained_models/mouse_vision/imagenet/mocov2loss_simplified_mousenet_single_stream_64x64_input/exp1/checkpoint_epoch_199.pt"
+}
+
