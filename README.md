@@ -6,8 +6,9 @@
 
 A unified Python package that standardizes existing implementations of similarity measures to faciliate comparisons across studies. 
 
-**Paper:** [A Framework for Standardizing Similarity Measures in a Rapidly Evolving Field](https://openreview.net/pdf?id=vyRAYoxUuA)
-
+**Papers:** 
+* [A Framework for Standardizing Similarity Measures in a Rapidly Evolving Field](https://openreview.net/pdf?id=vyRAYoxUuA)
+* [Differentiable Optimization of Similarity Scores Between Models and Brains](https://openreview.net/pdf?id=vWRwdmA3wU)
 
 ## Installation
 Install via pip:
@@ -138,6 +139,14 @@ For additional questions for how to contribute, please contact nacloos@mit.edu.
     booktitle={UniReps: 2nd Edition of the Workshop on Unifying Representations in Neural Models},
     year={2024},
     url={https://openreview.net/forum?id=vyRAYoxUuA}
+}
+@inproceedings{
+    cloos2025differentiable,
+    title={Differentiable Optimization of Similarity Scores Between Models and Brains},
+    author={Nathan Cloos and Moufan Li and Markus Siegel and Scott L Brincat and Earl K Miller and Guangyu Robert Yang and Christopher J Cueva},
+    booktitle={The Thirteenth International Conference on Learning Representations},
+    year={2025},
+    url={https://openreview.net/forum?id=vWRwdmA3wU}
 }
 ```
 
